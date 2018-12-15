@@ -1,0 +1,171 @@
+
+<div parallax class="hotel-logo" [config]="{ratio: .5}"></div>
+
+
+
+
+<!-- Email jumbotron -->
+<div class="container home-card jumbotron text-center hoverable p-4 wow fadeInUp z-depth-4" *ngIf="!showLogin">
+
+  <!-- Grid row -->
+  <div class="row">
+
+    <!-- Grid column -->
+    <div class="col-md-4 offset-md-1 mx-3 my-3">
+
+      <!-- Featured image -->
+      <div class="view overlay waves-light" mdbWavesEffect>
+        <img src="/static/app/assets/images/top_logo.png" height="200px" width="200px" class="img-fluid">
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+
+      <div class="col-md-7 text-md-left ml-3 mt-3">
+        <blockquote class="blockquote text-center bq-primary">
+        <h3 class="h3 mb-3">Northern Grand Housekeeping Services</h3>
+
+        <h5 class="h5 pb-1 purple-text"><i class="fa fa-user" aria-hidden="true"></i> Hello, {{email}}</h5>
+
+        <p class="note note-primary">
+          Now that you have logged in, navigate to the dashboard below:
+        </p>
+        </blockquote>
+      </div>
+
+    <!-- Grid column -->
+
+  </div>
+  <!-- Grid row -->
+
+</div>
+<!-- Email jumbotron -->
+
+<!-- News jumbotron -->
+<div class="container home-card jumbotron text-center hoverable p-4 wow fadeInUp z-depth-4" *ngIf="showLogin">
+
+  <!-- Grid row -->
+  <div class="row">
+
+    <!-- Grid column -->
+    <div class="col-md-4 offset-md-1 mx-3 my-3">
+
+      <!-- Featured image -->
+      <div class="view overlay waves-light" mdbWavesEffect>
+        <img src="/static/app/assets/images/top_logo.png" height="200px" width="200px" class="img-fluid">
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-7 text-md-left ml-3 mt-3">
+
+      <h3 class="h3 mb-3">Northern Grand Housekeeping Services</h3>
+
+      <p class="font-weight-bold red-text">
+        <i class="fa fa-lock" aria-hidden="true"></i> Please Login to Continue
+      </p>
+
+      <h5 mdbBtn gradient="blue" routerLink="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</h5>
+    </div>
+    <!-- Grid column -->
+
+  </div>
+  <!-- Grid row -->
+
+</div>
+<!-- News jumbotron -->
+
+<div class="lobby-bg z-depth-4 wow fadeInRight" parallax [config]="{initialValue: -200, ratio: .5}"></div>
+
+<div class="home-content container">
+  <div class="login-card z-depth-5">
+    <mdb-card *ngIf="showLogin" class="wow fadeInUp">
+      <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+        <!-- Card img -->
+        <div class="view overlay zoom">
+          <mdb-card-img src="/static/app/assets/images/login.png" alt="Card image cap"></mdb-card-img>
+        </div>
+      </div>
+      <!--Card content-->
+      <mdb-card-body  class="elegant-color white-text">
+        <!--Title-->
+        <mdb-card-title>
+          <h4>Login</h4>
+        </mdb-card-title>
+
+        <!--Text-->
+        <mdb-card-text>
+          Please Login to Continue
+        </mdb-card-text>
+
+        <a href="#" mdbBtn class="young-passion-gradient .z-depth-5" mdbWavesEffect routerLink="/login">Login</a>
+      </mdb-card-body>
+    </mdb-card>
+  </div>
+
+
+  <div class="home-content card-group wow fadeInUp z-depth-5" *ngIf="!showLogin">
+    <!-- Card -->
+    <mdb-card>
+      <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+        <!-- Card img -->
+        <div class="view overlay zoom">
+          <mdb-card-img src="/static/app/assets/images/housekeeping.jpg"></mdb-card-img>
+        </div>
+      </div>
+      <!--Card content-->
+      <mdb-card-body  class="elegant-color white-text">
+        <!--Title-->
+        <mdb-card-title>
+          <h4>Housekeeping Services</h4>
+        </mdb-card-title>
+
+        <!--Text-->
+        <mdb-card-text>
+          Manage Daily and Monthly Housekeeping Tasks here.
+        </mdb-card-text>
+
+        <a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect routerLink="/hk">Housekeeping Dashboard</a>
+      </mdb-card-body>
+    </mdb-card>
+
+    <!-- Card -->
+    <mdb-card>
+      <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+        <!-- Card img -->
+        <div class="view overlay zoom">
+          <mdb-card-img src="/static/app/assets/images/lostandfound.jpg"></mdb-card-img>
+        </div>
+
+      </div>
+      <!--Card content-->
+      <mdb-card-body  class="elegant-color white-text">
+        <!--Title-->
+        <mdb-card-title>
+          <h4>Lost & Found</h4>
+        </mdb-card-title>
+
+        <!--Text-->
+        <mdb-card-text>
+          Report and Access Lost and Found Data here.
+        </mdb-card-text>
+
+        <a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect routerLink="/lost">Lost & Found</a>
+      </mdb-card-body>
+    </mdb-card>
+
+  </div>
+</div>
+
+
+

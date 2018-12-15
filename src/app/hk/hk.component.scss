@@ -1,0 +1,33 @@
+.floor-btn {
+  border-top-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  height: 40px;
+  width: 100px;
+  padding: 0;
+}
+
+.floor-btn-group {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-button {
+  border-top-left-radius: 25%;
+  border-bottom-right-radius: 25%;
+}
+
+.edit-button:hover {
+  position: relative;
+  bottom: 3px;
+  color: black;
+}
+
+.fixed {
+  position: fixed;
+}
+
+a[mdbBtn] {
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+}

@@ -1,0 +1,24 @@
+<!-- Default form login -->
+<div class="container animated fadeInUpBig" style="margin-top: 10%;">
+
+  <form class="text-center border border-light p-5">
+
+
+      <blockquote class="blockquote bq-primary">
+        <h2 class="bq-title"><i class="fas fa-user-lock"></i> {{loginMessage}} </h2>
+      </blockquote>
+
+    <p class="h4 mb-4">Sign in</p>
+
+    <!-- Email -->
+    <input type="email" id="defaultLoginFormEmail" [formControl]="loginFormModalEmail"  class="form-control mb-4" placeholder="E-mail">
+
+    <!-- Password -->
+    <input type="password" id="defaultLoginFormPassword" [formControl]="loginFormModalPassword"  class="form-control mb-4" placeholder="Password">
+
+    <!-- Sign in button -->
+    <button mdbBtn color="info" block="true" class="my-4 btn blue-gradient" type="submit" (click)="loginUser()">Sign in</button>
+
+  </form>
+</div>
+<!-- Default form login -->

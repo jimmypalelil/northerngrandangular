@@ -1,0 +1,41 @@
+
+.lost-title {
+  display:flex;
+  justify-content: center;
+  margin-top:3%;
+}
+
+.lost-title-text {
+  align-self: center;
+  font-family:fantasy;
+  font-size: 40px;
+}
+
+.lost-image {
+  height: 30px;
+  align-self: center;
+  margin-top: -8px;
+}
+
+.email-button {
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 500ms ease-in-out;
+}
+.email-button span {
+  text-shadow: #0d0d0d;
+  visibility: hidden;
+  transition: visibility ease-in-out;
+}
+
+.email-button:hover {
+  width: 100%;
+}
+
+.email-button:hover span {
+  visibility: visible;
+}
+
+::ng-deep .cdk-overlay-container{
+  z-index: 1200 !important;
+}

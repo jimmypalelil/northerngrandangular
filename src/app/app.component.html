@@ -1,0 +1,77 @@
+
+<mdb-navbar #navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top scrolling-navbar" class="main-nav">
+  <mdb-navbar-brand>
+    <a class="navbar-brand" routerLink="/" (click)="changePage('home')" mdbWavesEffect>
+      <img src="static/app/assets/images/top_logo.png" width="100px" height="50px">
+    </a>
+  </mdb-navbar-brand>
+  <links>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto mt-lg-0">
+        <li class="nav-item" [ngClass]="{'active': currentPage === 'home'}">
+          <a class="nav-link waves-light" routerLink="/" (click)="changePage('home')" mdbWavesEffect><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item" [ngClass]="{'active': currentPage ==='hk'}">
+          <a class="nav-link waves-light" routerLink="/hk" mdbWavesEffect (click)="changePage('hk')">
+            <i class="fas fa-building"></i> Housekeeping
+          </a>
+        </li>
+        <li class="nav-item" [ngClass]="{'active': currentPage ==='lost'}">
+          <a class="nav-link waves-light" routerLink="/lost" mdbWavesEffect (click)="changePage('lost')">
+            <i class="fas fa-search-dollar"></i> Lost & Found
+          </a>
+        </li>
+
+        <li *ngIf="!loggedIn" class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect (click)="frame.show()">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </a>
+        </li>
+
+        <li *ngIf="loggedIn" class="nav-item">
+          <a class="nav-link waves-light" routerLink="/" mdbWavesEffect (click)="logoutUser()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        </li>
+
+      </ul>
+      <span *ngIf="loggedIn" class="navbar-text">
+        Welcome, {{email}}
+      </span>
+    </div>
+  </links>
+</mdb-navbar>
+
+<router-outlet></router-outlet>
+
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #loginForm="ngForm" (ngSubmit)="frame.hide();loginUser()" novalidate>
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <input type="email" id="defaultForm-email" name="email" [mdbValidate]="false" [formControl]="loginFormModalEmail" class="form-control" mdbInputDirective>
+            <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+          </div>
+
+          <div class="md-form mb-4">
+            <i class="fa fa-lock prefix grey-text"></i>
+            <input type="password" id="defaultForm-pass" name="password" [mdbValidate]="false" [formControl]="loginFormModalPassword" class="form-control" mdbInputDirective>
+            <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+          </div>
+
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button mdbBtn color="default" class="btn blue-gradient" mdbWavesEffect>Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

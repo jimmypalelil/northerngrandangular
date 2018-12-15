@@ -1,0 +1,76 @@
+<div class="row justify-content-md-center" style="margin-top: 5%;">
+
+  <div class="col-md-2" style="margin-top: 3%">
+    <div class="fixed animated fadeInLeft">
+      <mat-list>
+        <h3 mat-subheader>Select Status</h3>
+        <a mdbWavesEffect mat-list-item mdbBtn *ngFor="let status of statuses; let i = index" (click)="setStatus(i)">
+          {{status}} <span class="badge badge-danger ml-2">{{counts[i]}}</span>
+        </a>
+      </mat-list>
+    </div>
+  </div>
+
+  <div class="col-7 scrollit">
+    <hr class="my-4">
+
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item *ngFor="let type of types" (click)="setType(type)">{{type.label}}</button>
+    </mat-menu>
+    <hr class="my-4">
+    <span>
+    <div class="btn-group" mdbDropdown>
+    <button type="button" mdbBtn color="primary" class="waves-light" mdbWavesEffect >{{currentType['label'] | uppercase}}</button>
+    <button type="button" mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle dropdown-toggle-split px-3 waves-light"
+            mdbWavesEffect [matMenuTriggerFor]="appMenu"></button>
+    </div>
+    for {{currentMonth | uppercase}} 2018
+  </span>
+    <hr class="my-4">
+    <mat-tab-group (selectedTabChange)="changeTab($event)">
+      <mat-tab color="primary" *ngFor="let month of months[currentType['index']]" label="{{month | uppercase}}">
+        <hr class="my-4">
+        <div class="floor-btn-group">
+          <mat-button-toggle-group class="animated fadeInRightBig justify-content-center" #floorBtnGrp="matButtonToggleGroup" value="2">
+            <mat-button-toggle mdbBtn mdbWavesEffect color="indigo"
+                               *ngFor="let floor of floors"
+                               (click)="changeFloor(floor.data)"
+                               value="{{floor.data}}"
+                               class="floor-btn justify-content-center">
+              {{floor.label | uppercase}}
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <hr class="my-4">
+        <span><input matInput (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By Room No."></span>
+        <hr class="my-3">
+
+        <div class="table-container">
+          <mat-table [dataSource]="dataSource" #tableSorter matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 animated fadeInUp">
+            <ng-container *ngFor="let value of displayedColumns" matColumnDef="{{value}}">
+              <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
+              <mat-cell *matCellDef="let element" class="animated fadeInUp">
+                <p class="green-text font-weight-bold"><i *ngIf="element[value] === 'clean'" class="fas fa-check-circle"></i></p>
+                <p class="red-text font-weight-bold"><i *ngIf="element[value] === 'not done'" class="fas fa-times-circle"></i></p>
+                {{value === 'status' ? '' : element[value]}}
+                <div class="view overlay">
+                  <button mdbBtn class="edit-button z-depth-2" type="button"
+                          (click)="changeRoomStatus(element)"
+                          *ngIf="value === 'edit'"
+                          [ngClass]="{'blue-gradient': element.status=== 'not done', 'peach-gradient': element.status === 'clean'}"
+                          mdbWavesEffect>
+                    <i *ngIf="element.status === 'not done'" class="far fa-check-square"></i>
+                    <i *ngIf="element.status === 'clean'" class="fa fa-undo" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </mat-cell>
+
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
