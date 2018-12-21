@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
 import {BehaviorSubject, Subject} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
-  // private BASE_URL = 'https://token-trial.herokuapp.com/auth';
-  private BASE_URL = 'https://northerngrandmaintenance.herokuapp.com/auth';
-  // private BASE_URL = 'http://127.0.0.1:5000/auth';
+  private BASE_URL = environment.baseUrl + 'auth';
   loggedIn: Subject<boolean>;
   currentPage: Subject<string>;
   message: Subject<string>;

@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "angular4-auth"
+    "name": "mdb-angular"
   },
   "apps": [
     {
@@ -26,7 +26,8 @@
       ],
       "scripts": [
         "node_modules/chart.js/dist/Chart.js",
-        "node_modules/hammerjs/hammer.min.js"
+        "node_modules/hammerjs/hammer.min.js",
+        "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

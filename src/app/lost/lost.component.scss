@@ -17,25 +17,6 @@
   margin-top: -8px;
 }
 
-.email-button {
-  overflow: hidden;
-  white-space: nowrap;
-  transition: width 500ms ease-in-out;
-}
-.email-button span {
-  text-shadow: #0d0d0d;
-  visibility: hidden;
-  transition: visibility ease-in-out;
-}
-
-.email-button:hover {
-  width: 100%;
-}
-
-.email-button:hover span {
-  visibility: visible;
-}
-
 ::ng-deep .cdk-overlay-container{
   z-index: 1200 !important;
 }

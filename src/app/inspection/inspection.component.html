@@ -1,0 +1,183 @@
+<div class="row justify-content-md-center" style="margin-top: 3%;">
+
+  <div class="col-md-2" style="margin-top: 3%">
+    <div *ngIf="isAdmin()">
+      <button mdbBtn mdbWavesEffect color="danger" (click)="resetInspections()">Reset Inspections</button>
+    </div>
+
+    <div class="fixed animated fadeInLeft">
+      <mat-list>
+        <h3 mat-subheader>Employees</h3>
+        <a mdbWavesEffect mat-list-item *ngFor="let employee of employees" (click)="getEmployeeIns(employee)">
+          {{employee.name}}
+          <!--Badge for Employees-->
+          <span class="badge badge-danger ml-2">
+            {{employee.avg_score * 100| number:'1.1-2'}}%
+          </span>
+        </a>
+      </mat-list>
+    </div>
+  </div>
+
+  <div class="col-7 scrollit">
+    <hr class="my-4">
+    <mat-accordion>
+      <mat-expansion-panel  [expanded]="panelOpened" (opened)="setPanelOpen(true)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <p><i class="fas fa-plus-circle"></i> New Inspection</p>
+          </mat-panel-title>
+          <mat-panel-description>
+            Start a new Inspection
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-form-field>
+            <input matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-select name="emp" placeholder="Room Attendant(s)" [(ngModel)]="selectedEmployees" multiple>
+              <mat-option *ngFor="let employee of employees"
+                          [value]="employee">{{employee.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Inspection Date" name="inspectionDate" [matDatepicker]="picker"
+                   (focus)="picker.open()" readonly [(ngModel)]="newInspectionDate" required>
+          </mat-form-field>
+          <mat-datepicker #picker></mat-datepicker>
+
+          <mat-action-row>
+            <!--"Add" button-->
+            <button mat-mini-fab color="primary" (click)="startNewInspection()">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </mat-action-row>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <hr class="my-4">
+
+    <!--Inspection List Begins-->
+    <div class="ins-items">
+      <div *ngFor="let object of insItems">
+        <p class="h3">{{object._id.cat | uppercase}}</p>
+        <div *ngFor="let item of object.items">
+          <span>
+            <p class="h6">{{item.item | uppercase}}</p>
+            <mat-radio-group [(ngModel)]="insScores[item._id]">
+              <mat-radio-button color="primary" value="1">Excellent</mat-radio-button>
+              <mat-radio-button color="primary" value=".5">Needs Improvement</mat-radio-button>
+              <mat-radio-button color="primary" value="0">Bad</mat-radio-button>
+              <mat-radio-button color="primary" value="-1" checked>None</mat-radio-button>
+            </mat-radio-group>
+          </span>
+          <mat-form-field>
+            <textarea matInput placeholder="Comments" [(ngModel)]="insComments[item._id]"></textarea>
+          </mat-form-field>
+          <hr class="my-3">
+          </div>
+      </div>
+      <div *ngIf="insItems !== undefined">
+        <button mdbBtn mdbWavesEffect
+                (click)="submitInspection()"
+                color="secondary">Submit Inspection</button>
+      </div>
+    </div>
+    <!--Inspection list Ends-->
+
+    <hr class="my-4">
+
+    <!--Employee Details-->
+    <div class="employee-details" *ngIf="currentEmployee !== undefined && employeeScores !== undefined">
+      <h3>{{currentEmployee.name}}</h3>
+      Total Inspections: {{currentEmployee.num_inspections}} | Score: {{currentEmployee.avg_score * 100| number:'1.1-2'}}%
+      <button mdbWavesEffect mdbBtn color="secondary" (click)="viewInspections()"><i class="fas fa-list-alt"></i> List All Inspections</button>
+      <hr class="my-4">
+      {{employeeScores.length === 0 ? 'No Inspections recorded for ' + currentEmployee.name + ' yet' : ''}}
+      <div *ngIf="!showInspections && !showInspection">
+        <dl class="row" *ngFor="let employeeScore of employeeScores">
+          <dt class="col-sm-4">Month</dt>
+          <dd class="col-sm-6">{{employeeScore.month | uppercase}}</dd>
+
+          <dt class="col-sm-4">Year</dt>
+          <dd class="col-sm-6">{{employeeScore.year}}</dd>
+
+          <dt class="col-sm-4">Total Inspections in {{employeeScore.month | uppercase}} {{employeeScore.year}}</dt>
+          <dd class="col-sm-6">{{employeeScore.num_inspections}}</dd>
+
+          <dt class="col-sm-4 text-truncate">Avg Score for {{employeeScore.month | uppercase}} {{employeeScore.year}}</dt>
+          <dd class="col-sm-6">{{employeeScore.score * 100 | number:'1.1-2'}}%</dd>
+          <hr class="my-4">
+        </dl>
+      </div>
+
+      <div *ngIf="showInspections">
+        <dl class="row" *ngFor="let employeeInspection of employeeInspections">
+          <dt class="col-sm-2">Room Number</dt>
+          <dd class="col-sm-2">{{employeeInspection.room_number}}</dd>
+
+          <dt class="col-sm-2">Date</dt>
+          <dd class="col-sm-2">
+            {{employeeInspection.day}} {{employeeInspection.month | uppercase}} {{employeeInspection.year}}
+          </dd>
+          <dt class="col-sm-2">Score</dt>
+          <dd class="col-sm-2">{{employeeInspection.score * 100 | number:'2.1-2'}}%</dd>
+
+          <dd class="col-sm-5"></dd>
+          <dd class="col-sm-4 justify-content-end">
+            <button mdbBtn mdbWavesEffect color="primary" (click)="viewInspection(employeeInspection)">
+              <i class="far fa-eye"></i> View Inspection
+            </button>
+          </dd>
+          <dd class="col-sm-3">
+            <button mdbBtn mdbWavesEffect color="danger" (click)="deleteFrame.show(); setCurrentInspection(employeeInspection)">
+              <i class="far fa-trash-alt"></i> Delete
+            </button>
+          </dd>
+          <hr class="my-4">
+        </dl>
+      </div>
+
+      <div *ngIf="showInspection">
+        <div *ngFor="let object of inspectionItems">
+          <p class="h3">{{object._id | uppercase}}</p>
+          <dl class="row" *ngFor="let item of object.items">
+            <dt class="col-sm-3">{{item.inspection.item | uppercase}}</dt>
+            <dd class="col-sm-3">{{item.item.score * 100 | number:'2.1-2'}}%</dd>
+            <dd class="col-sm-6">{{item.item.comment}}</dd>
+          </dl>
+          <hr class="my-4">
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div mdbModal #deleteFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Delete Inspection</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deleteFrame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+
+        <blockquote class="blockquote bq-warning">
+          <p class="bq-title">Are you sure you wanna delete this Inspection?</p>
+        </blockquote>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button mdbBtn color="default" class="waves-light btn btn-primary" (click)="deleteFrame.hide()" mdbWavesEffect>Cancel</button>
+        <button mdbBtn color="default" class="waves-light btn btn-danger btn-rounded" color="danger" (click)="deleteFrame.hide();deleteInspection()" mdbWavesEffect>Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

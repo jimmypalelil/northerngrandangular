@@ -3,7 +3,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CanActivate, RouterModule } from '@angular/router';
 import {HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {ParallaxModule, ParallaxConfig} from 'ngx-parallax';
+import {ParallaxModule} from 'ngx-parallax';
 
 import {
   MatAutocompleteModule,
@@ -54,6 +54,8 @@ import {EnsureAuthenticatedService} from './services/ensure-authenticated.servic
 import {LoginRedirectService} from './services/login-redirect.service';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { InspectionComponent } from './inspection/inspection.component';
+import {InspectionService} from './services/inspection.service';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import { HomeComponent } from './home/home.component';
     HkComponent,
     LostComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    InspectionComponent
   ],
   imports: [
     ParallaxModule,
@@ -114,10 +117,11 @@ import { HomeComponent } from './home/home.component';
       { path: '', component: HomeComponent},
       { path: 'lost', component: LostComponent, canActivate: [LoginRedirectService]},
       { path: 'login', component: LoginComponent},
+      { path: 'inspection', component: InspectionComponent, canActivate: [EnsureAuthenticatedService]},
       { path: '**', redirectTo: ''}
     ], {useHash: true})
   ],
-  providers: [ListService, AuthService, EnsureAuthenticatedService, LoginRedirectService],
+  providers: [ListService, AuthService, EnsureAuthenticatedService, LoginRedirectService, InspectionService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
 })
