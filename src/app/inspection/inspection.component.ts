@@ -1,8 +1,6 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {InspectionService} from '../services/inspection.service';
 import {Inspection} from '../models/inspection';
-import {Employee} from '../models/employee';
-import {InspectionScore} from '../models/inspectionScore';
 import {MatSnackBar} from '@angular/material';
 
 @Component({
@@ -16,6 +14,7 @@ export class InspectionComponent implements OnInit {
   selectedEmployees: any;
   currentInspection: Inspection;
   newInspectionDate: Date;
+  currentEmployeeScore: any;
   months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
   panelOpened: boolean;
   insItems: any[];
@@ -58,21 +57,20 @@ export class InspectionComponent implements OnInit {
     this.currentInspection.day = this.newInspectionDate.getDate();
     this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
     this.currentInspection.year = this.newInspectionDate.getFullYear();
-    let ids = [];
+    const ids = [];
     for (const i in this.selectedEmployees) {
       ids.push(this.selectedEmployees[i]['_id']);
     }
     this.insService.startNewInspection(this.currentInspection, ids).then(data => {
       this.currentInspection._id = data[0];
       this.insItems = JSON.parse(data[1]);
-      this.setPanelOpen(false);
+      this.toggleNewInspectionPanel();
       this.insScores = new Map();
       this.insComments = new Map();
     });
   }
 
   submitInspection() {
-    const inspectionScores = [];
     this.insService.sendInspection(this.currentInspection._id, this.insScores, this.insComments).then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
@@ -82,7 +80,7 @@ export class InspectionComponent implements OnInit {
     });
   }
 
-  setPanelOpen(b: boolean) {
+  toggleNewInspectionPanel() {
     this.panelOpened = !this.panelOpened;
   }
 
@@ -121,12 +119,26 @@ export class InspectionComponent implements OnInit {
   }
 
   deleteInspection() {
-    this.insService.deleteInspection(this.currentInspection._id, this.currentInspection.month).subscribe(msg => {
+    this.insService.deleteInspection(this.currentInspection._id, this.currentInspection.month, this.currentInspection.year)
+      .subscribe(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });
       this.getEmployees();
       this.viewInspections();
+    });
+  }
+
+  setCurrentScore(employeeScore: any) {
+    this.currentEmployeeScore = employeeScore;
+  }
+
+  deleteMonthlyInspections() {
+    this.insService.deleteMonthlyInspections(this.currentEmployeeScore, this.currentEmployee['_id']).then(msg => {
+      this.snackBar.open(msg['text'].toUpperCase(), '', {
+        duration: 2000,
+      });
+      this.getEmployees();
     });
   }
 }

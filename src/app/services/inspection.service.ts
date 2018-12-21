@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
-import {Room} from '../models/room';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Inspection} from '../models/inspection';
@@ -42,7 +41,11 @@ export class InspectionService {
     return this.http.post(this.url + 'getInspection', inspection);
   }
 
-  deleteInspection(id: any, month: string): Observable<any> {
-    return this.http.get(this.url + 'deleteInspection/' + id + '/' + month);
+  deleteInspection(id: any, month: string, year: number): Observable<any> {
+    return this.http.get(this.url + 'deleteInspection/' + id + '/' + month + '/' + year);
+  }
+
+  deleteMonthlyInspections(currentEmployeeScore: any, empID: string): Promise<any> {
+    return this.http.post(this.url + 'deleteMonthlyInspections/' + empID, currentEmployeeScore).toPromise();
   }
 }
