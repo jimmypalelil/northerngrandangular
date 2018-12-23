@@ -9,3 +9,10 @@
 .employee-name:hover {
   border-left: 2px solid rgba(7, 51, 255, 0.32);
 }
+
+mat-progress-spinner {
+  position:fixed;
+  left:50%;
+  top:50%;
+  z-index: 12000;
+}

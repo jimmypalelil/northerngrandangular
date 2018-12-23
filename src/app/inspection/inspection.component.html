@@ -12,11 +12,17 @@
            class="employee-name"
            (click)="getEmployeeIns(employee)"
             [ngClass]="{'active': currentEmployee === employee}">
-         {{employee.name}}
-          <!--Badge for Employees-->
-          <span class="badge badge-danger ml-2">
+          <div class="row justify-content-end">
+            <div class="col-sm-8">
+              {{employee.name}}
+            </div>
+            <div class="col-sm-4">
+              <!--Badge for Employees-->
+              <span class="badge badge-danger ml-2">
             {{employee.avg_score * 100| number:'1.1-2'}}%
           </span>
+            </div>
+          </div>
         </a>
       </mat-list>
     </div>
@@ -24,8 +30,9 @@
 
   <div class="col-7 scrollit">
     <hr class="my-4">
+    <!--Inspection Form-->
     <mat-accordion>
-      <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel(true)">
+      <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <p><i class="fas fa-plus-circle"></i> New Inspection</p>
@@ -61,8 +68,11 @@
         </form>
       </mat-expansion-panel>
     </mat-accordion>
+    <!--New Inspection form-->
 
     <hr class="my-4">
+
+    <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
 
     <!--Inspection List Begins-->
     <div class="ins-items">
@@ -100,31 +110,57 @@
       Total Inspections: {{currentEmployee.num_inspections}} | Score: {{currentEmployee.avg_score * 100| number:'1.1-2'}}%
       <button mdbWavesEffect mdbBtn color="secondary" (click)="viewInspections()"><i class="fas fa-list-alt"></i> List All Inspections</button>
       <hr class="my-4">
-      {{employeeScores.length === 0 ? 'No Inspections recorded for ' + currentEmployee.name + ' yet' : ''}}
-      <div *ngIf="!showInspections && !showInspection">
-        <dl class="row" *ngFor="let employeeScore of employeeScores">
-          <dt class="col-sm-4">Month</dt>
-          <dd class="col-sm-4">{{employeeScore.month | uppercase}}</dd>
-          <dd class="col-lg-4 justify-content-start">
-            <button mdbWavesEffect mdbBtn color="danger"
-                    (click)="setCurrentScore(employeeScore); deleteMonthlyInspectionFrame.show()">
-              <i class="far fa-trash-alt"></i> Delete Inpsections
-            </button>
-          </dd>
+      {{employeeScores.data.length === 0 ? 'No Inspections recorded for ' + currentEmployee.name + ' yet' : ''}}
+      <div *ngIf="!showInspections && !showInspection && employeeScores.data.length > 0">
 
-          <dt class="col-sm-4">Year</dt>
-          <dd class="col-sm-6">{{employeeScore.year}}</dd>
+        <mat-table [dataSource]="employeeScores" matSort #tableSorter class="mat-elevation-z8 animated fadeInUp">
+          <ng-container *ngFor="let value of MonthInspectionsDisplayedColumns" matColumnDef="{{value}}">
+            <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header>
+              {{value === 'score' ? (value + '(%)' | uppercase) : value | uppercase}}</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="animated fadeInUp">
+              {{value === 'month' ? (element[value] | uppercase) : ''}}
+              {{value === 'score' ? (element[value] * 100 | number:'2.1-2') + '%' : ''}}
+              {{value === 'year' || value === 'num_inspections' ? element[value] : ''}}
 
-          <dt class="col-sm-4">Total Inspections in {{employeeScore.month | uppercase}} {{employeeScore.year}}</dt>
-          <dd class="col-sm-6">{{employeeScore.num_inspections}}</dd>
-
-          <dt class="col-sm-4 text-truncate">Avg Score for {{employeeScore.month | uppercase}} {{employeeScore.year}}</dt>
-          <dd class="col-sm-6">{{employeeScore.score * 100 | number:'1.1-2'}}%</dd>
-          <hr class="my-4">
-        </dl>
+              <button mdbWavesEffect mdbBtn color="danger" *ngIf="value === 'delete'"
+                      (click)="setCurrentScore(element); deleteMonthlyInspectionFrame.show()">
+                <i class="far fa-trash-alt"></i> Delete Inpsections
+              </button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="MonthInspectionsDisplayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: MonthInspectionsDisplayedColumns;"></mat-row>
+        </mat-table>
       </div>
 
-      <div *ngIf="showInspections">
+      <div *ngIf="showInspections && employeeInspections.data.length > 0">
+
+        <mat-table [dataSource]="employeeInspections" matSort #tableSorter class="mat-elevation-z8 animated fadeInUp">
+          <ng-container *ngFor="let value of inspectionsDisplayedColumns"
+                        matColumnDef="{{value}}">
+            <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header>
+              {{value === 'action' ? 'View/Delete Inspection' : value | uppercase}}</mat-header-cell>
+            <mat-cell *matCellDef="let element" class="animated fadeInUp">
+              {{value === 'month' ? (element[value] | uppercase) : ''}}
+              {{value === 'score' ? (element[value] * 100 | number:'2.1-2') + '%' : ''}}
+              {{value !== 'month' && value !== 'score' ? element[value] : ''}}
+
+              <button mdbBtn mdbWavesEffect color="primary" *ngIf="value === 'action'"
+                      class="edit-button z-depth-2"
+                      (click)="viewInspection(element)">
+                <i class="far fa-eye"></i>
+              </button>
+
+                <button mdbBtn mdbWavesEffect color="danger" *ngIf="value === 'action'"
+                        class="edit-button z-depth-2"
+                        (click)="deleteInspectionFrame.show(); setCurrentInspection(element)">
+                  <i class="far fa-trash-alt"></i>
+                </button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="inspectionsDisplayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: inspectionsDisplayedColumns;"></mat-row>
+        </mat-table>
         <div *ngFor="let employeeInspection of employeeInspections">
           <dl class="row">
             <dt class="col-sm-2">Room Number</dt>

@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {InspectionService} from '../services/inspection.service';
 import {Inspection} from '../models/inspection';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
+import {Room} from '../models/room';
 
 @Component({
   selector: 'app-inspection',
@@ -20,21 +21,30 @@ export class InspectionComponent implements OnInit {
   insItems: any[];
   insScores: any;
   insComments: any;
-  employeeScores: any;
-  employeeInspections: any;
+  employeeScores: MatTableDataSource<any>;
+  employeeInspections: MatTableDataSource<any>;
   inspectionItems: any;
   showInspections = false;
   showInspection = false;
+  MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'delete'];
+  inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'action'];
+  tableSorter: MatSort;
+
+  @Input()
+  showSpinner: boolean;
 
   constructor(private insService: InspectionService, public snackBar: MatSnackBar) {
     this.panelOpened = false;
     this.currentInspection = new Inspection();
+    this.tableSorter = new MatSort();
+    this.showSpinner = false;
   }
+
+  @ViewChild(MatSort) sort;
 
   ngOnInit() {
     this.getEmployees();
   }
-
 
   getEmployees() {
     this.insService.getEmployees().subscribe(data => {
@@ -49,11 +59,13 @@ export class InspectionComponent implements OnInit {
     this.showInspection = false;
     this.currentEmployee = employee;
     this.insService.getEmployeeIns(employee['_id']).subscribe(data => {
-      this.employeeScores = data[0]['Monthly Scores'];
+      this.employeeScores = new MatTableDataSource(data[0]['Monthly Scores']);
+      this.employeeScores.sort = this.sort;
     });
   }
 
   startNewInspection() {
+    this.toggleSpinner();
     this.currentInspection.day = this.newInspectionDate.getDate();
     this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
     this.currentInspection.year = this.newInspectionDate.getFullYear();
@@ -67,16 +79,19 @@ export class InspectionComponent implements OnInit {
       this.toggleNewInspectionPanel();
       this.insScores = new Map();
       this.insComments = new Map();
+      this.toggleSpinner();
     });
   }
 
   submitInspection() {
+    this.toggleSpinner();
     this.insService.sendInspection(this.currentInspection._id, this.insScores, this.insComments).then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });
       this.getEmployees();
       this.insItems = undefined;
+      this.toggleSpinner();
     });
   }
 
@@ -102,7 +117,8 @@ export class InspectionComponent implements OnInit {
     this.showInspections = true;
     this.showInspection = false;
     this.insService.getInspections(this.currentEmployee['_id']).subscribe(data => {
-      this.employeeInspections = data[0]['inspections'];
+      this.employeeInspections = new MatTableDataSource<any>(data[0]['inspections']);
+      this.employeeInspections.sort = this.sort;
     });
   }
 
@@ -119,6 +135,7 @@ export class InspectionComponent implements OnInit {
   }
 
   deleteInspection() {
+    this.toggleSpinner();
     this.insService.deleteInspection(this.currentInspection._id, this.currentInspection.month, this.currentInspection.year)
       .subscribe(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
@@ -126,6 +143,7 @@ export class InspectionComponent implements OnInit {
       });
       this.getEmployees();
       this.viewInspections();
+      this.toggleSpinner();
     });
   }
 
@@ -134,11 +152,22 @@ export class InspectionComponent implements OnInit {
   }
 
   deleteMonthlyInspections() {
+    this.toggleSpinner();
     this.insService.deleteMonthlyInspections(this.currentEmployeeScore, this.currentEmployee['_id']).then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });
       this.getEmployees();
+      this.toggleSpinner();
     });
+  }
+
+  toggleSpinner() {
+    this.showSpinner = !this.showSpinner;
+    if (this.showSpinner) {
+      document.getElementById('body').classList.add('overlay');
+    } else {
+      document.getElementById('body').classList.remove('overlay');
+    }
   }
 }
