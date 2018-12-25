@@ -52,6 +52,7 @@ mdb-card-img > img {
 .edit-button:hover {
   position: relative;
   bottom: 3px;
+  padding-bottom: 3px;
   color: black;
 }
 
@@ -84,7 +85,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
-.overlay {
+.inspection-overlay {
   z-index: 10000;
   background-color: rgba(0,0,0,.4) !important;
   background-size: cover !important;

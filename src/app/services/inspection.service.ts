@@ -8,6 +8,7 @@ import {Inspection} from '../models/inspection';
   providedIn: 'root'
 })
 export class InspectionService {
+  // private url =  '/inspection/';
   private url =  environment.insUrl;
 
   constructor(private http: HttpClient) { }

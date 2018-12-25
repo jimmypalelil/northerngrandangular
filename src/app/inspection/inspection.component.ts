@@ -165,9 +165,9 @@ export class InspectionComponent implements OnInit {
   toggleSpinner() {
     this.showSpinner = !this.showSpinner;
     if (this.showSpinner) {
-      document.getElementById('body').classList.add('overlay');
+      document.getElementById('body').classList.add('inspection-overlay');
     } else {
-      document.getElementById('body').classList.remove('overlay');
+      document.getElementById('body').classList.remove('inspection-overlay');
     }
   }
 }
