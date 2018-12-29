@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { NgForm, FormControl, Validators } from '@angular/forms';
 import {AuthService} from './services/auth.service';
 import {Router} from '@angular/router';
 import {User} from './models/user';
 import {EnsureAuthenticatedService} from './services/ensure-authenticated.service';
+import {ModalDirective} from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +14,18 @@ import {EnsureAuthenticatedService} from './services/ensure-authenticated.servic
 
 export class AppComponent implements OnInit {
 
+  @ViewChild('frame') modalFrame: ModalDirective;
+
   constructor(private router: Router, private auth: AuthService, private ensureAuth: EnsureAuthenticatedService) {}
-  title = 'app';
+
   currentPage: string;
-  loginFormModalEmail = new FormControl('', Validators.email);
-  loginFormModalPassword = new FormControl('', Validators.required);
+  loginFormModalEmail = new FormControl('', [Validators.email, Validators.required]);
+  loginFormModalPassword = new FormControl('', [Validators.required]);
   loggedIn: boolean;
   email: string;
+  loginMessage = '';
 
-  @ViewChild('frame') modalFrame;
+  showLoginmodal: boolean;
 
   changePage(page) {
     this.currentPage = page;
@@ -29,6 +33,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.ensureAuth.canActivate();
+    this.ensureAuth.showLoginModal.subscribe(value => {
+        console.log(value);
+        if (value) {
+          this.modalFrame.show();
+        }
+    });
+    this.auth.message.subscribe(msg => {
+      this.loginMessage = msg;
+    });
     this.currentPage = 'home';
     this.loggedIn = !!localStorage.getItem('token');
     if (this.loggedIn) {

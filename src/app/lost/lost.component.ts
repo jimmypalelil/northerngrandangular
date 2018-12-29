@@ -155,6 +155,9 @@ export class LostComponent implements OnInit, AfterViewInit {
     this.list.returnItem(this.currentReturnItem).then(msg => {
       this.tabGroup.selectedIndex = 1; // switch to retrun items view
       this.snackBar.open(msg['text'], '', {duration: 2000});
+    }).catch(err => {
+      this.snackBar.open('Oops! Looks like its missing some information', '',
+        {duration: 2000});
     });
   }
 

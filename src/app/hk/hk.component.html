@@ -50,8 +50,10 @@
             <ng-container *ngFor="let value of displayedColumns" matColumnDef="{{value}}">
               <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
               <mat-cell *matCellDef="let element" class="animated fadeInUp">
-                <p class="green-text font-weight-bold"><i *ngIf="element[value] === 'clean'" class="fas fa-check-circle"></i></p>
-                <p class="red-text font-weight-bold"><i *ngIf="element[value] === 'not done'" class="fas fa-times-circle"></i></p>
+                <p *ngIf="value === 'status'" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}" class="font-weight-bold">
+                  <i *ngIf="element.status === 'clean' else notDone" class="fas fa-check-circle"></i>
+                  <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>
+                </p>
                 {{value === 'status' ? '' : element[value]}}
                 <div class="view overlay">
                   <button mdbBtn class="edit-button z-depth-2" type="button"

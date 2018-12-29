@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthService} from '../services/auth.service';
+import {EnsureAuthenticatedService} from '../services/ensure-authenticated.service';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,9 @@ export class HomeComponent implements OnInit {
   email: string;
   showLogin = true;
 
-  @ViewChild('frame') loginModal;
+  @Output() clickedLogin = new EventEmitter<boolean>();
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private ensureAuth: EnsureAuthenticatedService) { }
 
   ngOnInit() {
     this.auth.loggedIn.subscribe(value => {
@@ -24,6 +25,6 @@ export class HomeComponent implements OnInit {
   }
 
   showLoginModal() {
-    this.loginModal.show();
+    this.ensureAuth.showLoginModal.next(true);
   }
 }

@@ -48,7 +48,7 @@
     <mat-tab color="primary" *ngFor="let tab of tabList" label="{{tab | uppercase}}">
       <hr class="my-4">
       <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 lost-table">
-        <ng-container *ngFor="let value of displayedColumns; let i = index" matColumnDef="{{value}}">
+        <ng-container *ngFor="let value of displayedColumns; let i = index" cdkColumnDef="{{value}}">
           <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header class="wow fadeInUp z-depth-1-half text-center" >
             {{value === 'action' ? actionHeader : value | uppercase}}
           </mat-header-cell>
@@ -62,10 +62,6 @@
               <button mdbBtn gradient="tempting-azure" class="edit-button z-depth-3"
                       *ngIf="!isHK()" (click)="sendItemInfo(element); emailFrame.show()">
                 <i class="far fa-envelope"></i>
-              </button>
-              <button mdbBtn gradient="tempting-azure" class="edit-button z-depth-3"
-                      (click)="sendItemInfo(element); editList[element._id] = true">
-                <i class="fas fa-edit"></i>
               </button>
               <button mdbBtn gradient="sunny-morning" class="edit-button z-depth-3"
                       (click)="sendItemInfo(element); returnFrame.show()">

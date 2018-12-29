@@ -8,7 +8,7 @@
 <div class="container home-card jumbotron text-center hoverable p-4 wow fadeInUp z-depth-4" *ngIf="!showLogin">
 
   <!-- Grid row -->
-  <div class="row">
+  <div class="row justify-content-center">
 
     <!-- Grid column -->
     <div class="col-md-4 offset-md-1 mx-3 my-3">
@@ -75,7 +75,7 @@
         <i class="fa fa-lock" aria-hidden="true"></i> Please Login to Continue
       </p>
 
-      <h5 mdbBtn gradient="blue" routerLink="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</h5>
+      <h5 mdbBtn gradient="blue" (click)="showLoginModal()"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</h5>
     </div>
     <!-- Grid column -->
 
@@ -108,7 +108,7 @@
           Please Login to Continue
         </mdb-card-text>
 
-        <a href="#" mdbBtn class="young-passion-gradient .z-depth-5" mdbWavesEffect routerLink="/login">Login</a>
+        <a href="#" mdbBtn class="young-passion-gradient .z-depth-5" mdbWavesEffect (click)="showLoginModal()">Login</a>
       </mdb-card-body>
     </mdb-card>
   </div>

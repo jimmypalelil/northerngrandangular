@@ -117,7 +117,7 @@ import {InspectionService} from './services/inspection.service';
       { path: '', component: HomeComponent},
       { path: 'lost', component: LostComponent, canActivate: [LoginRedirectService]},
       { path: 'login', component: LoginComponent},
-      { path: 'inspection', component: InspectionComponent, canActivate: [EnsureAuthenticatedService]},
+      { path: 'inspection', component: InspectionComponent, canActivate: [LoginRedirectService]},
       { path: '**', redirectTo: ''}
     ], {useHash: true})
   ],

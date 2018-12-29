@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Room} from '../models/room';
 import {Router} from '@angular/router';
 import {ListService} from '../services/list.service';
@@ -10,7 +10,7 @@ import {MatButtonToggleGroup} from '@angular/material/button-toggle';
   templateUrl: './hk.component.html',
   styleUrls: ['./hk.component.scss']
 })
-export class HkComponent implements OnInit, AfterViewInit {
+export class HkComponent implements OnInit, OnDestroy, AfterViewInit {
   months = [['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
     ['jan to jun', 'jul to dec'],
     ['jan to mar', 'apr to jun', 'july to sep', 'oct to dec']];
@@ -57,6 +57,12 @@ export class HkComponent implements OnInit, AfterViewInit {
       this.getMonthList(this.currentType, this.currentMonth, this.currentYear);
     }, 1000);
   }
+
+
+  ngOnDestroy(): void {
+    this.dataSource.disconnect();
+  }
+
 
   goToLogin(): Promise<any> {
       return this.router.navigateByUrl('/login');
