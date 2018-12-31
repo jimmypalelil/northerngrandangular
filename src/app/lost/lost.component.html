@@ -60,9 +60,17 @@
                 <i class="fas fa-trash-alt"></i>
               </button>
               <button mdbBtn gradient="tempting-azure" class="edit-button z-depth-3"
-                      *ngIf="!isHK()" (click)="sendItemInfo(element); emailFrame.show()">
+                      *ngIf="!isHK() else showUpdateButton" (click)="sendItemInfo(element); emailFrame.show()">
                 <i class="far fa-envelope"></i>
               </button>
+
+              <ng-template #showUpdateButton>
+                <button mdbWavesEffect mdbBtn
+                        class="edit-button z-depth-3"
+                        gradient="rainy-ashville"
+                        (click)="sendItemInfo(element);showUpdateBar = true"><i class="far fa-edit"></i></button>
+              </ng-template>
+
               <button mdbBtn gradient="sunny-morning" class="edit-button z-depth-3"
                       (click)="sendItemInfo(element); returnFrame.show()">
                 <i class="fas fa-gift"></i>
@@ -82,6 +90,12 @@
     </mat-tab>
   </mat-tab-group>
 </div>
+
+<app-updatelost *ngIf="showUpdateBar"
+                [item]="currentLostItem"
+                (updated)="updateItem()"
+                (cancelled)="showUpdateBar = false"
+                class="sidebar animated fadeInRight"></app-updatelost>
 
 <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

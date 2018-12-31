@@ -48,5 +48,9 @@ export class ListService {
   undoReturn(returnItem: ReturnedItem) {
     return this.http.post(this.lostUrl + 'undoReturn', returnItem).toPromise();
   }
+
+  updateLostItem(item): Promise<any> {
+    return this.http.post(this.lostUrl + 'updateItem', item).toPromise();
+  }
 }
 

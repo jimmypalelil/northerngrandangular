@@ -17,6 +17,7 @@ export class LostComponent implements OnInit, AfterViewInit {
   currentReturnItem: ReturnedItem;
   panelOpened: boolean;
   actionHeader: string;
+  showUpdateBar = false;
 
   constructor(private list: ListService, private snackBar: MatSnackBar) {}
 
@@ -30,7 +31,13 @@ export class LostComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.actionHeader = 'DELETE | EMAIL JEN | RETURN TO GUEST';
+    let temp;
+    if (this.isHK()) {
+      temp = 'EDIT';
+    } else {
+      temp = 'EMAIL JEN';
+    }
+    this.actionHeader = 'DELETE | ' + temp + ' | RETURN TO GUEST';
   }
 
   isHK(): boolean {
@@ -40,6 +47,7 @@ export class LostComponent implements OnInit, AfterViewInit {
   getItemList() {
     this.displayedColumns = [];
     this.list.getLostList().subscribe(data => {
+      this.currentLostItem = data[0];
       for (const key in data[0]) {
         if (key !== '_id' && key !== 'cat') {
           this.displayedColumns.push(key);
@@ -164,6 +172,13 @@ export class LostComponent implements OnInit, AfterViewInit {
   undoReturn() {
     this.list.undoReturn(this.currentReturnItem).then(msg => {
       this.tabGroup.selectedIndex = 0;
+      this.snackBar.open(msg['text'], '', {duration: 2000});
+    });
+  }
+
+  updateItem() {
+    this.showUpdateBar = false;
+    this.list.updateLostItem(this.currentLostItem).then(msg => {
       this.snackBar.open(msg['text'], '', {duration: 2000});
     });
   }

@@ -1,16 +1,17 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Room} from '../models/room';
 import {Router} from '@angular/router';
 import {ListService} from '../services/list.service';
 import {MatSnackBar, MatSort, MatTabChangeEvent, MatTabGroup, MatTableDataSource} from '@angular/material';
 import {MatButtonToggleGroup} from '@angular/material/button-toggle';
+import {stringify} from 'querystring';
 
 @Component({
   selector: 'app-hk',
   templateUrl: './hk.component.html',
   styleUrls: ['./hk.component.scss']
 })
-export class HkComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HkComponent implements OnInit, AfterViewInit {
   months = [['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
     ['jan to jun', 'jul to dec'],
     ['jan to mar', 'apr to jun', 'july to sep', 'oct to dec']];
@@ -28,19 +29,16 @@ export class HkComponent implements OnInit, OnDestroy, AfterViewInit {
   counts = [0, 0, 0];
 
   dataSource: MatTableDataSource<Room>;
-  currentFloor = '2';
+  currentFloor: number;
   currentMonth: string;
   currentYear: number;
-  currentType: Object;
-  tableSorter: MatSort;
+  currentType: any;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort;
   @ViewChild('floorBtnGrp') floorBtnGrp: MatButtonToggleGroup;
 
-  constructor(private router: Router, private listService: ListService, public snackBar: MatSnackBar) {
-    this.tableSorter = new MatSort();
-  }
+  constructor(private router: Router, private listService: ListService, public snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.currentType = JSON.parse(JSON.stringify(this.types))[0];
@@ -58,12 +56,6 @@ export class HkComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 1000);
   }
 
-
-  ngOnDestroy(): void {
-    this.dataSource.disconnect();
-  }
-
-
   goToLogin(): Promise<any> {
       return this.router.navigateByUrl('/login');
     }
@@ -71,21 +63,12 @@ export class HkComponent implements OnInit, OnDestroy, AfterViewInit {
   getMonthList(type, month, year) {
     this.listService.getRoomList(type.data, month, year).subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
-      let undoneCount = 0, doneCount = 0;
-      this.dataSource.data.forEach(function (room) {
-        if (room.status === 'clean') {
-          doneCount++;
-        } else {
-          undoneCount++;
-        }
-      });
-      this.counts = [doneCount + undoneCount, undoneCount, doneCount];
       this.dataSource.filterPredicate = (room: Room, filter: String) =>
         (room.room_number >= Number(filter) &&
         room.room_number < (Number(filter) + 100)) ||
-        room.status === filter;
-      this.currentType = type;
+        (room.status === filter && room.room_number >= Number(this.currentFloor) && room.room_number < Number(this.currentFloor) + 100);
       this.changeFloor(2);
+      this.currentType = type;
     });
   }
 
@@ -100,6 +83,17 @@ export class HkComponent implements OnInit, OnDestroy, AfterViewInit {
     floor *= 100;
     this.dataSource.filter = floor;
     this.currentFloor = floor;
+    let undoneCount = 0, doneCount = 0;
+    this.dataSource.data.forEach(function (room) {
+      if (room.room_number >= floor && room.room_number < (floor + 100)) {
+        if (room.status === 'clean') {
+          doneCount++;
+        } else {
+          undoneCount++;
+        }
+      }
+    });
+    this.counts = [doneCount + undoneCount, undoneCount, doneCount];
   }
 
   setType(type) {
@@ -129,6 +123,7 @@ export class HkComponent implements OnInit, OnDestroy, AfterViewInit {
     this.sort.active = event.active;
     this.sort.direction = event.direction;
     this.dataSource.sort = this.sort;
+    console.log(event);
   }
 
   applyFilter(filterValue: string) {
@@ -141,7 +136,7 @@ export class HkComponent implements OnInit, OnDestroy, AfterViewInit {
     } else if (index === 2) {
       this.dataSource.filter = 'clean';
     } else {
-      this.dataSource.filter = '';
+      this.dataSource.filter = stringify(this.currentFloor);
     }
   }
 }

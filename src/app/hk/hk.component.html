@@ -42,14 +42,14 @@
           </mat-button-toggle-group>
         </div>
         <hr class="my-4">
-        <span><input matInput (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By Room No."></span>
+        <span><input (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By Room No."></span>
         <hr class="my-3">
 
         <div class="table-container">
-          <mat-table [dataSource]="dataSource" #tableSorter matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 animated fadeInUp">
+          <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 animated fadeInUp">
             <ng-container *ngFor="let value of displayedColumns" matColumnDef="{{value}}">
               <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
-              <mat-cell *matCellDef="let element" class="animated fadeInUp">
+              <mat-cell *matCellDef="let element">
                 <p *ngIf="value === 'status'" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}" class="font-weight-bold">
                   <i *ngIf="element.status === 'clean' else notDone" class="fas fa-check-circle"></i>
                   <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>

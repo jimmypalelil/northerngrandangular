@@ -1,0 +1,31 @@
+<div class="container update-lost-item">
+  <h3>Update Item</h3>
+  <hr class="my-4">
+  <div class="update-lost-item-content">
+    <form>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Room #" name="room_number" [(ngModel)]="item.room_number">
+        </mat-form-field>
+      </div>
+
+
+      <div>
+        <mat-form-field>
+          <textarea matInput placeholder="Item Description" name="item_description" [(ngModel)]="item.item_description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Date Found" name="date_found" [(ngModel)]="item.date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <button mdbBtn mdbWavesEffect color="primary" (click)="updated.emit(true)">Update <i class="fas fa-pen-square"></i></button>
+      <button mdbBtn mdbWavesEffect color="danger" (click)="cancelled.emit(true)">Cancel</button>
+    </form>
+  </div>
+</div>
