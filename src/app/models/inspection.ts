@@ -5,4 +5,5 @@ export class Inspection {
   year: number;
   score: number;
   room_number: number;
+  num_employees: number;
 }

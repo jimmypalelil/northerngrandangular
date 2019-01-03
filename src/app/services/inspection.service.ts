@@ -20,8 +20,8 @@ export class InspectionService {
     return this.http.post(this.url + 'newInspection', [inspection, empIDs]).toPromise();
   }
 
-  sendInspection(id: string, insScores: any, insComments: any): Promise<any> {
-    return this.http.post(this.url + 'inspectionResult', [id, insScores, insComments]).toPromise();
+  sendInspection(ins: any, insScores: any, insComments: any, emps): Promise<any> {
+    return this.http.post(this.url + 'inspectionResult', [ins, insScores, insComments, emps]).toPromise();
 
   }
 
@@ -33,12 +33,12 @@ export class InspectionService {
     return this.http.get(this.url + 'resetInspections');
   }
 
-  getInspections(empID: any): Observable<any> {
-    return this.http.get(this.url + 'getEmployeeInspections/' + empID);
+  getInspections(emp_id: any, month: any, year: number): Promise<any> {
+    return this.http.post(this.url + 'getEmployeeInspections', {emp_id, month, year}).toPromise();
   }
 
-  getInspection(ins_id: any): Observable<any> {
-    return this.http.get(this.url + 'getEmployeeInspection/' +  ins_id);
+  getInspection(ins_id: string, emp_id: string): Observable<any> {
+    return this.http.get(this.url + 'getEmployeeInspection/' +  ins_id + '/' + emp_id);
   }
 
   deleteInspection(inspection, emp_id): Promise<any> {

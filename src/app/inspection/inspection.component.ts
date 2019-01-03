@@ -26,8 +26,8 @@ export class InspectionComponent implements OnInit {
   inspectionItems: any;
   showInspections = false;
   showInspection = false;
-  MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'delete'];
-  inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'action'];
+  MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'view/delete'];
+  inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'view/delete'];
   tableSorter: MatSort;
 
   @Input()
@@ -85,7 +85,7 @@ export class InspectionComponent implements OnInit {
 
   submitInspection() {
     this.toggleSpinner();
-    this.insService.sendInspection(this.currentInspection._id, this.insScores, this.insComments).then(msg => {
+    this.insService.sendInspection(this.currentInspection, this.insScores, this.insComments, this.selectedEmployees).then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });
@@ -113,19 +113,21 @@ export class InspectionComponent implements OnInit {
     });
   }
 
-  viewInspections() {
-    this.showInspections = true;
-    this.showInspection = false;
-    this.insService.getInspections(this.currentEmployee['_id']).subscribe(data => {
-      this.employeeInspections = new MatTableDataSource<any>(data[0]['inspections']);
+  viewInspections(monthInspection) {
+    this.currentEmployeeScore = monthInspection;
+    this.insService.getInspections(this.currentEmployee['_id'], monthInspection['month'], monthInspection['year']).then(data => {
+      this.showInspections = true;
+      this.showInspection = false;
+      this.employeeInspections = new MatTableDataSource<any>(data);
       this.employeeInspections.sort = this.sort;
     });
   }
 
   viewInspection(inspection) {
-    this.showInspection = true;
-    this.showInspections = false;
-    this.insService.getInspection(inspection['_id']).subscribe(data => {
+    this.currentInspection = inspection;
+    this.insService.getInspection(inspection['_id'], this.currentEmployee['_id']).subscribe(data => {
+      this.showInspection = true;
+      this.showInspections = false;
       this.inspectionItems = data;
     });
   }
@@ -141,7 +143,7 @@ export class InspectionComponent implements OnInit {
         duration: 2000,
       });
       this.getEmployees();
-      this.viewInspections();
+      this.viewInspections(this.currentEmployeeScore);
       this.toggleSpinner();
     });
   }
