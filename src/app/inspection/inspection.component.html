@@ -12,17 +12,11 @@
            class="employee-name"
            (click)="getEmployeeIns(employee)"
             [ngClass]="{'active': currentEmployee === employee}">
-          <div class="row justify-content-end">
-            <div class="col-sm-8">
               {{employee.name}}
-            </div>
-            <div class="col-sm-4">
               <!--Badge for Employees-->
               <span class="badge badge-danger ml-2">
-            {{employee.avg_score * 100| number:'1.1-2'}}%
+            {{employee.total_score / employee.num_inspections * 100| number:'1.1-2'}}%
           </span>
-            </div>
-          </div>
         </a>
       </mat-list>
     </div>
@@ -107,7 +101,7 @@
     <!--Employee Details-->
     <div class="employee-details" *ngIf="currentEmployee !== undefined && employeeScores !== undefined">
       <h3>{{currentEmployee.name}}</h3>
-      Total Inspections: {{currentEmployee.num_inspections}} | Score: {{currentEmployee.avg_score * 100| number:'1.1-2'}}%
+      Total Inspections: {{currentEmployee.num_inspections}} | Score: {{currentEmployee.total_score / currentEmployee.num_inspections * 100| number:'1.1-2'}}%
       <button mdbWavesEffect mdbBtn color="secondary" (click)="viewInspections()"><i class="fas fa-list-alt"></i> List All Inspections</button>
       <hr class="my-4">
       {{employeeScores.data.length === 0 ? 'No Inspections recorded for ' + currentEmployee.name + ' yet' : ''}}
@@ -119,7 +113,7 @@
               {{value === 'score' ? (value + '(%)' | uppercase) : value | uppercase}}</mat-header-cell>
             <mat-cell *matCellDef="let element" class="animated fadeInUp">
               {{value === 'month' ? (element[value] | uppercase) : ''}}
-              {{value === 'score' ? (element[value] * 100 | number:'2.1-2') + '%' : ''}}
+              {{value === 'score' ? (element['score'] / element['num_inspections'] * 100 | number:'2.1-2') + '%' : ''}}
               {{value === 'year' || value === 'num_inspections' ? element[value] : ''}}
 
               <button mdbWavesEffect mdbBtn color="danger" *ngIf="value === 'delete'"

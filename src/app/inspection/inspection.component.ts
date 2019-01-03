@@ -10,7 +10,7 @@ import {Room} from '../models/room';
   styleUrls: ['./inspection.component.scss']
 })
 export class InspectionComponent implements OnInit {
-  employees: string[];
+  employees: any[];
   currentEmployee: JSON;
   selectedEmployees: any;
   currentInspection: Inspection;
@@ -125,7 +125,7 @@ export class InspectionComponent implements OnInit {
   viewInspection(inspection) {
     this.showInspection = true;
     this.showInspections = false;
-    this.insService.getInspection(inspection).subscribe(data => {
+    this.insService.getInspection(inspection['_id']).subscribe(data => {
       this.inspectionItems = data;
     });
   }
@@ -136,9 +136,8 @@ export class InspectionComponent implements OnInit {
 
   deleteInspection() {
     this.toggleSpinner();
-    this.insService.deleteInspection(this.currentInspection._id, this.currentInspection.month, this.currentInspection.year)
-      .subscribe(msg => {
-      this.snackBar.open(msg['text'].toUpperCase(), '', {
+    this.insService.deleteInspection(this.currentInspection, this.currentEmployee['_id']).then(msg => {
+      this.snackBar.open(msg['text'], '', {
         duration: 2000,
       });
       this.getEmployees();
