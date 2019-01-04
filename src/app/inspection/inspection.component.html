@@ -1,6 +1,6 @@
-<div class="row justify-content-md-center" style="margin-top: 3%;">
+<div class="row justify-content-center" style="margin-top: 3%;">
 
-  <div class="col-md-2 d-print-none" style="margin-top: 2%">
+  <div class="col-2 d-print-none" style="margin-top: 2%;padding-left:2%;">
     <div *ngIf="isAdmin()" class="animated fadeInLeft">
       <mat-list>
         <h3 mat-subheader>Admin Controls</h3>
@@ -26,51 +26,46 @@
     </div>
   </div>
 
-  <div class="col-7 scrollit">
+  <div class="col-7">
     <hr class="my-4 d-print-none">
-    <!--Inspection Form-->
-    <mat-accordion class="d-print-none">
-      <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <p><i class="fas fa-plus-circle"></i> New Inspection</p>
-          </mat-panel-title>
-          <mat-panel-description>
-            Start a new Inspection
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <form>
-          <mat-form-field>
-            <input matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-select name="emp" placeholder="Room Attendant(s)" [(ngModel)]="selectedEmployees" multiple>
-              <mat-option *ngFor="let employee of employees"
-                          [value]="employee">{{employee.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <input matInput placeholder="Inspection Date" name="inspectionDate" [matDatepicker]="picker"
-                   (focus)="picker.open()" readonly [(ngModel)]="newInspectionDate" required>
-          </mat-form-field>
-          <mat-datepicker #picker></mat-datepicker>
-
-          <mat-action-row>
-            <!--"Add" button-->
-            <button mat-mini-fab color="primary" (click)="startNewInspection()">
-              <i class="fa fa-plus" aria-hidden="true"></i>
-            </button>
-          </mat-action-row>
-        </form>
-      </mat-expansion-panel>
-    </mat-accordion>
-    <!--New Inspection form-->
-
     <hr class="my-4 d-print-none">
 
     <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
+
+    <!--Employee Details-->
+    <div class="employee-details" *ngIf="currentEmployee !== undefined && employeeScores !== undefined">
+      <mdb-card class="text-center sticky-top" style="z-index: 1200 !important;">
+        <mdb-card-body>
+          <mdb-card-title>
+            <h2>{{currentEmployee.name}}</h2>
+          </mdb-card-title>
+          <mdb-card-text>
+            <span *ngIf="currentEmployee.num_inspetions != 0; else showZeroScore">
+              <h4>Total Inspections: {{currentEmployee.num_inspections}} | Overall Score: {{currentEmployee.total_score / currentEmployee.num_inspections * 100| number:'1.1-2'}}%</h4>
+            </span>
+            <ng-template #showZeroScore>
+              Total Inspections: 0 | Score: 0%
+            </ng-template>
+          </mdb-card-text>
+          <hr class="my-4">
+          <div>
+            <h5 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h5>
+            <div *ngIf="showInspection">
+              <h4>Inspection Details</h4>
+              <h5>
+                Room #: {{currentInspection['room_number']}} |
+                Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
+                Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
+              </h5>
+              <button mdbBtn mdbWavesEffect class="d-print-none"
+                      onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;window.print()" color="primary">
+                <i class="fas fa-print"></i> Print Inspection
+              </button>
+            </div>
+          </div>
+        </mdb-card-body>
+      </mdb-card>
+      <!--Employee Details End-->
 
     <!--Inspection Form List Begins-->
     <div class="ins-items  d-print-none">
@@ -100,37 +95,6 @@
     </div>
     <!--Inspection Form list Ends-->
 
-    <!--Employee Details-->
-    <div class="employee-details" *ngIf="currentEmployee !== undefined && employeeScores !== undefined">
-      <mdb-card class="text-center sticky-top" style="z-index: 1 !important;">
-        <mdb-card-body>
-          <mdb-card-title>
-            <h2>{{currentEmployee.name}}</h2>
-          </mdb-card-title>
-          <mdb-card-text>
-            <span *ngIf="currentEmployee.num_inspetions != 0; else showZeroScore">
-              <h4>Total Inspections: {{currentEmployee.num_inspections}} | Overall Score: {{currentEmployee.total_score / currentEmployee.num_inspections * 100| number:'1.1-2'}}%</h4>
-            </span>
-            <ng-template #showZeroScore>
-              Total Inspections: 0 | Score: 0%
-            </ng-template>
-          </mdb-card-text>
-          <hr class="my-4">
-          <div>
-            <h5 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h5>
-            <div *ngIf="showInspection">
-              <h4>Inspection Details</h4>
-              <h5>
-                Room #: {{currentInspection['room_number']}} |
-                Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
-                Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
-              </h5>
-              <button mdbBtn mdbWavesEffect class="d-print-none" onclick="window.print()" color="primary"><i class="fas fa-print"></i> Print Inspection</button>
-            </div>
-          </div>
-        </mdb-card-body>
-      </mdb-card>
-
       <!--<button mdbWavesEffect mdbBtn color="secondary" (click)="viewInspections()"><i class="fas fa-list-alt"></i> List All Inspections</button>-->
       <hr class="my-4">
       {{employeeScores.data.length === 0 ? 'No Inspections recorded for ' + currentEmployee.name + ' yet' : ''}}
@@ -141,7 +105,7 @@
 
           <ng-container *ngFor="let value of MonthInspectionsDisplayedColumns" matColumnDef="{{value}}">
 
-            <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header>
+            <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header>
               {{value === 'score' ? (value + '(%)' | uppercase) : value | uppercase}}</mat-header-cell>
 
             <mat-cell *matCellDef="let element" class="animated fadeInUp">
@@ -177,7 +141,7 @@
         <mat-table [dataSource]="employeeInspections" matSort #tableSorter class="mat-elevation-z8 animated fadeInUp">
           <ng-container *ngFor="let value of inspectionsDisplayedColumns"
                         matColumnDef="{{value}}">
-            <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header>
+            <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header>
               {{value === 'action' ? 'View/Delete Inspection' : value | uppercase}}</mat-header-cell>
             <mat-cell *matCellDef="let element" class="animated fadeInUp">
               {{value === 'month' ? (element['inspections'][value] | uppercase) : ''}}
@@ -220,10 +184,53 @@
     </div>
 
   </div>
+
+  <div class="col-3" style="margin-top: 5%;">
+    <!--New Inspection Form-->
+    <mat-accordion class="fixed d-print-none">
+      <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <p><i class="fas fa-plus-circle"></i> New Inspection</p>
+          </mat-panel-title>
+          <mat-panel-description>
+            Start a new Inspection
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-form-field>
+            <input matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-select name="emp" placeholder="Room Attendant(s)" [(ngModel)]="selectedEmployees" multiple>
+              <mat-option *ngFor="let employee of employees"
+                          [value]="employee">{{employee.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Inspection Date" name="inspectionDate" [matDatepicker]="picker"
+                   (focus)="picker.open()" readonly [(ngModel)]="newInspectionDate" required>
+          </mat-form-field>
+          <mat-datepicker #picker></mat-datepicker>
+
+          <mat-action-row>
+            <!--"Add" button-->
+            <button mat-mini-fab color="primary" (click)="startNewInspection()">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </mat-action-row>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <!--New Inspection form-->
+  </div>
+
 </div>
 
 <!--Delete Monthly Inspections Modal-->
-<div mdbModal #deleteMonthlyInspectionFrame="mdbModal" class="modal fade left" id="deleteMonthlyInspections" tabindex="-1" role="dialog">
+<div mdbModal #deleteMonthlyInspectionFrame="mdbModal" style="z-index: 12000 !important;" class="modal fade left" id="deleteMonthlyInspections" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -248,7 +255,7 @@
 </div>
 
 <!--Delete Single Inspection Modal-->
-<div mdbModal #deleteInspectionFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
+<div mdbModal #deleteInspectionFrame="mdbModal" style="z-index: 12000 !important;" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
