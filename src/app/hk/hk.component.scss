@@ -31,3 +31,10 @@ a[mdbBtn] {
   -moz-border-radius: 25px;
   border-radius: 25px;
 }
+
+mat-progress-spinner {
+  position:fixed;
+  left:50%;
+  top:50%;
+  z-index: 12000;
+}

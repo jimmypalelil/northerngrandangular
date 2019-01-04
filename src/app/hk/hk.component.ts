@@ -16,12 +16,14 @@ export class HkComponent implements OnInit, AfterViewInit {
     ['jan to jun', 'jul to dec'],
     ['jan to mar', 'apr to jun', 'july to sep', 'oct to dec']];
 
-  floors = [{label: '2nd Floor', data: 2}, {label: '3rd Floor', data: 3}, {label: '4th Floor', data: 4}, {label: '5th Floor', data: 5},
-    {label: '6th Floor', data: 6}];
+  floors = [{label: '2nd Floor', data: 200}, {label: '3rd Floor', data: 300}, {label: '4th Floor', data: 400}, {label: '5th Floor', data: 500},
+    {label: '6th Floor', data: 600}];
 
   types = [{label: 'Bedding', data: 'beddings', index: 0}, {label: 'Carpet Shampoo', data: 'carpets', index: 1},
               {label: 'Bed Flips', data: 'mattress', index: 2}, {label: 'Pillows', data: 'pillows', index: 2},
                         {label: 'Pillow Protectors', data: 'pillowss', index: 1}];
+
+  years = [2018, 2019];
 
   displayedColumns = ['room_number', 'type', 'status', 'edit'];
 
@@ -29,10 +31,11 @@ export class HkComponent implements OnInit, AfterViewInit {
   counts = [0, 0, 0];
 
   dataSource: MatTableDataSource<Room>;
-  currentFloor: number;
+  currentFloor = 200;
   currentMonth: string;
   currentYear: number;
   currentType: any;
+  showSpinner = false;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort;
@@ -61,14 +64,16 @@ export class HkComponent implements OnInit, AfterViewInit {
     }
 
   getMonthList(type, month, year) {
+    this.toggleSpinner();
     this.listService.getRoomList(type.data, month, year).subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.filterPredicate = (room: Room, filter: String) =>
         (room.room_number >= Number(filter) &&
         room.room_number < (Number(filter) + 100)) ||
         (room.status === filter && room.room_number >= Number(this.currentFloor) && room.room_number < Number(this.currentFloor) + 100);
-      this.changeFloor(2);
+      this.changeFloor(this.currentFloor);
       this.currentType = type;
+      this.toggleSpinner();
     });
   }
 
@@ -80,7 +85,6 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   changeFloor(floor) {
-    floor *= 100;
     this.dataSource.filter = floor;
     this.currentFloor = floor;
     let undoneCount = 0, doneCount = 0;
@@ -98,7 +102,7 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   setType(type) {
     this.currentType = type;
-    this.getMonthList(type, this.months[type.index][0], 2018);
+    this.getMonthList(type, this.months[type.index][0], this.currentYear);
     this.tabGroup.selectedIndex = 0;
   }
 
@@ -123,7 +127,6 @@ export class HkComponent implements OnInit, AfterViewInit {
     this.sort.active = event.active;
     this.sort.direction = event.direction;
     this.dataSource.sort = this.sort;
-    console.log(event);
   }
 
   applyFilter(filterValue: string) {
@@ -137,6 +140,20 @@ export class HkComponent implements OnInit, AfterViewInit {
       this.dataSource.filter = 'clean';
     } else {
       this.dataSource.filter = stringify(this.currentFloor);
+    }
+  }
+
+  setCurrentYear(year: number) {
+    this.currentYear = year;
+    this.getMonthList(this.currentType, this.currentMonth, this.currentYear);
+  }
+
+  toggleSpinner() {
+    this.showSpinner = !this.showSpinner;
+    if (this.showSpinner) {
+      document.getElementById('body').classList.add('inspection-overlay');
+    } else {
+      document.getElementById('body').classList.remove('inspection-overlay');
     }
   }
 }
