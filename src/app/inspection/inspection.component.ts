@@ -106,11 +106,13 @@ export class InspectionComponent implements OnInit {
   }
 
   resetInspections() {
+    this.toggleSpinner();
     this.insService.resetInspections().subscribe(msg => {
       location.reload();
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });
+      this.toggleSpinner();
     });
   }
 
@@ -174,10 +176,12 @@ export class InspectionComponent implements OnInit {
   }
 
   createInsItems() {
+    this.toggleSpinner();
     this.insService.createInsItems().subscribe(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });
+      this.toggleSpinner();
     });
   }
 }
