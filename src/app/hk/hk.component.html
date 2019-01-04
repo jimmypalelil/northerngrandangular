@@ -1,7 +1,15 @@
-<div class="row justify-content-md-center" style="margin-top: 5%;">
+<div class="row justify-content-md-center" style="margin-top: 3%;">
 
-  <div class="col-md-2" style="margin-top: 3%">
+  <div class="col-2" style="margin-top: 2%">
     <div class="fixed animated fadeInLeft">
+      <mat-list>
+        <h3 mat-subheader>Select Floor</h3>
+          <a mdbWavesEffect mat-list-item *ngFor="let floor of floors; let i = index"
+             class="floor"
+             [ngClass]="{'active': currentFloor === floor.data}"
+             (click)="changeFloor(floor.data)">{{floor.label | uppercase}}</a>
+      </mat-list>
+      <hr class="my-4">
       <mat-list>
         <h3 mat-subheader>Select Status</h3>
         <a mdbWavesEffect mat-list-item mdbBtn *ngFor="let status of statuses; let i = index" (click)="setStatus(i)">
@@ -11,45 +19,24 @@
     </div>
   </div>
 
-  <div class="col-7 scrollit">
+  <div class="col-7">
     <hr class="my-4">
 
-    <mat-menu #typeMenu="matMenu">
-      <button mat-menu-item *ngFor="let type of types" (click)="setType(type)">{{type.label}}</button>
-    </mat-menu>
-    <span>
-      <div class="btn-group" mdbDropdown>
-      <button type="button" mdbBtn color="primary" class="waves-light" mdbWavesEffect >{{currentType['label'] | uppercase}}</button>
-      <button type="button" mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle dropdown-toggle-split px-3 waves-light"
-              mdbWavesEffect [matMenuTriggerFor]="typeMenu"></button>
-      </div>
-  </span>
-    FOR {{currentMonth | uppercase}}
-    <mat-menu #yearMenu="matMenu">
-      <button mat-menu-item *ngFor="let year of years" (click)="setCurrentYear(year)">{{year}}</button>
-    </mat-menu>
-    <span>
-      <div class="btn-group" mdbDropdown>
-      <button type="button" mdbBtn color="primary" class="waves-light" mdbWavesEffect >{{currentYear}}</button>
-      <button type="button" mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle dropdown-toggle-split px-3 waves-light"
-              mdbWavesEffect [matMenuTriggerFor]="yearMenu"></button>
-      </div>
-    </span>
+    <mdb-card class="text-center">
+      <mdb-card-body>
+        <mdb-card-title>
+          <h3>{{currentType['label'] | uppercase}}</h3>
+        </mdb-card-title>
+        <mdb-card-text>
+          {{currentMonth | uppercase}} {{currentYear}}
+        </mdb-card-text>
+      </mdb-card-body>
+    </mdb-card>
+
     <hr class="my-4">
     <mat-tab-group (selectedTabChange)="changeTab($event)">
       <mat-tab color="primary" *ngFor="let month of months[currentType['index']]" label="{{month | uppercase}}">
-        <hr class="my-4">
-        <div class="floor-btn-group">
-          <mat-button-toggle-group class="animated fadeInRightBig justify-content-center" #floorBtnGrp="matButtonToggleGroup" value="2">
-            <mat-button-toggle mdbBtn mdbWavesEffect color="indigo"
-                               *ngFor="let floor of floors; let i = index"
-                               (click)="changeFloor(floor.data)"
-                               value="{{floor.data}}"
-                               class="floor-btn justify-content-center">
-              {{floor.label | uppercase}}
-            </mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
+        
         <hr class="my-4">
         <span><input (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By Room No."></span>
         <hr class="my-3">
@@ -84,5 +71,35 @@
       </mat-tab>
     </mat-tab-group>
     <mat-progress-spinner  mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
+  </div>
+
+  <div class="col-1" style="margin-top: 3%;position: relative; right: 0;">
+    <div class="fixed animated fadeInRight">
+      <mat-list>
+        <h3 mat-subheader>Select Type and Year</h3>
+        <mat-menu #typeMenu="matMenu">
+          <button mat-menu-item *ngFor="let type of types" (click)="setType(type)">{{type.label}}</button>
+        </mat-menu>
+        <span>
+          <div class="btn-group" mdbDropdown>
+          <button type="button" mdbBtn color="primary" class="waves-light" mdbWavesEffect >{{currentType['label'] | uppercase}}</button>
+          <button type="button" mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle dropdown-toggle-split px-3 waves-light"
+                  mdbWavesEffect [matMenuTriggerFor]="typeMenu"></button>
+          </div>
+        </span>
+        <br>
+        <br>
+        <mat-menu #yearMenu="matMenu">
+          <button mat-menu-item *ngFor="let year of years" (click)="setCurrentYear(year)">{{year}}</button>
+        </mat-menu>
+        <span>
+          <div class="btn-group" mdbDropdown>
+          <button type="button" mdbBtn color="primary" class="waves-light" mdbWavesEffect >{{currentYear}}</button>
+          <button type="button" mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle dropdown-toggle-split px-3 waves-light"
+                  mdbWavesEffect [matMenuTriggerFor]="yearMenu"></button>
+          </div>
+        </span>
+      </mat-list>
+    </div>
   </div>
 </div>

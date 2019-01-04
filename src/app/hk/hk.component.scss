@@ -38,3 +38,11 @@ mat-progress-spinner {
   top:50%;
   z-index: 12000;
 }
+
+.active {
+  border-left: 2px solid;
+}
+
+.floor:hover {
+  border-left: 2px solid rgba(7, 51, 255, 0.32);
+}
