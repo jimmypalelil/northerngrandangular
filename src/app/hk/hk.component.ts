@@ -102,7 +102,8 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   setType(type) {
     this.currentType = type;
-    this.getMonthList(type, this.months[type.index][0], this.currentYear);
+    this.currentMonth = this.months[type.index][0];
+    this.getMonthList(type, this.currentMonth, this.currentYear);
     this.tabGroup.selectedIndex = 0;
   }
 
