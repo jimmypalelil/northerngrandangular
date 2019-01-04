@@ -22,13 +22,16 @@
   <div class="col-7">
     <hr class="my-4">
 
-    <mdb-card class="text-center">
+    <mdb-card class="text-center sticky-top" style="z-index: 1200 !important;">
       <mdb-card-body>
         <mdb-card-title>
           <h3>{{currentType['label'] | uppercase}}</h3>
         </mdb-card-title>
         <mdb-card-text>
-          {{currentMonth | uppercase}} {{currentYear}}
+          <h5>{{currentMonth | uppercase}} {{currentYear}}</h5>
+        </mdb-card-text>
+        <mdb-card-text>
+          {{floors[currentFloor / 100 - 2].label | uppercase}}
         </mdb-card-text>
       </mdb-card-body>
     </mdb-card>

@@ -1,11 +1,14 @@
 <div class="row justify-content-md-center" style="margin-top: 3%;">
 
   <div class="col-md-2 d-print-none" style="margin-top: 2%">
-    <div *ngIf="isAdmin()">
-      <button mdbBtn mdbWavesEffect color="danger" (click)="resetInspections()">Reset Inspections</button>
-      <button mdbBtn mdbWavesEffect color="secondary" (click)="createInsItems()">Create Inspection Items</button>
+    <div *ngIf="isAdmin()" class="animated fadeInLeft">
+      <mat-list>
+        <h3 mat-subheader>Admin Controls</h3>
+        <button mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
+        <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
+      </mat-list>
+      <hr class="my-4">
     </div>
-
     <div class="fixed animated fadeInLeft">
       <mat-list>
         <h3 mat-subheader>Employees</h3>
@@ -99,7 +102,7 @@
 
     <!--Employee Details-->
     <div class="employee-details" *ngIf="currentEmployee !== undefined && employeeScores !== undefined">
-      <mdb-card class="text-center">
+      <mdb-card class="text-center sticky-top" style="z-index: 1 !important;">
         <mdb-card-body>
           <mdb-card-title>
             <h2>{{currentEmployee.name}}</h2>
