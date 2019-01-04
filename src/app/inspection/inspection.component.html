@@ -34,7 +34,7 @@
 
     <!--Employee Details-->
     <div class="employee-details" *ngIf="currentEmployee !== undefined && employeeScores !== undefined">
-      <mdb-card class="text-center sticky-top" style="z-index: 1200 !important;">
+      <mdb-card class="text-center">
         <mdb-card-body>
           <mdb-card-title>
             <h2>{{currentEmployee.name}}</h2>
@@ -50,7 +50,7 @@
           <hr class="my-4">
           <div>
             <h5 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h5>
-            <div *ngIf="showInspection">
+            <div *ngIf="showInspection" class="sticky-top" style="z-index: 1200 !important;">
               <h4>Inspection Details</h4>
               <h5>
                 Room #: {{currentInspection['room_number']}} |

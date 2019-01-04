@@ -140,7 +140,7 @@ export class HkComponent implements OnInit, AfterViewInit {
     } else if (index === 2) {
       this.dataSource.filter = 'clean';
     } else {
-      this.dataSource.filter = stringify(this.currentFloor);
+      this.dataSource.filter = '' + this.currentFloor;
     }
   }
 
