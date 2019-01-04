@@ -24,7 +24,11 @@
 
 .fixed {
   position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  margin-bottom: 3%;
 }
+
 
 a[mdbBtn] {
   -webkit-border-radius: 25px;
