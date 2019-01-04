@@ -114,12 +114,15 @@
           <hr class="my-4">
           <div>
             <h5 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h5>
-            <h4 *ngIf="showInspection">Inspection Details</h4>
-            <h5 *ngIf="showInspection">
-              Room #: {{currentInspection['room_number']}} |
-              Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
-              Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
-            </h5>
+            <div *ngIf="showInspection">
+              <h4>Inspection Details</h4>
+              <h5>
+                Room #: {{currentInspection['room_number']}} |
+                Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
+                Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
+              </h5>
+              <button mdbBtn mdbWavesEffect class="d-print-none" onclick="window.print()" color="primary"><i class="fas fa-print"></i> Print Inspection</button>
+            </div>
           </div>
         </mdb-card-body>
       </mdb-card>
