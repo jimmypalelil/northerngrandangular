@@ -28,6 +28,7 @@ export class InspectionComponent implements OnInit {
   showInspection = false;
   MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'view/delete'];
   inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'view/delete'];
+  scoreCategory = ['Bad', 'Needs Improvement', 'Excellent'];
   tableSorter: MatSort;
 
   @Input()

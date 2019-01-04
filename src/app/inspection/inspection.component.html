@@ -1,6 +1,6 @@
 <div class="row justify-content-md-center" style="margin-top: 3%;">
 
-  <div class="col-md-2" style="margin-top: 3%">
+  <div class="col-md-2 d-print-none" style="margin-top: 2%">
     <div *ngIf="isAdmin()">
       <button mdbBtn mdbWavesEffect color="danger" (click)="resetInspections()">Reset Inspections</button>
     </div>
@@ -23,9 +23,9 @@
   </div>
 
   <div class="col-7 scrollit">
-    <hr class="my-4">
+    <hr class="my-4 d-print-none">
     <!--Inspection Form-->
-    <mat-accordion>
+    <mat-accordion class="d-print-none">
       <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -64,12 +64,12 @@
     </mat-accordion>
     <!--New Inspection form-->
 
-    <hr class="my-4">
+    <hr class="my-4 d-print-none">
 
     <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
 
-    <!--Inspection List Begins-->
-    <div class="ins-items">
+    <!--Inspection Form List Begins-->
+    <div class="ins-items  d-print-none">
       <div *ngFor="let object of insItems">
         <p class="h3">{{object._id.cat | uppercase}}</p>
         <div *ngFor="let item of object.items">
@@ -94,9 +94,7 @@
                 color="secondary">Submit Inspection</button>
       </div>
     </div>
-    <!--Inspection list Ends-->
-
-    <hr class="my-4">
+    <!--Inspection Form list Ends-->
 
     <!--Employee Details-->
     <div class="employee-details" *ngIf="currentEmployee !== undefined && employeeScores !== undefined">
@@ -107,7 +105,7 @@
           </mdb-card-title>
           <mdb-card-text>
             <span *ngIf="currentEmployee.num_inspetions != 0; else showZeroScore">
-              <h4>Total Inspections: {{currentEmployee.num_inspections}} | Score: {{currentEmployee.total_score / currentEmployee.num_inspections * 100| number:'1.1-2'}}%</h4>
+              <h4>Total Inspections: {{currentEmployee.num_inspections}} | Overall Score: {{currentEmployee.total_score / currentEmployee.num_inspections * 100| number:'1.1-2'}}%</h4>
             </span>
             <ng-template #showZeroScore>
               Total Inspections: 0 | Score: 0%
@@ -116,7 +114,12 @@
           <hr class="my-4">
           <div>
             <h5 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h5>
-            <h5 *ngIf="showInspection">Inspection Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}}</h5>
+            <h4 *ngIf="showInspection">Inspection Details</h4>
+            <h5 *ngIf="showInspection">
+              Room #: {{currentInspection['room_number']}} |
+              Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
+              Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
+            </h5>
           </div>
         </mdb-card-body>
       </mdb-card>
@@ -199,9 +202,9 @@
         <div *ngFor="let object of inspectionItems">
           <p class="h3">{{object._id | uppercase}}</p>
           <dl class="row" *ngFor="let item of object.items">
-            <dt class="col-sm-3">{{item.inspection.item | uppercase}}</dt>
-            <dd class="col-sm-3">{{item.item.score != -1 ? (item.item.score * 100 | number:'2.1-2') + '%' : 'Not Inspected'}}</dd>
-            <dd class="col-sm-6">{{item.item.comment}}</dd>
+            <dt class="col-sm-4">{{item.inspection.item | uppercase}}</dt>
+            <dd class="col-sm-4">{{item.item.score != -1 ? scoreCategory[item.item.score * 2] : 'Not Inspected'}}</dd>
+            <dd class="col-sm-4">{{item.item.comment}}</dd>
           </dl>
           <hr class="my-4">
         </div>
