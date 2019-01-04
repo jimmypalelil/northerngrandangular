@@ -36,7 +36,7 @@
     <hr class="my-4">
     <mat-tab-group (selectedTabChange)="changeTab($event)">
       <mat-tab color="primary" *ngFor="let month of months[currentType['index']]" label="{{month | uppercase}}">
-        
+
         <hr class="my-4">
         <span><input (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By Room No."></span>
         <hr class="my-3">
@@ -47,12 +47,12 @@
               <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
               <mat-cell *matCellDef="let element">
                 <p *ngIf="value === 'status'" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}" class="font-weight-bold">
-                  <i *ngIf="element.status === 'clean' else notDone" class="fas fa-check-circle"></i>
+                  <i *ngIf="element.status === 'clean'; else notDone" class="fas fa-check-circle"></i>
                   <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>
                 </p>
                 {{value === 'status' ? '' : element[value]}}
                 <div class="view overlay">
-                  <button mdbBtn class="edit-button z-depth-2" type="button"
+                  <button mdbBtn class="edit-button z-depth-1-half" type="button"
                           (click)="changeRoomStatus(element)"
                           *ngIf="value === 'edit'"
                           [ngClass]="{'blue-gradient': element.status=== 'not done', 'peach-gradient': element.status === 'clean'}"
@@ -94,8 +94,8 @@
         </mat-menu>
         <span>
           <div class="btn-group" mdbDropdown>
-          <button type="button" mdbBtn color="primary" class="waves-light" mdbWavesEffect >{{currentYear}}</button>
-          <button type="button" mdbDropdownToggle mdbBtn color="primary" class="dropdown-toggle dropdown-toggle-split px-3 waves-light"
+          <button type="button" mdbBtn color="secondary" class="waves-light" mdbWavesEffect >{{currentYear}}</button>
+          <button type="button" mdbDropdownToggle mdbBtn color="secondary" class="dropdown-toggle dropdown-toggle-split px-3 waves-light"
                   mdbWavesEffect [matMenuTriggerFor]="yearMenu"></button>
           </div>
         </span>
