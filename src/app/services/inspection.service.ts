@@ -48,4 +48,8 @@ export class InspectionService {
   deleteMonthlyInspections(currentEmployeeScore: any, empID: string): Promise<any> {
     return this.http.post(this.url + 'deleteMonthlyInspections/' + empID, currentEmployeeScore).toPromise();
   }
+
+  createInsItems(): Observable<any> {
+    return this.http.get(this.url + 'createInsItems');
+  }
 }

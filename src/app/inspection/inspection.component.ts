@@ -172,4 +172,12 @@ export class InspectionComponent implements OnInit {
       document.getElementById('body').classList.remove('inspection-overlay');
     }
   }
+
+  createInsItems() {
+    this.insService.createInsItems().subscribe(msg => {
+      this.snackBar.open(msg['text'].toUpperCase(), '', {
+        duration: 2000,
+      });
+    });
+  }
 }
