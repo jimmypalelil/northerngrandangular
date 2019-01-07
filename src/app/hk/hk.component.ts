@@ -101,10 +101,12 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   setType(type) {
-    this.currentType = type;
-    this.currentMonth = this.months[type.index][0];
-    this.getMonthList(type, this.currentMonth, this.currentYear);
-    this.tabGroup.selectedIndex = 0;
+    if (this.currentType !== type) {
+      this.currentType = type;
+      this.currentMonth = this.months[type.index][0];
+      this.getMonthList(type, this.currentMonth, this.currentYear);
+      this.tabGroup.selectedIndex = 0;
+    }
   }
 
   changeRoomStatus(room: Room) {
@@ -145,8 +147,10 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   setCurrentYear(year: number) {
-    this.currentYear = year;
-    this.getMonthList(this.currentType, this.currentMonth, this.currentYear);
+    if (year !== this.currentYear) {
+      this.currentYear = year;
+      this.getMonthList(this.currentType, this.currentMonth, this.currentYear);
+    }
   }
 
   toggleSpinner() {

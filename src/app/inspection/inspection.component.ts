@@ -80,7 +80,7 @@ export class InspectionComponent implements OnInit {
       this.toggleNewInspectionPanel();
       this.insScores = new Map();
       this.insComments = new Map();
-      this.showInspection = true;
+      this.showInspection = false;
       this.showInspections = false;
       this.toggleSpinner();
     });

@@ -47,22 +47,26 @@
               Total Inspections: 0 | Score: 0%
             </ng-template>
           </mdb-card-text>
-          <hr class="my-4">
-          <div>
+        </mdb-card-body>
+      </mdb-card>
+
+      <mdb-card *ngIf="showInspection || showInspections" class="text-center sticky-top" style="z-index:1200 !important;">
+        <mdb-card-body>
+          <mdb-card-title>
             <h5 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h5>
-            <div *ngIf="showInspection" class="sticky-top" style="z-index: 1200 !important;">
-              <h4>Inspection Details</h4>
-              <h5>
-                Room #: {{currentInspection['room_number']}} |
-                Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
-                Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
-              </h5>
-              <button mdbBtn mdbWavesEffect class="d-print-none"
-                      onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;window.print()" color="primary">
-                <i class="fas fa-print"></i> Print Inspection
-              </button>
-            </div>
-          </div>
+            <h5 *ngIf="showInspection">Inspection Details</h5>
+          </mdb-card-title>
+          <mdb-card-text *ngIf="showInspection">
+            <h5>
+              Room #: {{currentInspection['room_number']}} |
+              Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
+              Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
+            </h5>
+            <button mdbBtn mdbWavesEffect class="d-print-none"
+                    onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;window.print()" color="primary">
+              <i class="fas fa-print"></i> Print Inspection
+            </button>
+          </mdb-card-text>
         </mdb-card-body>
       </mdb-card>
       <!--Employee Details End-->
