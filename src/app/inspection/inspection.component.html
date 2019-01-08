@@ -1,31 +1,30 @@
-<div class="row" style="margin-top: 3%;">
+<div class="row" style="margin-top: 3%;">\
 
-  <div class="col-md-3 d-print-none two" style="margin-top: 2%;padding-left:2%;overflow-y: auto">
-    <div *ngIf="isAdmin()" class="animated fadeInLeft">
-      <mat-list>
-        <h3 mat-subheader>Admin Controls</h3>
-        <button mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
-        <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
-      </mat-list>
-      <hr class="my-4">
-    </div>
-    <div>
-      <mat-list class="fixed animated fadeInLeft">
-        <h3 mat-subheader>Employees</h3>
-        <a mdbWavesEffect mat-list-item *ngFor="let employee of employees"
-           class="employee-name"
-           (click)="getEmployeeIns(employee)"
-           [ngClass]="{'active': currentEmployee === employee}">
-          {{employee.name}}
-          <!--Badge for Employees-->
-          <span class="badge badge-danger ml-2">
-            {{employee.num_inspections != 0 ? (employee.total_score / employee.num_inspections * 100| number:'1.1-2'): '0.0'}}%
-          </span>
-        </a>
-      </mat-list>
-    </div>
+  <!--Left Panel-->
+  <div class="col-md-3 d-print-none two animated fadeInLeft" style="margin-top: 2%;padding-left:2%;">
+    <mat-list *ngIf="isAdmin()">
+      <h3 mat-subheader>Admin Controls</h3>
+      <button mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
+      <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
+    </mat-list>
+    <hr class="my-4">
+    <mat-list class="fixed">
+      <h3 mat-subheader>Employees</h3>
+      <a mdbWavesEffect mat-list-item *ngFor="let employee of employees"
+         class="employee-name"
+         (click)="getEmployeeIns(employee)"
+         [ngClass]="{'active': currentEmployee === employee}">
+        {{employee.name}}
+        <!--Badge for Employees-->
+        <span class="badge badge-danger ml-2">
+          {{employee.num_inspections != 0 ? (employee.total_score / employee.num_inspections * 100| number:'1.1-2'): '0.0'}}%
+        </span>
+      </a>
+    </mat-list>
   </div>
+  <!--Left Panel Ends-->
 
+  <!--Inspection Panel-->
   <div class="col-md-6 three">
     <hr class="my-4 d-print-none">
     <hr class="my-4 d-print-none">
@@ -190,9 +189,10 @@
 
   </div>
 
-  <div class="col-md-3 one" style="margin-top:2%">
+  <!--Right Panel Begins-->
+  <div class="col-md-2 one animated fadeInRight d-print-none" style="margin-top:2%">
     <!--New Inspection Form-->
-    <mat-list class="fixed animated fadeInRight d-print-none">
+    <mat-list class="fixed">
       <h3 mat-subheader>Start New Inpsection</h3>
       <mat-accordion>
         <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
@@ -229,8 +229,9 @@
         </mat-expansion-panel>
       </mat-accordion>
     </mat-list>
-    <!--New Inspection form-->
+    <!--New Inspection form Ends-->
   </div>
+  <!--Right Panel Ends-->
 
 </div>
 

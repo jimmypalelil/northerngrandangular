@@ -1,7 +1,8 @@
 
 @media (min-width: 70em) {
   .fixed {
-    position: fixed;
+    position: sticky;
+    top:100px;
   }
 }
 
@@ -12,6 +13,7 @@
   }
   .one {
     order: 1;
+    margin-top: 35px !important;
   }
   .two {
     order: 2;

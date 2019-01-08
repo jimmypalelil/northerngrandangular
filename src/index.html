@@ -24,7 +24,7 @@
     window.onscroll = function() {scrollFunction()};
 
     function scrollFunction() {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20 && $(window).width() > 600) {
         document.getElementById("myBtn").style.display = "block";
       } else {
         document.getElementById("myBtn").style.display = "none";
@@ -40,7 +40,7 @@
 </head>
 <body id="body">
   <app-root></app-root>
-  <button mdbBtn mdbWavesEffect class="animated fadeInRight z-depth-3 d-print-none d-none d-lg-block" onclick="topFunction()" id="myBtn"
+  <button mdbBtn mdbWavesEffect class="animated fadeInRight z-depth-3 d-print-none" onclick="topFunction()" id="myBtn"
           mdbTooltip="Got To Top"
           placement="top">
     <i class="fas fa-chevron-up"></i>

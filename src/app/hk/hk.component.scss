@@ -22,14 +22,6 @@
   color: black;
 }
 
-.fixed {
-  position: fixed;
-  height: 100%;
-  overflow-y: auto;
-  margin-bottom: 3%;
-}
-
-
 a[mdbBtn] {
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
@@ -49,4 +41,28 @@ mat-progress-spinner {
 
 .floor:hover {
   border-left: 2px solid rgba(7, 51, 255, 0.32);
+}
+
+@media (min-width: 70em) {
+  .fixed {
+    position: sticky;
+    top:100px;
+  }
+}
+
+@media (max-width: 37.5em)  {
+  .fixed {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  .one {
+    order: 1;
+    margin-top: 45px !important;
+  }
+  .two {
+    order: 2;
+  }
+  .three {
+    order: 3;
+  }
 }
