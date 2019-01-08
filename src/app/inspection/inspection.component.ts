@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {InspectionService} from '../services/inspection.service';
 import {Inspection} from '../models/inspection';
 import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
@@ -9,7 +9,7 @@ import {Room} from '../models/room';
   templateUrl: './inspection.component.html',
   styleUrls: ['./inspection.component.scss']
 })
-export class InspectionComponent implements OnInit {
+export class InspectionComponent implements OnInit, AfterViewInit {
   employees: any[];
   currentEmployee: JSON;
   selectedEmployees: any;
@@ -44,13 +44,21 @@ export class InspectionComponent implements OnInit {
   @ViewChild(MatSort) sort;
 
   ngOnInit() {
-    this.getEmployees();
+    // this.getEmployees();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.getEmployees();
+    }, 1000);
   }
 
   getEmployees() {
     this.insService.getEmployees().subscribe(data => {
       this.employees = data;
-      this.currentEmployee = data[0];
+      if (this.currentEmployee === undefined) {
+        this.currentEmployee = data[0];
+      }
       this.getEmployeeIns(this.currentEmployee);
     });
   }

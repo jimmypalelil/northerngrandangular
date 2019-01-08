@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.ensureAuth.canActivate();
     this.ensureAuth.showLoginModal.subscribe(value => {
-        console.log(value);
         if (value) {
           this.modalFrame.show();
         }
@@ -44,11 +43,9 @@ export class AppComponent implements OnInit {
     });
     this.currentPage = 'home';
     this.loggedIn = !!localStorage.getItem('token');
-    if (this.loggedIn) {
-      this.email = localStorage.getItem('token');
-    }
     this.auth.loggedIn.subscribe(value => {
       this.loggedIn = value;
+      this.email = localStorage.getItem('token');
     });
     this.auth.currentPage.subscribe(value => {
       this.currentPage = value;

@@ -24,7 +24,19 @@
   background-size: 50%;
 }
 
+/* @include transition(all,2s,ease-out); */
+@mixin transition($what: all, $time: 0.2s, $how: ease-in-out) {
+  -webkit-transition: $what $time $how;
+  -moz-transition:    $what $time $how;
+  -o-transition:      $what $time $how;
+  transition:         $what $time $how;
+}
+
 .home-content {
   margin-top: 30px;
   margin-bottom: 30px;
+  @include transition(all , 0.5s, ease);
 }
+
+
+
