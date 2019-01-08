@@ -1,6 +1,6 @@
-<div class="row justify-content-between" style="margin-top: 3%;">
+<div class="row" style="margin-top: 3%;">
 
-  <div class="col-2 d-print-none" style="margin-top: 2%;padding-left:2%;overflow-y: auto">
+  <div class="col-md-3 d-print-none one" style="margin-top: 2%;padding-left:2%;overflow-y: auto">
     <div *ngIf="isAdmin()" class="animated fadeInLeft">
       <mat-list>
         <h3 mat-subheader>Admin Controls</h3>
@@ -9,8 +9,8 @@
       </mat-list>
       <hr class="my-4">
     </div>
-    <div class="fixed animated fadeInLeft">
-      <mat-list>
+    <div>
+      <mat-list class="fixed animated fadeInLeft">
         <h3 mat-subheader>Employees</h3>
         <a mdbWavesEffect mat-list-item *ngFor="let employee of employees"
            class="employee-name"
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="col-7">
+  <div class="col-md-6 two">
     <hr class="my-4 d-print-none">
     <hr class="my-4 d-print-none">
 
@@ -190,9 +190,9 @@
 
   </div>
 
-  <div class="col-3" style="margin-top:2%">
+  <div class="col-md-3 three" style="margin-top:2%">
     <!--New Inspection Form-->
-    <mat-list class="fixed d-print-none text-center" style="position:relative; right: 0;width: 50%">
+    <mat-list class="fixed animated fadeInRight d-print-none" style="position:relative; right: 0;width: 50%">
       <h3 mat-subheader>Start New Inpsection</h3>
       <mat-accordion>
         <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
