@@ -5,6 +5,12 @@
   margin-top:3%;
 }
 
+@media (max-width: 37.5em)  {
+  .lost-title {
+    margin-top:20%;
+  }
+}
+
 .lost-title-text {
   align-self: center;
   font-family:fantasy;

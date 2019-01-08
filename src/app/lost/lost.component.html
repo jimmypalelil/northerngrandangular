@@ -56,28 +56,39 @@
             {{value === 'date'|| value === 'return_date' || value === 'date_found' ? (element[value] | date) : (element[value] | uppercase)}}
 
             <div *ngIf="value === 'action' && tabGroup.selectedIndex === 0">
-              <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3" (click)="sendItemInfo(element); frame.show()">
+              <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3"
+                      mdbTooltip="Delete"
+                      placement="right"
+                      (click)="sendItemInfo(element); frame.show()">
                 <i class="fas fa-trash-alt"></i>
               </button>
               <button mdbBtn gradient="tempting-azure" class="edit-button z-depth-3"
-                      *ngIf="!isHK() else showUpdateButton" (click)="sendItemInfo(element); emailFrame.show()">
+                      mdbTooltip="Email Jennifer"
+                      placement="right"
+                      *ngIf="!isHK();else showUpdateButton" (click)="sendItemInfo(element); emailFrame.show()">
                 <i class="far fa-envelope"></i>
               </button>
 
               <ng-template #showUpdateButton>
                 <button mdbWavesEffect mdbBtn
+                        mdbTooltip="Edit"
+                        placement="right"
                         class="edit-button z-depth-3"
                         gradient="rainy-ashville"
                         (click)="sendItemInfo(element);showUpdateBar = true"><i class="far fa-edit"></i></button>
               </ng-template>
 
               <button mdbBtn gradient="sunny-morning" class="edit-button z-depth-3"
+                      mdbTooltip="Return to Guest"
+                      placement="right"
                       (click)="sendItemInfo(element); returnFrame.show()">
                 <i class="fas fa-gift"></i>
               </button>
             </div>
 
             <button mdbBtn gradient="morpheus-den" class="edit-button z-depth-3"
+                    mdbTooltip="Undo Returned Item"
+                    placement="right"
                     *ngIf="i === displayedColumns.length-1 && tabGroup.selectedIndex === 1" (click)="sendItemInfo(element); undoFrame.show()">
               <i class="fas fa-undo"></i>
             </button>
