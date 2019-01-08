@@ -71,12 +71,12 @@
       </mdb-card>
       <!--Employee Details End-->
 
-    <!--Inspection Form List Begins-->
-    <div class="ins-items  d-print-none">
-      <hr class="my-4">
-      <div *ngFor="let object of insItems">
-        <p class="h3">{{object._id.cat | uppercase}}</p>
-        <div *ngFor="let item of object.items">
+      <!--Inspection Form List Begins-->
+      <div class="ins-items  d-print-none">
+        <hr class="my-4">
+        <div *ngFor="let object of insItems">
+          <p class="h3">{{object._id.cat | uppercase}}</p>
+          <div *ngFor="let item of object.items">
           <span>
             <p class="h6">{{item.item | uppercase}}</p>
             <mat-radio-group [(ngModel)]="insScores[item._id]">
@@ -86,19 +86,19 @@
               <mat-radio-button color="primary" value="-1" checked>None</mat-radio-button>
             </mat-radio-group>
           </span>
-          <mat-form-field>
-            <textarea matInput placeholder="Comments" [(ngModel)]="insComments[item._id]"></textarea>
-          </mat-form-field>
-          <hr class="my-3">
+            <mat-form-field>
+              <textarea matInput placeholder="Comments" [(ngModel)]="insComments[item._id]"></textarea>
+            </mat-form-field>
+            <hr class="my-3">
           </div>
+        </div>
+        <div *ngIf="insItems !== undefined">
+          <button mdbBtn mdbWavesEffect
+                  (click)="submitInspection()"
+                  color="secondary">Submit Inspection</button>
+        </div>
       </div>
-      <div *ngIf="insItems !== undefined">
-        <button mdbBtn mdbWavesEffect
-                (click)="submitInspection()"
-                color="secondary">Submit Inspection</button>
-      </div>
-    </div>
-    <!--Inspection Form list Ends-->
+      <!--Inspection Form list Ends-->
 
       <!--<button mdbWavesEffect mdbBtn color="secondary" (click)="viewInspections()"><i class="fas fa-list-alt"></i> List All Inspections</button>-->
       <hr class="my-4">
@@ -171,7 +171,7 @@
           <mat-header-row *matHeaderRowDef="inspectionsDisplayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: inspectionsDisplayedColumns;"></mat-row>
         </mat-table>
-        </div>
+      </div>
 
       <!--Inspection Scores-->
       <div *ngIf="showInspection">
@@ -190,45 +190,45 @@
 
   </div>
 
-  <div class="col-3" style="margin-top: 5%;">
+  <div class="col-3" style="margin-top:2%">
     <!--New Inspection Form-->
-    <mat-accordion class="fixed d-print-none">
-      <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <p><i class="fas fa-plus-circle"></i> New Inspection</p>
-          </mat-panel-title>
-          <mat-panel-description>
-            Start a new Inspection
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <form>
-          <mat-form-field>
-            <input matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
-          </mat-form-field>
+    <mat-list class="fixed d-print-none">
+      <h3 mat-subheader>Start New Inpsection</h3>
+      <mat-accordion>
+        <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p><i class="fas fa-plus-circle"></i> New Inspection</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form>
+            <mat-form-field>
+              <input matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
+            </mat-form-field>
 
-          <mat-form-field>
-            <mat-select name="emp" placeholder="Room Attendant(s)" [(ngModel)]="selectedEmployees" multiple>
-              <mat-option *ngFor="let employee of employees"
-                          [value]="employee">{{employee.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field>
+              <mat-select name="emp" placeholder="Room Attendant(s)" [(ngModel)]="selectedEmployees" multiple>
+                <mat-option *ngFor="let employee of employees"
+                            [value]="employee">{{employee.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <mat-form-field>
-            <input matInput placeholder="Inspection Date" name="inspectionDate" [matDatepicker]="picker"
-                   (focus)="picker.open()" readonly [(ngModel)]="newInspectionDate" required>
-          </mat-form-field>
-          <mat-datepicker #picker></mat-datepicker>
+            <mat-form-field>
+              <input matInput placeholder="Inspection Date" name="inspectionDate" [matDatepicker]="picker"
+                     (focus)="picker.open()" readonly [(ngModel)]="newInspectionDate" required>
+            </mat-form-field>
+            <mat-datepicker #picker></mat-datepicker>
 
-          <mat-action-row>
-            <!--"Add" button-->
-            <button mat-mini-fab color="primary" (click)="startNewInspection()">
-              <i class="fa fa-plus" aria-hidden="true"></i>
-            </button>
-          </mat-action-row>
-        </form>
-      </mat-expansion-panel>
-    </mat-accordion>
+            <mat-action-row>
+              <!--"Add" button-->
+              <button mat-mini-fab color="primary" (click)="startNewInspection()">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+            </mat-action-row>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-list>
     <!--New Inspection form-->
   </div>
 
