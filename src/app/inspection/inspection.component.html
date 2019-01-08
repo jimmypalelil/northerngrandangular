@@ -1,6 +1,6 @@
 <div class="row" style="margin-top: 3%;">
 
-  <div class="col-md-3 d-print-none one" style="margin-top: 2%;padding-left:2%;overflow-y: auto">
+  <div class="col-md-3 d-print-none two" style="margin-top: 2%;padding-left:2%;overflow-y: auto">
     <div *ngIf="isAdmin()" class="animated fadeInLeft">
       <mat-list>
         <h3 mat-subheader>Admin Controls</h3>
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="col-md-6 two">
+  <div class="col-md-6 three">
     <hr class="my-4 d-print-none">
     <hr class="my-4 d-print-none">
 
@@ -62,7 +62,7 @@
               Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
               Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
             </h5>
-            <button mdbBtn mdbWavesEffect class="d-print-none"
+            <button mdbBtn mdbWavesEffect class="d-print-none d-none d-lg-inline"
                     onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;window.print()" color="primary">
               <i class="fas fa-print"></i> Print Inspection
             </button>
@@ -72,7 +72,7 @@
       <!--Employee Details End-->
 
       <!--Inspection Form List Begins-->
-      <div class="ins-items  d-print-none">
+      <div class="ins-items col-md-6 one d-print-none">
         <hr class="my-4">
         <div *ngFor="let object of insItems">
           <p class="h3">{{object._id.cat | uppercase}}</p>
@@ -190,9 +190,9 @@
 
   </div>
 
-  <div class="col-md-3 three" style="margin-top:2%">
+  <div class="col-md-3 one" style="margin-top:2%">
     <!--New Inspection Form-->
-    <mat-list class="fixed animated fadeInRight d-print-none" style="position:relative; right: 0;width: 50%">
+    <mat-list class="fixed animated fadeInRight d-print-none">
       <h3 mat-subheader>Start New Inpsection</h3>
       <mat-accordion>
         <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
