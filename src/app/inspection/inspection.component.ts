@@ -3,6 +3,7 @@ import {InspectionService} from '../services/inspection.service';
 import {Inspection} from '../models/inspection';
 import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Room} from '../models/room';
+import {InspectionScore} from '../models/inspectionScore';
 
 @Component({
   selector: 'app-inspection',
@@ -27,7 +28,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   showInspections = false;
   showInspection = false;
   MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'view/delete'];
-  inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'num_employees', 'score', 'view/delete'];
+  inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'view/delete'];
   scoreCategory = ['Bad', 'Needs Improvement', 'Excellent'];
   tableSorter: MatSort;
 
@@ -96,6 +97,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   submitInspection() {
     this.toggleSpinner();
+    console.log(this.insScores);
     this.insService.sendInspection(this.currentInspection, this.insScores, this.insComments, this.selectedEmployees).then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
@@ -131,6 +133,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.insService.getInspections(this.currentEmployee['_id'], monthInspection['month'], monthInspection['year']).then(data => {
       this.showInspections = true;
       this.showInspection = false;
+      console.log(data);
       this.employeeInspections = new MatTableDataSource<any>(data);
       this.employeeInspections.sort = this.sort;
     });

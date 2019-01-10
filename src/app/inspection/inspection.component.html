@@ -1,7 +1,7 @@
 <div class="row" style="margin-top: 3%;">\
 
   <!--Left Panel-->
-  <div class="col-md-3 d-print-none two animated fadeInLeft" style="margin-top: 2%;padding-left:2%;">
+  <div class="col-md-2 d-print-none two animated fadeInLeft" style="margin-top: 2%;padding-left:2%;">
     <mat-list *ngIf="isAdmin()">
       <h3 mat-subheader>Admin Controls</h3>
       <button mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
@@ -17,7 +17,7 @@
         {{employee.name}}
         <!--Badge for Employees-->
         <span class="badge badge-danger ml-2">
-          {{employee.num_inspections != 0 ? (employee.total_score / employee.num_inspections * 100| number:'1.1-2'): '0.0'}}%
+          {{employee['num_inspections'] != 0 ? (employee['total_score'] / employee['num_inspections'] * 100| number:'1.1-2'): '0.0'}}%
         </span>
       </a>
     </mat-list>
@@ -25,7 +25,7 @@
   <!--Left Panel Ends-->
 
   <!--Inspection Panel-->
-  <div class="col-md-6 three">
+  <div class="col-md-7 three">
     <hr class="my-4 d-print-none">
     <hr class="my-4 d-print-none">
 
@@ -36,11 +36,11 @@
       <mdb-card class="text-center">
         <mdb-card-body>
           <mdb-card-title>
-            <h2>{{currentEmployee.name}}</h2>
+            <h2>{{currentEmployee['name']}}</h2>
           </mdb-card-title>
           <mdb-card-text>
-            <span *ngIf="currentEmployee.num_inspetions != 0; else showZeroScore">
-              <h4>Total Inspections: {{currentEmployee.num_inspections}} | Overall Score: {{currentEmployee.total_score / currentEmployee.num_inspections * 100| number:'1.1-2'}}%</h4>
+            <span *ngIf="currentEmployee['num_inspetions'] != 0; else showZeroScore">
+              <h4>Total Inspections: {{currentEmployee['num_inspections']}} | Overall Score: {{currentEmployee['total_score'] / currentEmployee['num_inspections'] * 100| number:'1.1-2'}}%</h4>
             </span>
             <ng-template #showZeroScore>
               Total Inspections: 0 | Score: 0%
@@ -71,7 +71,7 @@
       <!--Employee Details End-->
 
       <!--Inspection Form List Begins-->
-      <div class="ins-items col-md-6 one d-print-none">
+      <div class="ins-items col-md-7 one d-print-none">
         <hr class="my-4">
         <div *ngFor="let object of insItems">
           <p class="h3">{{object._id.cat | uppercase}}</p>
@@ -99,9 +99,8 @@
       </div>
       <!--Inspection Form list Ends-->
 
-      <!--<button mdbWavesEffect mdbBtn color="secondary" (click)="viewInspections()"><i class="fas fa-list-alt"></i> List All Inspections</button>-->
       <hr class="my-4">
-      {{employeeScores.data.length === 0 ? 'No Inspections recorded for ' + currentEmployee.name + ' yet' : ''}}
+      {{employeeScores.data.length === 0 ? 'No Inspections recorded for ' + currentEmployee['name'] + ' yet' : ''}}
 
       <!--Monthly Inspections List-->
       <div *ngIf="!showInspections && !showInspection && employeeScores.data.length > 0">

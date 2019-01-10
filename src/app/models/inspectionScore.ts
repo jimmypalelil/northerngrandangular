@@ -1,6 +1,6 @@
 export class InspectionScore {
-  insId: string;
-  itemId: string;
-  score: number;
-  comment: string;
+  item_id: string;
+  item_score: number;
+  item_comment: string;
+  item_cat: string;
 }
