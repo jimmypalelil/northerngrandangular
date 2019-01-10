@@ -54,7 +54,7 @@
                               [indeterminate]="selection.hasValue() && !isAllSelected()">
                 </mat-checkbox>
               </mat-header-cell>
-              <mat-cell *matCellDef="let row">
+              <mat-cell mdbWavesEffect *matCellDef="let row" (click)="selection.toggle(row)">
                 <mat-checkbox (click)="$event.stopPropagation()"
                               (change)="$event ? selection.toggle(row) : null"
                               [checked]="selection.isSelected(row)">
@@ -64,28 +64,12 @@
 
             <ng-container *ngFor="let value of dataDisplayColumns" matColumnDef="{{value}}">
               <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
-              <mat-cell *matCellDef="let element">
+              <mat-cell mdbWavesEffect *matCellDef="let element" (click)="value !== 'edit' ? selection.toggle(element) : null">
                 <p *ngIf="value === 'status'" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}" class="font-weight-bold">
                   <i *ngIf="element.status === 'clean'; else notDone" class="fas fa-check-circle"></i>
                   <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>
                 </p>
                 {{value === 'status' ? '' : element[value]}}
-
-                <!--<div *ngIf="selection.selected.length > 0; else showSingleRoomButton;">-->
-                  <!--<button mdbBtn class="select-button z-depth-1-half" type="button"-->
-                          <!--(click)="changeSelectRoomStatus(element, 'clean')"-->
-                          <!--*ngIf="value === 'edit'"-->
-                          <!--color="success" mdbWavesEffect>-->
-                    <!--Clean Selected-->
-                  <!--</button>-->
-
-                  <!--<button mdbBtn class="select-button z-depth-1-half" type="button"-->
-                          <!--(click)="changeSelectRoomStatus(element, 'not done')"-->
-                          <!--*ngIf="value === 'edit'"-->
-                          <!--color="danger" mdbWavesEffect>-->
-                   <!--Undo Selected-->
-                  <!--</button>-->
-                <!--</div>-->
 
                 <div *ngIf="selection.selected.length == 0">
                   <button mdbBtn class="edit-button z-depth-1-half" type="button"
@@ -108,7 +92,7 @@
     </mat-tab-group>
 
     <!--Select Buttons-->
-    <div class="select-buttons" *ngIf="selection.selected.length > 0">
+    <div class="select-buttons animated fadeInRight" *ngIf="selection.selected.length > 0">
       <button mdbBtn class="select-button z-depth-1-half" type="button"
               (click)="changeSelectRoomStatus('clean')"
               color="success" mdbWavesEffect>
