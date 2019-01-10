@@ -93,8 +93,8 @@
             <hr class="my-3">
           </div>
         </div>
-        <button mdbBtn mdbWavesEffect (click)="submitInspection()" gradient="purple">Submit Inspection</button>
-        <div class="ins-score text-center" gradient="purple" mdbBtn mdbWavesEffect>
+        <button mdbBtn mdbWavesEffect (click)="submitInspection()" class="teal darken-2"><i class="fa fa-paper-plane-o ml-1"></i> Submit Inspection</button>
+        <div class="ins-score text-center z-depth-2 indigo darken-4" mdbBtn mdbWavesEffect>
           Total Score
           <br>
           {{totalScore}} / {{totalItems}}
@@ -107,7 +107,7 @@
       {{employeeScores.data.length === 0 ? 'No Inspections recorded for ' + currentEmployee['name'] + ' yet' : ''}}
 
       <!--Monthly Inspections List-->
-      <div *ngIf="!showInspections && !showInspection && employeeScores.data.length > 0">
+      <div *ngIf="!showInspections && !showInspectionForm && !showInspection && employeeScores.data.length > 0">
         <mat-table [dataSource]="employeeScores" matSort #tableSorter class="mat-elevation-z8 animated fadeInUp">
 
           <ng-container *ngFor="let value of MonthInspectionsDisplayedColumns" matColumnDef="{{value}}">
@@ -144,7 +144,7 @@
       </div>
 
       <!--Inspetions list for employee-->
-      <div *ngIf="showInspections && employeeInspections.data.length > 0">
+      <div *ngIf="showInspections && !showInspectionForm && employeeInspections.data.length > 0">
         <mat-table [dataSource]="employeeInspections" matSort #tableSorter class="mat-elevation-z8 animated fadeInUp">
           <ng-container *ngFor="let value of inspectionsDisplayedColumns"
                         matColumnDef="{{value}}">

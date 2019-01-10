@@ -139,7 +139,7 @@ export class HkComponent implements OnInit, AfterViewInit {
     }
     this.listService.changeRoomStatus([room], room.status).then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
-        duration: 2000,
+        duration: 2000, verticalPosition: 'bottom'
       });
     });
 
@@ -183,24 +183,28 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   changeSelectRoomStatus(room: Room, status) {
     this.toggleSpinner();
-    this.selection.select(room);
-    this.listService.changeRoomStatus(this.selection.selected, status).then(msg => {
+    let selectedRooms: Room[] = [];
+    for (let i = 0; i < this.selection.selected.length; i++) {
+      room = this.selection.selected[i];
+      if (room.status !== status) {
+        selectedRooms.push(room);
+        room.status = status;
+        if (status === 'not done') {
+          this.counts[2]--;
+          this.counts[1]++;
+        } else {
+          this.counts[1]--;
+          this.counts[2]++;
+        }
+      }
+    }
+
+    this.listService.changeRoomStatus(selectedRooms, status).then(msg => {
       this.toggleSpinner();
       this.selection.clear();
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });
     });
-    for (let i = 0; i < this.selection.selected.length; i++) {
-      room = this.selection.selected[i];
-      room.status = status;
-      if (status === 'clean') {
-        this.counts[2]--;
-        this.counts[1]++;
-      } else {
-        this.counts[1]--;
-        this.counts[2]++;
-      }
-    }
   }
 }
