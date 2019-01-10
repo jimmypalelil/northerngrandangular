@@ -105,17 +105,16 @@ export class HkComponent implements OnInit, AfterViewInit {
   changeFloor(floor) {
     this.dataSource.filter = floor;
     this.currentFloor = floor;
-    let undoneCount = 0, doneCount = 0;
+    let total = 0, undoneCount = 0, doneCount = 0;
     this.dataSource.data.forEach(function (room) {
       if (room.room_number >= floor && room.room_number < (floor + 100)) {
-        if (room.status === 'clean') {
+        if (room.status === 'clean'){
           doneCount++;
-        } else {
-          undoneCount++;
         }
       }
     });
-    this.counts = [doneCount + undoneCount, undoneCount, doneCount];
+    total = this.dataSource.filteredData.length;
+    this.counts = [total, total - doneCount, doneCount];
   }
 
   setType(type) {
@@ -181,11 +180,11 @@ export class HkComponent implements OnInit, AfterViewInit {
     }
   }
 
-  changeSelectRoomStatus(room: Room, status) {
+  changeSelectRoomStatus(status) {
     this.toggleSpinner();
     let selectedRooms: Room[] = [];
     for (let i = 0; i < this.selection.selected.length; i++) {
-      room = this.selection.selected[i];
+      let room = this.selection.selected[i];
       if (room.status !== status) {
         selectedRooms.push(room);
         room.status = status;

@@ -48,6 +48,21 @@ mat-progress-spinner {
     position: sticky;
     top:100px;
   }
+
+  .select-buttons {
+    position: fixed;
+    right: 0;
+    bottom: 30%;
+    z-index: 1000 !important;
+  }
+
+  .select-button {
+    width: 350px;
+    height: 100px;
+    font-size: 20px;
+    padding: 0;
+    border-radius: 20px 0;
+  }
 }
 
 @media (max-width: 37.5em)  {
@@ -65,4 +80,26 @@ mat-progress-spinner {
   .three {
     order: 3;
   }
+
+  .select-buttons {
+    position: fixed;
+    right: 0;
+    bottom: 30%;
+    z-index: 1000 !important;
+  }
+
+  .select-button {
+    width: 100px;
+    height: 50px;
+    font-size: 15px;
+    padding: 0;
+    border-radius: 20px 0;
+    margin: 0;
+  }
+}
+
+
+.select-button:hover{
+  position: relative;
+  bottom: 3px;
 }
