@@ -94,20 +94,22 @@ body {
   background-size: cover !important;
 }
 
-#myBtn {
-  display: none; /* Hidden by default */
-  position: fixed; /* Fixed/sticky position */
-  bottom: 40px; /* Place the button at the bottom of the page */
-  right: 30px; /* Place the button 30px from the right */
-  z-index: 99; /* Make sure it does not overlap */
-  border: none; /* Remove borders */
-  outline: none; /* Remove outline */
-  background-color: #ff1b08; /* Set a background color */
-  color: white; /* Text color */
-  cursor: pointer; /* Add a mouse pointer on hover */
-  padding: 15px; /* Some padding */
-  border-radius: 50%; /* Rounded corners */
-  font-size: 18px; /* Increase font size */
+@media (min-width: 70em) {
+  #myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 40px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #ff1b08; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 50%; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
+  }
 }
 
 #myBtn:hover {
@@ -116,4 +118,23 @@ body {
 
 app-lost {
   margin-bottom: 150px;
+}
+
+@media (max-width: 37.5em)  {
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 10000;
+    border: none;
+    outline: none;
+    background-color: #ff1b08;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 10px 10px;
+    height: 4em;
+    width: 4em;
+  }
 }
