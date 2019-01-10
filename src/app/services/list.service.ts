@@ -25,8 +25,8 @@ export class ListService {
     return this.http.get<ReturnedItem[]>(this.Url + 'lost/returnedItems');
   }
 
-  changeRoomStatus(room: Room): Promise<any> {
-    return this.http.post(this.Url + 'roomStatusChange', room).toPromise();
+  changeRoomStatus(rooms: Room[], status): Promise<any> {
+    return this.http.post(this.Url + 'roomStatusChange', [rooms, status]).toPromise();
   }
 
   deleteLostItem(currentItem: LostItem): Promise<any> {

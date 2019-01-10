@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {ListService} from '../services/list.service';
 import {MatSnackBar, MatSort, MatTabChangeEvent, MatTabGroup, MatTableDataSource} from '@angular/material';
 import {MatButtonToggleGroup} from '@angular/material/button-toggle';
-import {stringify} from 'querystring';
+import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-hk',
@@ -25,7 +25,8 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   years = [2018, 2019];
 
-  displayedColumns = ['room_number', 'type', 'status', 'edit'];
+  displayedColumns = ['select', 'room_number', 'type', 'status', 'edit'];
+  dataDisplayColumns = ['room_number', 'type', 'status', 'edit'];
 
   statuses = ['All Rooms', 'Undone Rooms', 'Done Rooms'];
   counts = [0, 0, 0];
@@ -36,7 +37,7 @@ export class HkComponent implements OnInit, AfterViewInit {
   currentYear: number;
   currentType: any;
   showSpinner = false;
-
+  selection = new SelectionModel<Room>(true, []);
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort;
   @ViewChild('floorBtnGrp') floorBtnGrp: MatButtonToggleGroup;
@@ -59,9 +60,26 @@ export class HkComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  goToLogin(): Promise<any> {
-      return this.router.navigateByUrl('/login');
-    }
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.filteredData.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.dataSource.data.forEach(row => {
+        if (row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
+          this.selection.deselect(row);
+        }
+      }) :
+      this.dataSource.data.forEach(row => {
+        if (row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
+          this.selection.select(row);
+        }
+      });
+  }
 
   getMonthList(type, month, year) {
     this.toggleSpinner();
@@ -110,11 +128,6 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   changeRoomStatus(room: Room) {
-    this.listService.changeRoomStatus(room).then(msg => {
-      this.snackBar.open(msg['text'].toUpperCase(), '', {
-        duration: 2000,
-      });
-    });
     if (room.status === 'clean') {
       room.status = 'not done';
       this.counts[2]--;
@@ -124,6 +137,12 @@ export class HkComponent implements OnInit, AfterViewInit {
       this.counts[1]--;
       this.counts[2]++;
     }
+    this.listService.changeRoomStatus([room], room.status).then(msg => {
+      this.snackBar.open(msg['text'].toUpperCase(), '', {
+        duration: 2000,
+      });
+    });
+
   }
 
   sortData(event) {
@@ -159,6 +178,29 @@ export class HkComponent implements OnInit, AfterViewInit {
       document.getElementById('body').classList.add('inspection-overlay');
     } else {
       document.getElementById('body').classList.remove('inspection-overlay');
+    }
+  }
+
+  changeSelectRoomStatus(room: Room, status) {
+    this.toggleSpinner();
+    this.selection.select(room);
+    this.listService.changeRoomStatus(this.selection.selected, status).then(msg => {
+      this.toggleSpinner();
+      this.selection.clear();
+      this.snackBar.open(msg['text'].toUpperCase(), '', {
+        duration: 2000,
+      });
+    });
+    for (let i = 0; i < this.selection.selected.length; i++) {
+      room = this.selection.selected[i];
+      room.status = status;
+      if (status === 'clean') {
+        this.counts[2]--;
+        this.counts[1]++;
+      } else {
+        this.counts[1]--;
+        this.counts[2]++;
+      }
     }
   }
 }

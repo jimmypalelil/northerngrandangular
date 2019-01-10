@@ -46,15 +46,48 @@
 
         <div class="table-container">
           <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 animated fadeInUp">
-            <ng-container *ngFor="let value of displayedColumns" matColumnDef="{{value}}">
-              <mat-header-cell mdbWavesEffect class="z-depth-1-half" *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container *ngFor="let value of dataDisplayColumns" matColumnDef="{{value}}">
+              <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
               <mat-cell *matCellDef="let element">
                 <p *ngIf="value === 'status'" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}" class="font-weight-bold">
                   <i *ngIf="element.status === 'clean'; else notDone" class="fas fa-check-circle"></i>
                   <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>
                 </p>
                 {{value === 'status' ? '' : element[value]}}
-                <div class="view overlay">
+
+                <div *ngIf="selection.selected.length > 0; else showSingleRoomButton;">
+                  <button mdbBtn class="z-depth-1-half" type="button"
+                          (click)="changeSelectRoomStatus(element, 'clean')"
+                          *ngIf="value === 'edit'"
+                          color="success" mdbWavesEffect>
+                    Clean Selected
+                  </button>
+
+                  <button mdbBtn class="z-depth-1-half" type="button"
+                          (click)="changeSelectRoomStatus(element, 'not done')"
+                          *ngIf="value === 'edit'"
+                          color="danger" mdbWavesEffect>
+                   Undo Selected
+                  </button>
+                </div>
+
+                <ng-template #showSingleRoomButton>
                   <button mdbBtn class="edit-button z-depth-1-half" type="button"
                           (click)="changeRoomStatus(element)"
                           *ngIf="value === 'edit'"
@@ -63,7 +96,7 @@
                     <i *ngIf="element.status === 'not done'" class="far fa-check-square"></i>
                     <i *ngIf="element.status === 'clean'" class="fa fa-undo" aria-hidden="true"></i>
                   </button>
-                </div>
+                </ng-template>
               </mat-cell>
 
             </ng-container>
