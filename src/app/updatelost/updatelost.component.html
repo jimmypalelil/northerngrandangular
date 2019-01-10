@@ -1,30 +1,34 @@
 <div class="container update-lost-item">
+  <h3><i class="fa fa-refresh" aria-hidden="true"></i></h3>
   <h3>Update Item</h3>
+  <p *ngIf="!isHk()" class="text-red"><i class="fa fa-expeditedssl" aria-hidden="true"></i> Only Housekeeping can update Items</p>
   <hr class="my-4">
   <div class="update-lost-item-content">
     <form>
       <div>
         <mat-form-field>
-          <input matInput placeholder="Room #" name="room_number" [(ngModel)]="item.room_number">
+          <input matInput placeholder="Room #" name="room_number" [disabled]="!isHk()" [(ngModel)]="item.room_number">
         </mat-form-field>
       </div>
 
 
       <div>
         <mat-form-field>
-          <textarea matInput placeholder="Item Description" name="item_description" [(ngModel)]="item.item_description"></textarea>
+          <textarea matInput placeholder="Item Description" name="item_description"
+                    [disabled]="!isHk()"
+                    [(ngModel)]="item.item_description"></textarea>
         </mat-form-field>
       </div>
 
       <div>
         <mat-form-field>
-          <input matInput [matDatepicker]="picker" placeholder="Date Found" name="date_found" [(ngModel)]="item.date">
+          <input matInput [matDatepicker]="picker" placeholder="Date Found" name="date_found" [disabled]="!isHk()" [(ngModel)]="item.date">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
-      <button mdbBtn mdbWavesEffect color="primary" (click)="updated.emit(true)">Update <i class="fas fa-pen-square"></i></button>
+      <button mdbBtn mdbWavesEffect color="primary" (click)="updated.emit(true)" [disabled]="!isHk()">Update <i class="fas fa-pen-square"></i></button>
       <button mdbBtn mdbWavesEffect color="danger" (click)="cancelled.emit(true)">Cancel</button>
     </form>
   </div>

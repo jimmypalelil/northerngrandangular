@@ -2,31 +2,32 @@
 
   <!--Left Panel-->
   <div class="col-md-2 d-print-none two animated fadeInLeft" style="margin-top: 2%;padding-left:2%;">
-    <mat-list *ngIf="isAdmin()">
-      <h3 mat-subheader>Admin Controls</h3>
-      <button mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
-      <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
-    </mat-list>
-    <hr class="my-4">
-    <mat-list class="fixed">
-      <h3 mat-subheader>Employees</h3>
-      <a mdbWavesEffect mat-list-item *ngFor="let employee of employees"
-         class="employee-name"
-         (click)="getEmployeeIns(employee)"
-         [ngClass]="{'active': currentEmployee === employee}">
-        {{employee.name}}
-        <!--Badge for Employees-->
-        <span class="badge badge-danger ml-2">
-          {{employee['num_inspections'] != 0 ? (employee['total_score'] / employee['num_inspections'] * 100| number:'1.1-2'): '0.0'}}%
-        </span>
-      </a>
-    </mat-list>
+    <div class="fixed">
+      <mat-list *ngIf="isAdmin()">
+        <h3 mat-subheader>Admin Controls</h3>
+        <button mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
+        <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
+      </mat-list>
+      <hr class="my-4">
+      <mat-list class="fixed">
+        <h3 mat-subheader>Employees</h3>
+        <a mdbWavesEffect mat-list-item *ngFor="let employee of employees; let i = index"
+           class="employee-name"
+           (click)="getEmployeeIns(employee, i)"
+           [ngClass]="{'active': currentEmployee === employee}">
+          {{employee.name}}
+          <!--Badge for Employees-->
+          <span class="badge badge-danger ml-2">
+            {{employee['num_inspections'] != 0 ? (employee['total_score'] / employee['num_inspections'] * 100| number:'1.1-2'): '0.0'}}%
+          </span>
+        </a>
+      </mat-list>
+    </div>
   </div>
   <!--Left Panel Ends-->
 
   <!--Inspection Panel-->
   <div class="col-md-7 three">
-    <hr class="my-4 d-print-none">
     <hr class="my-4 d-print-none">
 
     <mat-progress-spinner mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
@@ -59,7 +60,8 @@
             <h5>
               Room #: {{currentInspection['room_number']}} |
               Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
-              Score: {{currentInspection['score'] * 100| number:'1.1-2'}}%
+              Score: {{currentInspection['score'] * 100| number:'1.1-2'}}% |
+              No. of Employees: {{currentInspection['num_employees']}}
             </h5>
             <button mdbBtn mdbWavesEffect class="d-print-none d-none d-lg-inline"
                     onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;window.print()" color="primary">
@@ -68,14 +70,14 @@
           </mdb-card-text>
         </mdb-card-body>
       </mdb-card>
+      <hr class="my-4">
       <!--Employee Details End-->
 
       <!--Inspection Form List Begins-->
-      <div class="ins-items col-md-7 one d-print-none">
-        <hr class="my-4">
+      <div class="ins-items col-md-12 one d-print-none">
         <div *ngFor="let object of insItems">
           <p class="h3">{{object._id.cat | uppercase}}</p>
-          <div *ngFor="let item of object.items">
+          <div *ngFor="let item of object.items; let i = index">
           <span>
             <p class="h6">{{item.item | uppercase}}</p>
             <mat-radio-group [(ngModel)]="insScores[item._id]">
@@ -99,7 +101,6 @@
       </div>
       <!--Inspection Form list Ends-->
 
-      <hr class="my-4">
       {{employeeScores.data.length === 0 ? 'No Inspections recorded for ' + currentEmployee['name'] + ' yet' : ''}}
 
       <!--Monthly Inspections List-->

@@ -31,22 +31,18 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'view/delete'];
   scoreCategory = ['Bad', 'Needs Improvement', 'Excellent'];
   tableSorter: MatSort;
-
-  @Input()
-  showSpinner: boolean;
+  showSpinner = false;
+  currentEmployeIndex: number;
 
   constructor(private insService: InspectionService, public snackBar: MatSnackBar) {
     this.panelOpened = false;
     this.currentInspection = new Inspection();
     this.tableSorter = new MatSort();
-    this.showSpinner = false;
   }
 
   @ViewChild(MatSort) sort;
 
-  ngOnInit() {
-    // this.getEmployees();
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -57,17 +53,19 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   getEmployees() {
     this.insService.getEmployees().subscribe(data => {
       this.employees = data;
-      if (this.currentEmployee === undefined) {
-        this.currentEmployee = data[0];
+      if (this.currentEmployeIndex === undefined) {
+        this.currentEmployeIndex = 0
       }
-      this.getEmployeeIns(this.currentEmployee);
+      this.currentEmployee = data[this.currentEmployeIndex];
+      this.getEmployeeIns(this.currentEmployee, 0);
     });
   }
 
-  getEmployeeIns(employee) {
+  getEmployeeIns(employee, index) {
     this.showInspections = false;
     this.showInspection = false;
     this.currentEmployee = employee;
+    this.currentEmployeIndex = index;
     this.insService.getEmployeeIns(employee['_id']).subscribe(data => {
       this.employeeScores = new MatTableDataSource(data[0]['Monthly Scores']);
       this.employeeScores.sort = this.sort;
@@ -84,11 +82,10 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       ids.push(this.selectedEmployees[i]['_id']);
     }
     this.insService.startNewInspection(this.currentInspection, ids).then(data => {
-      this.currentInspection._id = data[0];
-      this.insItems = JSON.parse(data[1]);
+      this.insItems = data;
       this.toggleNewInspectionPanel();
-      this.insScores = new Map();
-      this.insComments = new Map();
+      this.insScores = {};
+      this.insComments = {};
       this.showInspection = false;
       this.showInspections = false;
       this.toggleSpinner();
@@ -97,7 +94,6 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   submitInspection() {
     this.toggleSpinner();
-    console.log(this.insScores);
     this.insService.sendInspection(this.currentInspection, this.insScores, this.insComments, this.selectedEmployees).then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
@@ -133,7 +129,6 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.insService.getInspections(this.currentEmployee['_id'], monthInspection['month'], monthInspection['year']).then(data => {
       this.showInspections = true;
       this.showInspection = false;
-      console.log(data);
       this.employeeInspections = new MatTableDataSource<any>(data);
       this.employeeInspections.sort = this.sort;
     });
@@ -145,6 +140,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       this.showInspection = true;
       this.showInspections = false;
       this.inspectionItems = data;
+      console.log(data);
     });
   }
 

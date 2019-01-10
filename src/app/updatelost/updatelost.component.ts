@@ -16,4 +16,8 @@ export class UpdatelostComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  isHk(): boolean {
+    return localStorage.getItem('token') !== 'reservations@northerngrand.ca';
+  }
 }

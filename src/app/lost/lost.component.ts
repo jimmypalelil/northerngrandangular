@@ -33,11 +33,11 @@ export class LostComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     let temp;
     if (this.isHK()) {
-      temp = 'EDIT';
+      temp = 'Edit';
     } else {
-      temp = 'EMAIL JEN';
+      temp = 'Email Jen';
     }
-    this.actionHeader = 'DELETE | ' + temp + ' | RETURN TO GUEST';
+    this.actionHeader = 'Delete | ' + temp + ' | Edit | Return to Guest';
   }
 
   isHK(): boolean {
