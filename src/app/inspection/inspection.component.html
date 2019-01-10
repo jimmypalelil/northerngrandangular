@@ -74,17 +74,17 @@
       <!--Employee Details End-->
 
       <!--Inspection Form List Begins-->
-      <div class="ins-items col-md-12 one d-print-none">
+      <div *ngIf="showInspectionForm" class="ins-items col-md-12 one d-print-none">
         <div *ngFor="let object of insItems">
           <p class="h3">{{object._id.cat | uppercase}}</p>
           <div *ngFor="let item of object.items; let i = index">
           <span>
             <p class="h6">{{item.item | uppercase}}</p>
-            <mat-radio-group [(ngModel)]="insScores[item._id]">
+            <mat-radio-group [(ngModel)]="insScores[item._id]" (change)="radioChange(insScores[item._id])">
               <mat-radio-button color="primary" value="1">Excellent</mat-radio-button>
               <mat-radio-button color="primary" value=".5">Needs Improvement</mat-radio-button>
               <mat-radio-button color="primary" value="0">Bad</mat-radio-button>
-              <mat-radio-button color="primary" value="-1" checked>None</mat-radio-button>
+              <mat-radio-button color="primary" value="-1" [checked]="insScores[item._id] === ''">None</mat-radio-button>
             </mat-radio-group>
           </span>
             <mat-form-field>
@@ -93,10 +93,13 @@
             <hr class="my-3">
           </div>
         </div>
-        <div *ngIf="insItems !== undefined">
-          <button mdbBtn mdbWavesEffect
-                  (click)="submitInspection()"
-                  color="secondary">Submit Inspection</button>
+        <button mdbBtn mdbWavesEffect (click)="submitInspection()" gradient="purple">Submit Inspection</button>
+        <div class="ins-score text-center" gradient="purple" mdbBtn mdbWavesEffect>
+          Total Score
+          <br>
+          {{totalScore}} / {{totalItems}}
+          <br>
+          {{totalScore / totalItems *  100 | number:'1.1-2'}} %
         </div>
       </div>
       <!--Inspection Form list Ends-->
