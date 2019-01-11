@@ -8,7 +8,8 @@ export const environment = {
   baseUrl: 'http://127.0.0.1:5000/',
   Url: 'http://127.0.0.1:5000/list/',
   lostUrl: 'http://127.0.0.1:5000/lostAndFound/',
-  insUrl: 'http://127.0.0.1:5000/inspection/'
+  insUrl: 'http://127.0.0.1:5000/inspection/',
+  imageUrl: '/assets/images/'
 };
 
 /*

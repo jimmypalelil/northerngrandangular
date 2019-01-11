@@ -3,5 +3,6 @@ export const environment = {
   baseUrl: '/',
   Url: '/list/',
   lostUrl: '/lostAndFound/',
-  insUrl: '/inspection/'
+  insUrl: '/inspection/',
+  imageUrl: '/static/assets/images/'
 };

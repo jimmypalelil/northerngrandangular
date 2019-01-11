@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {EnsureAuthenticatedService} from '../services/ensure-authenticated.service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,7 @@ import {EnsureAuthenticatedService} from '../services/ensure-authenticated.servi
 export class HomeComponent implements OnInit {
   email: string;
   showLogin = true;
+  imageUrl = environment.imageUrl;
 
   @Output() clickedLogin = new EventEmitter<boolean>();
 

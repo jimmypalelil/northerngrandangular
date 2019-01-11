@@ -3,6 +3,7 @@ import {MatSnackBar, MatSort, MatTabChangeEvent, MatTabGroup, MatTableDataSource
 import {ListService} from '../services/list.service';
 import {LostItem} from '../models/lostitem';
 import {ReturnedItem} from '../models/returneditem';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-lost',
@@ -18,6 +19,7 @@ export class LostComponent implements OnInit, AfterViewInit {
   panelOpened: boolean;
   actionHeader: string;
   showUpdateBar = false;
+  imageUrl = environment.imageUrl;
 
   constructor(private list: ListService, private snackBar: MatSnackBar) {}
 

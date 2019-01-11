@@ -1,11 +1,12 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import { NgForm, FormControl, Validators } from '@angular/forms';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import {AuthService} from './services/auth.service';
 import {Router} from '@angular/router';
 import {User} from './models/user';
 import {EnsureAuthenticatedService} from './services/ensure-authenticated.service';
 import {ModalDirective} from 'angular-bootstrap-md';
 import {MatSnackBar} from '@angular/material';
+import {environment} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit {
   commentFormControl = new FormControl('', [Validators.required]);
   commentEmail: string;
   pages = [['Home', 'home'], ['Housekeeping', 'hk'], ['Lost & Found', 'lost'], ['Inspection', 'inspection']];
+  imageUrl = environment.imageUrl;
 
   changePage(page) {
     this.currentPage = page;
