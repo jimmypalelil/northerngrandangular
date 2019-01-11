@@ -104,7 +104,7 @@
       </div>
       <!--Inspection Form list Ends-->
 
-      {{employeeScores.data.length === 0 ? 'No Inspections recorded for ' + currentEmployee['name'] + ' yet' : ''}}
+      {{employeeScores.data.length === 0 && !showInspectionForm ? 'No Inspections recorded for ' + currentEmployee['name'] + ' yet' : ''}}
 
       <!--Monthly Inspections List-->
       <div *ngIf="!showInspections && !showInspectionForm && !showInspection && employeeScores.data.length > 0">

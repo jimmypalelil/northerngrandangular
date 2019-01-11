@@ -90,7 +90,8 @@
             <button mdbBtn gradient="morpheus-den" class="edit-button z-depth-3"
                     mdbTooltip="Undo Returned Item"
                     placement="right"
-                    *ngIf="i === displayedColumns.length-1 && tabGroup.selectedIndex === 1" (click)="sendItemInfo(element); undoFrame.show()">
+                    *ngIf="i === displayedColumns.length-1 && tabGroup.selectedIndex === 1"
+                    (click)="sendItemInfo(element); undoFrame.show()">
               <i class="fas fa-undo"></i>
             </button>
 
