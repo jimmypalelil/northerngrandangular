@@ -1,3 +1,5 @@
+@import "../../globalVars";
+
 .update-lost-item {
   position: relative;
   top:20%;
@@ -12,4 +14,18 @@ h3 {
 .update-lost-item-content {
   display: flex;
   justify-content: center;
+}
+
+#bg:after, #bg:before {
+  content : "";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: url($my-base-path + 'sidebar_background.jpg');
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  opacity : .5;
+  z-index: -1;
 }

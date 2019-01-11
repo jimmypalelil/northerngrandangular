@@ -107,8 +107,8 @@
 <app-updatelost *ngIf="showUpdateBar"
                 [item]="currentLostItem"
                 (updated)="updateItem()"
-                (cancelled)="showUpdateBar = false"
-                class="update-lost-sidebar animated fadeInRight text-white"></app-updatelost>
+                (cancelled)="showUpdateBar = false;"
+                class="z-depth-3 update-lost-sidebar animated fadeInRight text-white"></app-updatelost>
 
 <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

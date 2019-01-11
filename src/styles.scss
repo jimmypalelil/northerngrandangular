@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "/environments/environment-prod-scss/globalVars";
+@import "globalVars";
 
 html, body { height: 100%; }
 body {
@@ -58,7 +58,7 @@ mdb-card-img > img {
 }
 
 .card {
-  background-color: rgba(255, 255, 255, .5) !important;
+  background-color: rgba(255, 255, 255, 0.35);
   z-index: 1 !important;
 }
 
