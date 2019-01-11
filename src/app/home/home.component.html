@@ -5,7 +5,7 @@
 
 
 <!-- Email jumbotron -->
-<div class="container home-card jumbotron text-center hoverable p-4 wow fadeInUp z-depth-4" *ngIf="!showLogin">
+<div class="container home-card jumbotron text-center hoverable p-4 wow fadeInUp z-depth-4">
 
   <!-- Grid row -->
   <div class="row justify-content-center">
@@ -15,75 +15,38 @@
 
       <!-- Featured image -->
       <div class="view overlay waves-light" mdbWavesEffect>
-        <img src="/static/app/assets/images/top_logo.png" height="200px" width="200px" class="img-fluid">
+        <img src="/assets/images/top_logo.png" height="200px" width="200px" class="img-fluid">
         <a>
           <div class="mask rgba-white-slight"></div>
         </a>
       </div>
 
     </div>
-    <!-- Grid column -->
-
-    <!-- Grid column -->
 
       <div class="col-md-7 text-md-left ml-3 mt-3">
         <blockquote class="blockquote text-center bq-primary">
         <h3 class="h3 mb-3">Northern Grand Housekeeping Services</h3>
+        <div *ngIf="!showLogin; else showLoginCard;">
+          <h5 class="h5 pb-1 purple-text"><i class="fa fa-user" aria-hidden="true"></i> Hello, {{email}}</h5>
 
-        <h5 class="h5 pb-1 purple-text"><i class="fa fa-user" aria-hidden="true"></i> Hello, {{email}}</h5>
+          <p class="note note-primary">
+            Now that you have logged in, navigate to the dashboard below
+          </p>
+        </div>
+          <ng-template #showLoginCard>
+            <p class="font-weight-bold red-text">
+              <i class="fa fa-lock" aria-hidden="true"></i> Please Login to Continue
+            </p>
 
-        <p class="note note-primary">
-          Now that you have logged in, navigate to the dashboard below
-        </p>
+            <h5 mdbBtn gradient="blue" (click)="showLoginModal()"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</h5>
+          </ng-template>
         </blockquote>
       </div>
 
-    <!-- Grid column -->
-
   </div>
-  <!-- Grid row -->
 
 </div>
 <!-- Email jumbotron -->
-
-<!-- News jumbotron -->
-<div class="container home-card jumbotron text-center hoverable p-4 wow fadeInUp z-depth-4" *ngIf="showLogin">
-
-  <!-- Grid row -->
-  <div class="row">
-
-    <!-- Grid column -->
-    <div class="col-md-4 offset-md-1 mx-3 my-3">
-
-      <!-- Featured image -->
-      <div class="view overlay waves-light" mdbWavesEffect>
-        <img src="/static/app/assets/images/top_logo.png" height="200px" width="200px" class="img-fluid">
-        <a>
-          <div class="mask rgba-white-slight"></div>
-        </a>
-      </div>
-
-    </div>
-    <!-- Grid column -->
-
-    <!-- Grid column -->
-    <div class="col-md-7 text-md-left ml-3 mt-3">
-
-      <h3 class="h3 mb-3">Northern Grand Housekeeping Services</h3>
-
-      <p class="font-weight-bold red-text">
-        <i class="fa fa-lock" aria-hidden="true"></i> Please Login to Continue
-      </p>
-
-      <h5 mdbBtn gradient="blue" (click)="showLoginModal()"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</h5>
-    </div>
-    <!-- Grid column -->
-
-  </div>
-  <!-- Grid row -->
-
-</div>
-<!-- News jumbotron -->
 
 <div class="lobby-bg z-depth-4" parallax [config]="{initialValue: -200, ratio: .5}"></div>
 
@@ -93,7 +56,7 @@
       <div class="view rgba-white-slight waves-light" mdbWavesEffect>
         <!-- Card img -->
         <div class="view overlay zoom">
-          <mdb-card-img src="/static/app/assets/images/login.png" alt="Card image cap"></mdb-card-img>
+          <mdb-card-img src="/assets/images/login.png" alt="Card image cap"></mdb-card-img>
         </div>
       </div>
       <!--Card content-->
@@ -120,7 +83,7 @@
       <div class="view rgba-white-slight waves-light" mdbWavesEffect>
         <!-- Card img -->
         <div class="view overlay zoom">
-          <mdb-card-img src="/static/app/assets/images/housekeeping.jpg"></mdb-card-img>
+          <mdb-card-img src="/assets/images/housekeeping.jpg"></mdb-card-img>
         </div>
       </div>
       <!--Card content-->
@@ -145,7 +108,7 @@
       <div class="view rgba-white-slight waves-light" mdbWavesEffect>
         <!-- Card img -->
         <div class="view overlay zoom">
-          <mdb-card-img src="/static/app/assets/images/lostandfound.jpg"></mdb-card-img>
+          <mdb-card-img src="/assets/images/lostandfound.jpg"></mdb-card-img>
         </div>
 
       </div>
@@ -171,7 +134,7 @@
       <div class="view rgba-white-slight waves-light" mdbWavesEffect>
         <!-- Card img -->
         <div class="view overlay zoom">
-          <mdb-card-img src="/static/app/assets/images/inspection.jpg"></mdb-card-img>
+          <mdb-card-img src="/assets/images/inspection.jpg"></mdb-card-img>
         </div>
 
       </div>

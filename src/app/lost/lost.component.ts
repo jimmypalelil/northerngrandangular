@@ -47,29 +47,33 @@ export class LostComponent implements OnInit, AfterViewInit {
   getItemList() {
     this.displayedColumns = [];
     this.list.getLostList().subscribe(data => {
-      this.currentLostItem = data[0];
-      for (const key in data[0]) {
-        if (key !== '_id' && key !== 'cat') {
-          this.displayedColumns.push(key);
+      if (data.length > 0) {
+        this.currentLostItem = data[0];
+        for (const key in data[0]) {
+          if (key !== '_id' && key !== 'cat') {
+            this.displayedColumns.push(key);
+          }
         }
+        this.displayedColumns.push('action');
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.sort = this.sort;
       }
-      this.displayedColumns.push('action');
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.sort = this.sort;
     });
   }
 
   getReturnedItemList() {
     this.displayedColumns = [];
     this.list.getReturnedItemList().subscribe(data => {
-      for (const key in data[0]) {
-        if (key !== '_id' && key !== 'cat') {
-          this.displayedColumns.push(key);
+      if (data.length > 0) {
+        for (const key in data[0]) {
+          if (key !== '_id' && key !== 'cat') {
+            this.displayedColumns.push(key);
+          }
         }
+        this.displayedColumns.push('action');
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.sort = this.sort;
       }
-      this.displayedColumns.push('action');
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.sort = this.sort;
     });
   }
 

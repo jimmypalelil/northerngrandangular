@@ -27,7 +27,7 @@ footer {
     content: '';
     display: block;
     margin: auto;
-    height: 1px;
+    height: 5px;
     width: 0;
     background: transparent;
     transition: width .5s ease, background-color .5s ease;
@@ -35,12 +35,12 @@ footer {
 
   li:hover:after {
     width: 100%;
-    background: rgba(255, 27, 8, 1);
+    background: rgba(255, 255, 255, .5);
   }
 }
 
 @media (max-width: 37em) {
-  .active-page {
+  .active {
     border-left: 2px solid red;
   }
 }
