@@ -9,7 +9,7 @@
   <links>
     <ul class="navbar-nav mr-auto">
 
-      <li *ngFor="let page of pages; let i = index" class="nav-item cool-link" [ngClass]="{'active-page': currentPage === page[1]}">
+      <li *ngFor="let page of pages; let i = index" class="nav-item" [ngClass]="{'active-page': currentPage === page[1]}">
         <a class="nav-link waves-light" routerLink="/{{page[1]}}" mdbWavesEffect (click)="changePage(page[1])">
           <i *ngIf="i === 0" class="fas fa-home"></i>
           <i *ngIf="i === 1" class="fas fa-building"></i>

@@ -23,18 +23,19 @@ footer {
     border-bottom: 5px solid red;
   }
 
-  .cool-link::after {
+  li:after {
     content: '';
     display: block;
-    width: 0;
+    margin: auto;
     height: 1px;
-    background-color: red;
-    transition: width .3s;
+    width: 0;
+    background: transparent;
+    transition: width .5s ease, background-color .5s ease;
   }
 
-  .cool-link:hover::after {
+  li:hover:after {
     width: 100%;
-    //transition: width .3s;
+    background: rgba(255, 27, 8, 1);
   }
 }
 

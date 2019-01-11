@@ -35,6 +35,10 @@ mat-progress-spinner {
   z-index: 12000;
 }
 
+mat-cell, mat-header-cell {
+  cursor: pointer;
+}
+
 .active {
   border-left: 2px solid !important;
 }

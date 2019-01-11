@@ -64,7 +64,7 @@
 
             <ng-container *ngFor="let value of dataDisplayColumns" matColumnDef="{{value}}">
               <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
-              <mat-cell mdbWavesEffect *matCellDef="let element" (click)="value !== 'edit' ? selection.toggle(element) : null">
+              <mat-cell *matCellDef="let element" (click)="value !== 'edit' ? selection.toggle(element) : null">
                 <p *ngIf="value === 'status'" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}" class="font-weight-bold">
                   <i *ngIf="element.status === 'clean'; else notDone" class="fas fa-check-circle"></i>
                   <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>
