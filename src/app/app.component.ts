@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
   loginMessage = '';
   showLoginmodal: boolean;
   commentFormControl = new FormControl('', [Validators.required]);
+  commentEmailControl = new FormControl('', [Validators.required]);
 
   changePage(page) {
     this.currentPage = page;
@@ -86,7 +87,7 @@ export class AppComponent implements OnInit {
 
   sendFeedback() {
     if (this.loggedIn) {
-      this.auth.sendFeedBack(this.commentFormControl.value, this.email).then(msg => {
+      this.auth.sendFeedBack(this.commentFormControl.value, this.commentEmailControl.value).then(msg => {
         this.snackBar.open(msg['text'], '', {
           duration: 2000, verticalPosition: 'bottom'
         });

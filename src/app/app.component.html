@@ -90,7 +90,8 @@
 
           <div class="md-form mb-5">
             <i class="far fa-user prefix grey-text"></i>
-            <input id="email" type="email" class="form-control" disabled [mdbValidate]="false" mdbInputDirective [value]="email">
+            <input id="email" type="email" class="form-control" [mdbValidate]="false"
+                   [formControl]="commentEmailControl" mdbInputDirective [value]="email">
             <label for="email">From</label>
           </div>
 
