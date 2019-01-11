@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   loginMessage = '';
   showLoginmodal: boolean;
   commentFormControl = new FormControl('', [Validators.required]);
-  commentEmailControl = new FormControl('', [Validators.required]);
+  commentEmail: string;
   pages = [['Home', 'home'], ['Housekeeping', 'hk'], ['Lost & Found', 'lost'], ['Inspection', 'inspection']];
 
   changePage(page) {
@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
     this.auth.loggedIn.subscribe(value => {
       this.loggedIn = value;
       this.email = localStorage.getItem('token');
+      this.commentEmail = this.email;
     });
     this.auth.currentPage.subscribe(value => {
       this.currentPage = value;
@@ -90,7 +91,7 @@ export class AppComponent implements OnInit {
 
   sendFeedback() {
     if (this.loggedIn) {
-      this.auth.sendFeedBack(this.commentFormControl.value, this.commentEmailControl.value).then(msg => {
+      this.auth.sendFeedBack(this.commentFormControl.value, this.commentEmail).then(msg => {
         this.feedBackModal.hide();
         this.snackBar.open(msg['text'], '', {
           duration: 2000, verticalPosition: 'bottom'
