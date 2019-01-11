@@ -84,7 +84,7 @@
         </button>
       </div>
 
-      <form #loginForm="ngForm" (ngSubmit)="feedbackframe.hide();sendFeedback()" novalidate>
+      <form #loginForm="ngForm" (ngSubmit)="sendFeedback()" novalidate>
 
         <div class="modal-body mx-3">
 
@@ -128,7 +128,7 @@
         <h2 class="bq-title"><i class="fas fa-user-lock"></i> {{loginMessage}} </h2>
       </blockquote>
 
-      <form #loginForm="ngForm" (ngSubmit)="frame.hide();loginUser()" novalidate>
+      <form #loginForm="ngForm" (ngSubmit)="loginUser()" novalidate>
         <div class="modal-body mx-3">
           <div class="md-form mb-5">
             <i class="fa fa-envelope prefix grey-text"></i>

@@ -15,7 +15,8 @@ import {MatSnackBar} from '@angular/material';
 
 export class AppComponent implements OnInit {
 
-  @ViewChild('frame') modalFrame: ModalDirective;
+  @ViewChild('frame') loginModal: ModalDirective;
+  @ViewChild('feedbackframe') feedBackModal: ModalDirective;
 
   constructor(private router: Router, private auth: AuthService, private ensureAuth: EnsureAuthenticatedService,
               public snackBar: MatSnackBar) {}
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit {
     this.ensureAuth.canActivate();
     this.ensureAuth.showLoginModal.subscribe(value => {
         if (value) {
-          this.modalFrame.show();
+          this.loginModal.show();
         }
     });
     this.auth.message.subscribe(msg => {
@@ -56,7 +57,7 @@ export class AppComponent implements OnInit {
   }
 
   showModal() {
-    this.modalFrame.show();
+    this.loginModal.show();
   }
 
   loginUser() {
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit {
         this.auth.loggedIn.next(true);
         this.router.navigateByUrl('/');
         this.changePage('home');
+        this.loginModal.hide();
         this.snackBar.open('Logged In Successfully!!!', '', {
           duration: 2000, verticalPosition: 'bottom'
         });
@@ -88,6 +90,7 @@ export class AppComponent implements OnInit {
   sendFeedback() {
     if (this.loggedIn) {
       this.auth.sendFeedBack(this.commentFormControl.value, this.commentEmailControl.value).then(msg => {
+        this.feedBackModal.hide();
         this.snackBar.open(msg['text'], '', {
           duration: 2000, verticalPosition: 'bottom'
         });
