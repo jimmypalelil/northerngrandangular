@@ -7,43 +7,53 @@
   </mdb-navbar-brand>
 
   <links>
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item" [ngClass]="{'active': currentPage === 'home'}">
-          <a class="nav-link waves-light" routerLink="/" (click)="changePage('home')" mdbWavesEffect><i class="fas fa-home"></i> Home</a>
-        </li>
-        <li class="nav-item" [ngClass]="{'active': currentPage ==='hk'}">
-          <a class="nav-link waves-light" routerLink="/hk" mdbWavesEffect (click)="changePage('hk')">
-            <i class="fas fa-building"></i> Housekeeping
-          </a>
-        </li>
-        <li class="nav-item" [ngClass]="{'active': currentPage ==='lost'}">
-          <a class="nav-link waves-light" routerLink="/lost" mdbWavesEffect (click)="changePage('lost')">
-            <i class="fas fa-search-dollar"></i> Lost & Found
-          </a>
-        </li>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" [ngClass]="{'active': currentPage === 'home'}">
+        <a class="nav-link waves-light" routerLink="/" (click)="changePage('home')" mdbWavesEffect><i class="fas fa-home"></i> Home</a>
+      </li>
+      <li class="nav-item" [ngClass]="{'active': currentPage ==='hk'}">
+        <a class="nav-link waves-light" routerLink="/hk" mdbWavesEffect (click)="changePage('hk')">
+          <i class="fas fa-building"></i> Housekeeping
+        </a>
+      </li>
+      <li class="nav-item" [ngClass]="{'active': currentPage ==='lost'}">
+        <a class="nav-link waves-light" routerLink="/lost" mdbWavesEffect (click)="changePage('lost')">
+          <i class="fas fa-search-dollar"></i> Lost & Found
+        </a>
+      </li>
 
-        <li class="nav-item" [ngClass]="{'active': currentPage ==='inspection'}">
-          <a class="nav-link waves-light" routerLink="/inspection" mdbWavesEffect (click)="changePage('inspection')">
-            <i class="fas fa-clipboard-list"></i> Inspection
-          </a>
-        </li>
+      <li class="nav-item" [ngClass]="{'active': currentPage ==='inspection'}">
+        <a class="nav-link waves-light" routerLink="/inspection" mdbWavesEffect (click)="changePage('inspection')">
+          <i class="fas fa-clipboard-list"></i> Inspection
+        </a>
+      </li>
 
-        <li *ngIf="!loggedIn" class="nav-item">
-          <a class="nav-link waves-light" mdbWavesEffect (click)="frame.show()">
-            <i class="fas fa-sign-in-alt"></i> Login
-          </a>
-        </li>
+      <li *ngIf="!loggedIn" class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect (click)="frame.show()">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </a>
+      </li>
 
-        <li *ngIf="loggedIn" class="nav-item">
-          <a class="nav-link waves-light" routerLink="/" mdbWavesEffect (click)="logoutUser()">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </a>
-        </li>
+      <li *ngIf="loggedIn" class="nav-item">
+        <a class="nav-link waves-light" routerLink="/" mdbWavesEffect (click)="logoutUser()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </li>
+    </ul>
 
-      </ul>
-      <span *ngIf="loggedIn" class="navbar-text">
-      Welcome, {{email}}
-    </span>
+    <ul class="navbar-nav mr-auto">
+      <li *ngIf="loggedIn" class="navbar-text nav-item">
+        <a class="nav-link waves-light">
+          Welcome, {{email}}
+        </a>
+      </li>
+      <li class="navbar-text nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect (click)="feedbackframe.show()">
+          <i class="fas fa-comment"></i> Feedback
+        </a>
+      </li>
+    </ul>
+
   </links>
 </mdb-navbar>
 
@@ -62,6 +72,47 @@
 </footer>
 <!-- Footer -->
 
+<!--Feedback Modal-->
+<div mdbModal #feedbackframe="mdbModal" class="modal fade left" tabindex="-1" role="dialog" [config]="{backdrop: false}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold"><i class="far fa-comment-dots"></i> Send Your Feedback</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="feedbackframe.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form #loginForm="ngForm" (ngSubmit)="feedbackframe.hide();sendFeedback()" novalidate>
+
+        <div class="modal-body mx-3">
+
+          <div class="md-form mb-5">
+            <i class="far fa-user prefix grey-text"></i>
+            <input id="email" type="email" class="form-control" disabled [mdbValidate]="false" mdbInputDirective [value]="email">
+            <label for="email">From</label>
+          </div>
+
+          <div class="md-form">
+            <i class="fa fa-pencil prefix grey-text"></i>
+            <textarea type="text" id="form8" class="md-textarea form-control" rows="3" mdbInputDirective
+                      [mdbValidate]="false" [formControl]="commentFormControl"></textarea>
+            <label for="form8">Your Comments</label>
+          </div>
+
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button mdbBtn color="default" class="btn blue-gradient" mdbWavesEffect>
+            <i class="far fa-paper-plane"></i> Send
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Login Modal-->
 <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" [config]="{backdrop: false}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

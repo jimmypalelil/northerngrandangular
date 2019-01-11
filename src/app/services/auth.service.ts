@@ -33,6 +33,10 @@ export class AuthService {
   setMessage(msg: string) {
     this.message.next(msg);
   }
+
+  sendFeedBack(comment: any, email: string): Promise<any> {
+    return this.http.post(this.BASE_URL + '/feedback', {comment, email}).toPromise();
+  }
 }
 
 const httpOptions = {

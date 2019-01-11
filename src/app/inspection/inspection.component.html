@@ -53,8 +53,8 @@
       <mdb-card *ngIf="showInspection || showInspections" class="text-center sticky-top" style="z-index:1200 !important;">
         <mdb-card-body>
           <mdb-card-title>
-            <h5 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h5>
-            <h5 *ngIf="showInspection">Inspection Details</h5>
+            <h3 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h3>
+            <h3 *ngIf="showInspection">Inspection Details</h3>
           </mdb-card-title>
           <mdb-card-text *ngIf="showInspection">
             <h5>

@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {User} from './models/user';
 import {EnsureAuthenticatedService} from './services/ensure-authenticated.service';
 import {ModalDirective} from 'angular-bootstrap-md';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit {
 
   @ViewChild('frame') modalFrame: ModalDirective;
 
-  constructor(private router: Router, private auth: AuthService, private ensureAuth: EnsureAuthenticatedService) {}
+  constructor(private router: Router, private auth: AuthService, private ensureAuth: EnsureAuthenticatedService,
+              public snackBar: MatSnackBar) {}
 
   currentPage: string;
   loginFormModalEmail = new FormControl('', [Validators.email, Validators.required]);
@@ -24,8 +26,8 @@ export class AppComponent implements OnInit {
   loggedIn: boolean;
   email: string;
   loginMessage = '';
-
   showLoginmodal: boolean;
+  commentFormControl = new FormControl('', [Validators.required]);
 
   changePage(page) {
     this.currentPage = page;
@@ -65,7 +67,14 @@ export class AppComponent implements OnInit {
         this.auth.loggedIn.next(true);
         this.router.navigateByUrl('/');
         this.changePage('home');
+        this.snackBar.open('Logged In Successfully!!!', '', {
+          duration: 2000, verticalPosition: 'bottom'
+        });
       }
+    }).catch(() => {
+      this.snackBar.open('Login Failed!!!', '', {
+        duration: 2000, verticalPosition: 'bottom'
+      });
     });
   }
 
@@ -73,5 +82,19 @@ export class AppComponent implements OnInit {
     localStorage.clear();
     this.changePage('home');
     this.auth.loggedIn.next(false);
+  }
+
+  sendFeedback() {
+    if (this.loggedIn) {
+      this.auth.sendFeedBack(this.commentFormControl.value, this.email).then(msg => {
+        this.snackBar.open(msg['text'], '', {
+          duration: 2000, verticalPosition: 'bottom'
+        });
+      });
+    } else {
+      this.snackBar.open('Please Sign in to send feedback', '', {
+        duration: 2000, verticalPosition: 'bottom'
+      });
+    }
   }
 }
