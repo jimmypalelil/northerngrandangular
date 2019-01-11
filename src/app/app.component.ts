@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   showLoginmodal: boolean;
   commentFormControl = new FormControl('', [Validators.required]);
   commentEmailControl = new FormControl('', [Validators.required]);
+  pages = [['Home', 'home'], ['Housekeeping', 'hk'], ['Lost & Found', 'lost'], ['Inspection', 'inspection']];
 
   changePage(page) {
     this.currentPage = page;

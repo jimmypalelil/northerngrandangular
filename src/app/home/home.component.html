@@ -135,7 +135,8 @@
           Manage Daily and Monthly Housekeeping Tasks.
         </mdb-card-text>
 
-        <a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect routerLink="/hk">Housekeeping Dashboard</a>
+        <a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect
+           (click)="changePage('hk')" routerLink="/hk">Housekeeping Dashboard</a>
       </mdb-card-body>
     </mdb-card>
 
@@ -160,7 +161,8 @@
           Report and Access Lost and Found Data here.
         </mdb-card-text>
 
-        <a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect routerLink="/lost">Lost & Found</a>
+        <a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect routerLink="/lost"
+           (click)="changePage('lost')">Lost & Found</a>
       </mdb-card-body>
     </mdb-card>
 
@@ -185,7 +187,8 @@
           Record and View Inspections
         </mdb-card-text>
 
-        <a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect routerLink="/inspection">Inspection Dashboard</a>
+        <a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect
+           (click)="changePage('inspection')" routerLink="/inspection">Inspection Dashboard</a>
       </mdb-card-body>
     </mdb-card>
 

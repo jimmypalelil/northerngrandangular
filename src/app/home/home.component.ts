@@ -27,4 +27,8 @@ export class HomeComponent implements OnInit {
   showLoginModal() {
     this.ensureAuth.showLoginModal.next(true);
   }
+
+  changePage(page) {
+    this.auth.currentPage.next(page);
+  }
 }
