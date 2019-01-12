@@ -65,16 +65,18 @@
             <ng-container *ngFor="let value of dataDisplayColumns" matColumnDef="{{value}}">
               <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
               <mat-cell *matCellDef="let element" (click)="value !== 'edit' ? selection.toggle(element) : null">
-                <p *ngIf="value === 'status'" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}" class="font-weight-bold">
-                  <i *ngIf="element.status === 'clean'; else notDone" class="fas fa-check-circle"></i>
-                  <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>
-                </p>
-                {{value === 'status' ? '' : element[value]}}
+                <span class="font-weight-bold" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}">
+                  {{value === 'status' ? '' : element[value]}}
+                  <span *ngIf="value === 'status'" style="font-size: 30px;">
+                    <i *ngIf="element[value] === 'clean'; else notDone" class="fas fa-check-circle"></i>
+                    <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>
+                  </span>
+                </span>
 
                 <div *ngIf="selection.selected.length == 0">
                   <button mdbBtn class="edit-button z-depth-1-half" type="button"
                           (click)="changeRoomStatus(element)"
-                          *ngIf="value === 'edit'"
+                          *ngIf="value === 'edit'" [title]="element.status === 'clean' ? 'Undo' : 'Clean Room'"
                           [ngClass]="{'blue-gradient': element.status=== 'not done', 'peach-gradient': element.status === 'clean'}"
                           mdbWavesEffect>
                     <i *ngIf="element.status === 'not done'" class="far fa-check-square"></i>

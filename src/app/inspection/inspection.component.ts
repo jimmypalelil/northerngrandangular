@@ -54,7 +54,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   getEmployees() {
-    this.insService.getEmployees().subscribe(data => {
+    this.insService.getEmployees().then(data => {
       this.employees = data;
       if (this.currentEmployeIndex === undefined) {
         this.currentEmployeIndex = 0
@@ -70,7 +70,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.showInspectionForm = false;
     this.currentEmployee = employee;
     this.currentEmployeIndex = index;
-    this.insService.getEmployeeIns(employee['_id']).subscribe(data => {
+    this.insService.getEmployeeIns(employee['_id']).then(data => {
       this.employeeScores = new MatTableDataSource(data[0]['Monthly Scores']);
       this.employeeScores.sort = this.sort;
     });
@@ -123,7 +123,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   resetInspections() {
     this.toggleSpinner();
-    this.insService.resetInspections().subscribe(msg => {
+    this.insService.resetInspections().then(msg => {
       location.reload();
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
@@ -145,7 +145,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   viewInspection(inspection) {
     this.currentInspection = inspection;
-    this.insService.getInspection(inspection['_id'], this.currentEmployee['_id']).subscribe(data => {
+    this.insService.getInspection(inspection['_id'], this.currentEmployee['_id']).then(data => {
       this.showInspection = true;
       this.showInspections = false;
       this.showInspectionForm = false;
@@ -195,7 +195,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   createInsItems() {
     this.toggleSpinner();
-    this.insService.createInsItems().subscribe(msg => {
+    this.insService.createInsItems().then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });

@@ -12,8 +12,8 @@ export class InspectionService {
 
   constructor(private http: HttpClient) { }
 
-  getEmployees(): Observable<any> {
-    return this.http.get<any>(this.url + 'empList');
+  getEmployees(): Promise<any> {
+    return this.http.get<any>(this.url + 'empList').toPromise();
   }
 
   startNewInspection(inspection: Inspection, empIDs: string[]): Promise<any> {
@@ -25,20 +25,20 @@ export class InspectionService {
 
   }
 
-  getEmployeeIns(employeeID: Observable<any>) {
-    return this.http.get(this.url + 'getEmployeeMonthlyInspections/' + employeeID);
+  getEmployeeIns(employeeID: string): Promise<any> {
+    return this.http.get(this.url + 'getEmployeeMonthlyInspections/' + employeeID).toPromise();
   }
 
-  resetInspections(): Observable<any> {
-    return this.http.get(this.url + 'resetInspections');
+  resetInspections(): Promise<any> {
+    return this.http.get(this.url + 'resetInspections').toPromise();
   }
 
   getInspections(emp_id: any, month: any, year: number): Promise<any> {
     return this.http.post(this.url + 'getEmployeeInspections', {emp_id, month, year}).toPromise();
   }
 
-  getInspection(ins_id: string, emp_id: string): Observable<any> {
-    return this.http.get(this.url + 'getEmployeeInspection/' +  ins_id + '/' + emp_id);
+  getInspection(ins_id: string, emp_id: string): Promise<any> {
+    return this.http.get(this.url + 'getEmployeeInspection/' +  ins_id + '/' + emp_id).toPromise();
   }
 
   deleteInspection(inspection, emp_id): Promise<any> {
@@ -49,7 +49,7 @@ export class InspectionService {
     return this.http.post(this.url + 'deleteMonthlyInspections/' + empID, currentEmployeeScore).toPromise();
   }
 
-  createInsItems(): Observable<any> {
-    return this.http.get(this.url + 'createInsItems');
+  createInsItems(): Promise<any> {
+    return this.http.get(this.url + 'createInsItems').toPromise();
   }
 }

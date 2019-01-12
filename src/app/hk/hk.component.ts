@@ -83,7 +83,7 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   getMonthList(type, month, year) {
     this.toggleSpinner();
-    this.listService.getRoomList(type.data, month, year).subscribe(data => {
+    this.listService.getRoomList(type.data, month, year).then(data => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.filterPredicate = (room: Room, filter: String) =>
         (room.room_number >= Number(filter) &&

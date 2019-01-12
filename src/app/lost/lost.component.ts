@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSnackBar, MatSort, MatTabChangeEvent, MatTabGroup, MatTableDataSource} from '@angular/material';
 import {ListService} from '../services/list.service';
 import {LostItem} from '../models/lostitem';
@@ -10,7 +10,7 @@ import {environment} from '../../environments/environment';
   templateUrl: './lost.component.html',
   styleUrls: ['./lost.component.scss']
 })
-export class LostComponent implements OnInit, AfterViewInit {
+export class LostComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   tabList = ['Lost & Found Items', 'Returned Items'];
   displayedColumns = [];
@@ -32,23 +32,13 @@ export class LostComponent implements OnInit, AfterViewInit {
     this.currentReturnItem = new ReturnedItem();
   }
 
-  ngAfterViewInit(): void {
-    let temp;
-    if (this.isHK()) {
-      temp = 'Edit';
-    } else {
-      temp = 'Email Jen';
-    }
-    this.actionHeader = 'Delete | ' + temp + ' | Edit | Return to Guest';
-  }
-
   isHK(): boolean {
       return localStorage.getItem('token') !== 'reservations@northerngrand.ca';
   }
 
   getItemList() {
     this.displayedColumns = [];
-    this.list.getLostList().subscribe(data => {
+    this.list.getLostList().then(data => {
       if (data.length > 0) {
         this.currentLostItem = data[0];
         for (const key in data[0]) {
@@ -65,7 +55,7 @@ export class LostComponent implements OnInit, AfterViewInit {
 
   getReturnedItemList() {
     this.displayedColumns = [];
-    this.list.getReturnedItemList().subscribe(data => {
+    this.list.getReturnedItemList().then(data => {
       if (data.length > 0) {
         for (const key in data[0]) {
           if (key !== '_id' && key !== 'cat') {
@@ -81,10 +71,8 @@ export class LostComponent implements OnInit, AfterViewInit {
 
   changeTab(event: MatTabChangeEvent) {
     if (event.index === 0) {
-      this.actionHeader = 'DELETE | EMAIL JEN | RETURN TO GUEST';
       this.getItemList();
     } else {
-      this.actionHeader = 'UNDO RETURN';
       this.getReturnedItemList();
     }
     this.sort.active = '';

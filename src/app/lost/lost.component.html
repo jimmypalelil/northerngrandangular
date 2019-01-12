@@ -50,7 +50,7 @@
       <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 lost-table">
         <ng-container *ngFor="let value of displayedColumns; let i = index" cdkColumnDef="{{value}}">
           <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header class="wow fadeInUp z-depth-1-half text-center">
-            {{value === 'action' ? actionHeader : value | uppercase}}
+            {{value | uppercase}}
           </mat-header-cell>
           <mat-cell *matCellDef="let element" class="animated fadeInUp">
             {{value === 'date'|| value === 'return_date' || value === 'date_found' ? (element[value] | date) : (element[value] | uppercase)}}
@@ -58,13 +58,13 @@
             <div *ngIf="value === 'action' && tabGroup.selectedIndex === 0">
               <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3"
                       mdbTooltip="Delete"
-                      placement="right"
+                      placement="right" title="Delete Item"
                       (click)="sendItemInfo(element); frame.show()">
                 <i class="fas fa-trash-alt"></i>
               </button>
               <button mdbBtn gradient="tempting-azure" class="edit-button z-depth-3"
                       mdbTooltip="Email Jennifer"
-                      placement="right"
+                      placement="right" title="Email Jennifer"
                       *ngIf="!isHK()" (click)="sendItemInfo(element); emailFrame.show()">
                 <i class="far fa-envelope"></i>
               </button>
@@ -72,7 +72,7 @@
 
               <button mdbWavesEffect mdbBtn
                       mdbTooltip="Edit"
-                      placement="right"
+                      placement="right" title="Update Item"
                       class="edit-button z-depth-3"
                       gradient="rainy-ashville"
                       (click)="sendItemInfo(element);showUpdateBar = true"><i class="far fa-edit"></i>
@@ -81,7 +81,7 @@
 
               <button mdbBtn gradient="sunny-morning" class="edit-button z-depth-3"
                       mdbTooltip="Return to Guest"
-                      placement="right"
+                      placement="right" title="Return Item to Guest"
                       (click)="sendItemInfo(element); returnFrame.show()">
                 <i class="fas fa-gift"></i>
               </button>
@@ -89,7 +89,7 @@
 
             <button mdbBtn gradient="morpheus-den" class="edit-button z-depth-3"
                     mdbTooltip="Undo Returned Item"
-                    placement="right"
+                    placement="right" title="Undo Return"
                     *ngIf="i === displayedColumns.length-1 && tabGroup.selectedIndex === 1"
                     (click)="sendItemInfo(element); undoFrame.show()">
               <i class="fas fa-undo"></i>
@@ -108,7 +108,7 @@
                 [item]="currentLostItem"
                 (updated)="updateItem()"
                 (cancelled)="showUpdateBar = false;"
-                class="z-depth-3 update-lost-sidebar animated fadeInRight text-white"></app-updatelost>
+                class="z-depth-3 update-lost-sidebar animated fadeInRight"></app-updatelost>
 
 <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

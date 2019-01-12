@@ -13,16 +13,16 @@ export class ListService {
 
   constructor(private http: HttpClient) { }
 
-  getRoomList(type, month, year): Observable<Room[]> {
-    return this.http.get<Room[]>(this.Url + type + '/' + year + '/' + month);
+  getRoomList(type, month, year):Promise<Room[]> {
+    return this.http.get<Room[]>(this.Url + type + '/' + year + '/' + month).toPromise();
   }
 
-  getLostList(): Observable<LostItem[]> {
-    return this.http.get<LostItem[]>(this.Url + 'lost/lostItems');
+  getLostList(): Promise<LostItem[]> {
+    return this.http.get<LostItem[]>(this.Url + 'lost/lostItems').toPromise();
   }
 
-  getReturnedItemList(): Observable<ReturnedItem[]> {
-    return this.http.get<ReturnedItem[]>(this.Url + 'lost/returnedItems');
+  getReturnedItemList(): Promise<ReturnedItem[]> {
+    return this.http.get<ReturnedItem[]>(this.Url + 'lost/returnedItems').toPromise();
   }
 
   changeRoomStatus(rooms: Room[], status): Promise<any> {
@@ -41,11 +41,11 @@ export class ListService {
     return this.http.post(this.lostUrl + 'email', lostItem).toPromise();
   }
 
-  returnItem(returnItem: ReturnedItem | (() => void)) {
+  returnItem(returnItem: ReturnedItem | (() => void)): Promise<any> {
     return this.http.post(this.lostUrl + 'returnItem', returnItem).toPromise();
   }
 
-  undoReturn(returnItem: ReturnedItem) {
+  undoReturn(returnItem: ReturnedItem): Promise<any> {
     return this.http.post(this.lostUrl + 'undoReturn', returnItem).toPromise();
   }
 

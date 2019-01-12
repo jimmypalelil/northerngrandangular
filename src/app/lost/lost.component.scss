@@ -7,9 +7,28 @@
   margin-top:3%;
 }
 
+@media (min-width: 70em) {
+  .update-lost-sidebar {
+    position: fixed;
+    top:0;
+    right:0;
+    height: 100%;
+    width: 400px;
+  }
+}
+
+
 @media (max-width: 37.5em)  {
   .lost-title {
     margin-top:20%;
+  }
+
+  .update-lost-sidebar {
+    position: fixed;
+    top:0;
+    right:0;
+    height: 100%;
+    width: 300px;
   }
 }
 
@@ -27,14 +46,4 @@
 
 ::ng-deep .cdk-overlay-container{
   z-index: 1200 !important;
-}
-
-.update-lost-sidebar {
-  position: fixed;
-  top:0;
-  right:0;
-  height: 100%;
-  width: 300px;
-  background: url($my-base-path + 'sidebar_background.jpg') no-repeat;
-  opacity: .2;
 }
