@@ -55,13 +55,13 @@
           <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 animated fadeInUp">
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
-              <mat-header-cell *matHeaderCellDef>
+              <mat-header-cell class="d-print-none" *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null"
                               [checked]="selection.hasValue() && isAllSelected()"
                               [indeterminate]="selection.hasValue() && !isAllSelected()">
                 </mat-checkbox>
               </mat-header-cell>
-              <mat-cell mdbWavesEffect *matCellDef="let row" (click)="selection.toggle(row)">
+              <mat-cell class="d-print-none" mdbWavesEffect *matCellDef="let row" (click)="selection.toggle(row)">
                 <mat-checkbox (click)="$event.stopPropagation()"
                               (change)="$event ? selection.toggle(row) : null"
                               [checked]="selection.isSelected(row)">
