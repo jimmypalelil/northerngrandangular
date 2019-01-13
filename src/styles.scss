@@ -9,6 +9,25 @@ body {
   //background: url('/assets/images/website-background.jpg') fixed !important ;
 }
 
+@media (min-width: 70em) {
+  .navbar {
+    height: 100px;
+    transition: height .5s ease-in-out, font-size 1ms ease-in-out !important;
+    font-size: 1.1em;
+  }
+}
+
+.indigo {
+  background-image: url($my-base-path + 'navbar_background.jpg') !important;
+}
+
+.nav-bg-scroll-down {
+  //background-color: #0d0d0db0 !important;
+  opacity: .8;
+  height: 50px;
+  font-size: 1em;
+}
+
 #main:after, #main:before {
   content : "";
   display: block;

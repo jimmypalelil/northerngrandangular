@@ -26,7 +26,9 @@
     function scrollFunction() {
       if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("myBtn").style.display = "block";
+        document.getElementsByClassName('navbar')[0].classList.add('nav-bg-scroll-down');
       } else {
+        document.getElementsByClassName('navbar')[0].classList.remove('nav-bg-scroll-down');
         document.getElementById("myBtn").style.display = "none";
       }
     }
