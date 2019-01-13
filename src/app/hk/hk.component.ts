@@ -36,6 +36,7 @@ export class HkComponent implements OnInit, AfterViewInit {
   currentMonth: string;
   currentYear: number;
   currentType: any;
+  currentStatus: string;
   showSpinner = false;
   selection = new SelectionModel<Room>(true, []);
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
@@ -70,13 +71,25 @@ export class HkComponent implements OnInit, AfterViewInit {
   masterToggle() {
     this.isAllSelected() ?
       this.dataSource.data.forEach(row => {
-        if (row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
-          this.selection.deselect(row);
+        if (this.currentStatus === 'all') {
+          if (row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
+            this.selection.deselect(row);
+          }
+        } else {
+          if (row.status === this.currentStatus && row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
+            this.selection.deselect(row);
+          }
         }
       }) :
       this.dataSource.data.forEach(row => {
-        if (row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
-          this.selection.select(row);
+        if (this.currentStatus === 'all') {
+          if (row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
+            this.selection.select(row);
+          }
+        } else {
+          if (row.status === this.currentStatus && row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
+            this.selection.select(row);
+          }
         }
       });
   }
@@ -91,6 +104,7 @@ export class HkComponent implements OnInit, AfterViewInit {
         (room.status === filter && room.room_number >= Number(this.currentFloor) && room.room_number < Number(this.currentFloor) + 100);
       this.changeFloor(this.currentFloor);
       this.currentType = type;
+      this.currentStatus = 'all';
       this.toggleSpinner();
     });
   }
@@ -155,11 +169,15 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   setStatus(index) {
+    this.selection.clear();
     if (index === 1) {
+      this.currentStatus = 'not done';
       this.dataSource.filter = 'not done';
     } else if (index === 2) {
+      this.currentStatus = 'clean';
       this.dataSource.filter = 'clean';
     } else {
+      this.currentStatus = 'all';
       this.dataSource.filter = '' + this.currentFloor;
     }
   }
