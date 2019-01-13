@@ -107,3 +107,13 @@ mat-cell, mat-header-cell {
   position: relative;
   bottom: 3px;
 }
+
+@media print {
+  .mat-tab-label-content {
+    display: none !important;
+  }
+  mat-table {
+    visibility: visible !important;
+    display: block !important;
+  }
+}

@@ -1,6 +1,6 @@
 <div class="row justify-content-center" style="margin-top: 3%;">
 
-  <div class="col-md-2 two" style="margin-top: 2%;">
+  <div class="col-md-2 two d-print-none" style="margin-top: 2%;">
     <div class="fixed animated fadeInLeft">
       <mat-list>
         <h3 mat-subheader>Select Floor</h3>
@@ -33,6 +33,10 @@
         <mdb-card-text>
           {{floors[currentFloor / 100 - 2].label | uppercase}}
         </mdb-card-text>
+        <button mdbBtn mdbWavesEffect class="d-print-none d-none d-lg-inline"
+                onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;window.print()" color="primary">
+          <i class="fas fa-print"></i> Print List
+        </button>
       </mdb-card-body>
     </mdb-card>
 
@@ -40,9 +44,12 @@
     <mat-tab-group (selectedTabChange)="changeTab($event)">
       <mat-tab color="primary" *ngFor="let month of months[currentType['index']]" label="{{month | uppercase}}">
 
-        <hr class="my-4">
-        <span><input (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By Room No."></span>
-        <hr class="my-3">
+        <!--Search Bar-->
+        <div class="search-bar d-print-none">
+          <hr class="my-4">
+          <span><input (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By Room No."></span>
+          <hr class="my-3">
+        </div>
 
         <div class="table-container">
           <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 animated fadeInUp">
@@ -63,8 +70,12 @@
             </ng-container>
 
             <ng-container *ngFor="let value of dataDisplayColumns" matColumnDef="{{value}}">
-              <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header> {{value | uppercase}}</mat-header-cell>
-              <mat-cell *matCellDef="let element" (click)="value !== 'edit' ? selection.toggle(element) : null">
+              <mat-header-cell mdbWavesEffect *matHeaderCellDef
+                               [ngClass]="{'d-print-none': value === 'edit'}"
+                               mat-sort-header> {{value | uppercase}}</mat-header-cell>
+              <mat-cell *matCellDef="let element"
+                        [ngClass]="{'d-print-none': value === 'edit'}"
+                        (click)="value !== 'edit' ? selection.toggle(element) : null">
                 <span class="font-weight-bold" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}">
                   {{value === 'status' ? '' : element[value]}}
                   <span *ngIf="value === 'status'" style="font-size: 30px;">
@@ -73,7 +84,7 @@
                   </span>
                 </span>
 
-                <div *ngIf="selection.selected.length == 0">
+                <div *ngIf="selection.selected.length == 0" class="d-print-none">
                   <button mdbBtn class="edit-button z-depth-1-half" type="button"
                           (click)="changeRoomStatus(element)"
                           *ngIf="value === 'edit'" [title]="element.status === 'clean' ? 'Undo' : 'Clean Room'"
@@ -112,7 +123,7 @@
     <mat-progress-spinner  mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
   </div>
 
-  <div class="col-md-3 one" style="margin-top: 2%;">
+  <div class="col-md-3 one d-print-none" style="margin-top: 2%;">
     <div class="fixed animated fadeInRight">
       <mat-list>
         <h3 mat-subheader>Select Type and Year</h3>
