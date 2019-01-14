@@ -39,11 +39,26 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      let url;
+      if (environment.production) {
+        url = '/static/assets/js/'
+      } else {
+        url = '/assets/js/';
+      }
+      const dynamicScripts = [url + 'classie.js', url + 'main.js'];
+      for (let i = 0; i < dynamicScripts .length; i++) {
+        const node = document.createElement('script');
+        node['src'] = dynamicScripts[i];
+        node['type'] = 'text/javascript';
+        document.getElementsByTagName('body')[0].appendChild(node);
+      }
+    }, 1000);
     this.ensureAuth.canActivate();
     this.ensureAuth.showLoginModal.subscribe(value => {
-        if (value) {
-          this.loginModal.show();
-        }
+      if (value) {
+        this.loginModal.show();
+      }
     });
     this.auth.message.subscribe(msg => {
       this.loginMessage = msg;
@@ -71,7 +86,7 @@ export class AppComponent implements OnInit {
         this.email = data['email'];
         localStorage.setItem('token', data['email']);
         this.auth.loggedIn.next(true);
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/home');
         this.changePage('home');
         this.loginModal.hide();
         this.snackBar.open('Logged In Successfully!!!', '', {

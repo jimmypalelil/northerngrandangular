@@ -1,3 +1,6 @@
+@import "assets/css/demo.css";
+@import "assets/css/component.css";
+
 /* You can add global styles to this file, and also import other style files */
 
 @import "globalVars";
@@ -14,18 +17,12 @@ body {
     height: 100px;
     transition: height .5s ease-in-out, font-size 1ms ease-in-out !important;
     font-size: 1.1em;
+
   }
 }
 
-.indigo {
+.navbar {
   background-image: url($my-base-path + 'navbar_background.jpg') !important;
-}
-
-.nav-bg-scroll-down {
-  //background-color: #0d0d0db0 !important;
-  opacity: .8;
-  height: 50px;
-  font-size: 1em;
 }
 
 #main:after, #main:before {
@@ -43,13 +40,23 @@ body {
 }
 
 mat-header-cell {
-  display:flex;
-  justify-content:center;
+  display:flex !important;
+  justify-content:center !important;
+  color: white !important;
+}
+
+.modal-backdrop {
+  z-index: -1 !important;
+}
+
+.mat-tab-label-content, input::placeholder, .mat-subheader {
+  color: white !important;
 }
 
 mat-cell {
   display:flex !important;
   justify-content:center !important;
+  color: white !important;
 }
 
 mat-table {
@@ -101,7 +108,8 @@ input[id=search] {
   font-style: oblique;
   font-weight: lighter;
   box-sizing: border-box;
-  border: 3px solid black;
+  border: 3px solid #942f2f;
+  color: white !important;
   border-radius: 30px;
   font-size: 16px;
   background: transparent url($my-base-path + 'search_icon.png') no-repeat 10px 10px;

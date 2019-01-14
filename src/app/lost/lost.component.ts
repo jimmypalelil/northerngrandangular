@@ -33,7 +33,8 @@ export class LostComponent implements OnInit {
   }
 
   isHK(): boolean {
-      return localStorage.getItem('token') !== 'reservations@northerngrand.ca';
+    const email = localStorage.getItem('token');
+    return email === 'housekeeping@northerngrand.ca' || email === 'tester@test.com' || email === 'jimmypalelil@gmail.com';
   }
 
   getItemList() {

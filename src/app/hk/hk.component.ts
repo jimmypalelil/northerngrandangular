@@ -16,8 +16,8 @@ export class HkComponent implements OnInit, AfterViewInit {
     ['jan to jun', 'jul to dec'],
     ['jan to mar', 'apr to jun', 'july to sep', 'oct to dec']];
 
-  floors = [{label: '2nd Floor', data: 200}, {label: '3rd Floor', data: 300}, {label: '4th Floor', data: 400}, {label: '5th Floor', data: 500},
-    {label: '6th Floor', data: 600}];
+  floors = [{label: '2nd Floor', data: 200}, {label: '3rd Floor', data: 300}, {label: '4th Floor', data: 400},
+    {label: '5th Floor', data: 500}, {label: '6th Floor', data: 600}];
 
   types = [{label: 'Bedding', data: 'beddings', index: 0}, {label: 'Carpet Shampoo', data: 'carpets', index: 1},
               {label: 'Bed Flips', data: 'mattress', index: 2}, {label: 'Pillows', data: 'pillows', index: 2},
@@ -67,30 +67,13 @@ export class HkComponent implements OnInit, AfterViewInit {
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
-      this.dataSource.data.forEach(row => {
-        if (this.currentStatus === 'all') {
-          if (row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
-            this.selection.deselect(row);
-          }
-        } else {
-          if (row.status === this.currentStatus && row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
-            this.selection.deselect(row);
-          }
-        }
+      this.dataSource.filteredData.forEach(room => {
+        this.selection.deselect(room);
       }) :
-      this.dataSource.data.forEach(row => {
-        if (this.currentStatus === 'all') {
-          if (row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
-            this.selection.select(row);
-          }
-        } else {
-          if (row.status === this.currentStatus && row.room_number >= Number(this.currentFloor) && row.room_number < Number(this.currentFloor) + 100) {
-            this.selection.select(row);
-          }
-        }
+      this.dataSource.filteredData.forEach(room => {
+        this.selection.select(room);
       });
   }
 
@@ -117,17 +100,15 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   changeFloor(floor) {
-    this.dataSource.filter = floor;
     this.currentFloor = floor;
-    let total = 0, undoneCount = 0, doneCount = 0;
-    this.dataSource.data.forEach(function (room) {
-      if (room.room_number >= floor && room.room_number < (floor + 100)) {
-        if (room.status === 'clean'){
-          doneCount++;
-        }
+    this.dataSource.filter = floor;
+    let doneCount = 0;
+    this.dataSource.filteredData.forEach(function (room) {
+      if (room.status === 'clean') {
+        doneCount++;
       }
     });
-    total = this.dataSource.filteredData.length;
+    const total = this.dataSource.filteredData.length;
     this.counts = [total, total - doneCount, doneCount];
   }
 
@@ -171,13 +152,10 @@ export class HkComponent implements OnInit, AfterViewInit {
   setStatus(index) {
     this.selection.clear();
     if (index === 1) {
-      this.currentStatus = 'not done';
       this.dataSource.filter = 'not done';
     } else if (index === 2) {
-      this.currentStatus = 'clean';
       this.dataSource.filter = 'clean';
     } else {
-      this.currentStatus = 'all';
       this.dataSource.filter = '' + this.currentFloor;
     }
   }
@@ -200,9 +178,9 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   changeSelectRoomStatus(status) {
     this.toggleSpinner();
-    let selectedRooms: Room[] = [];
+    const selectedRooms: Room[] = [];
     for (let i = 0; i < this.selection.selected.length; i++) {
-      let room = this.selection.selected[i];
+      const room = this.selection.selected[i];
       if (room.status !== status) {
         selectedRooms.push(room);
         room.status = status;

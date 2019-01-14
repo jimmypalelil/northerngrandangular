@@ -1,67 +1,89 @@
 
-<mdb-navbar #navbar SideClass="navbar navbar-expand-lg navbar-dark indigo fixed-top scrolling-navbar" class="main-nav">
-  <mdb-navbar-brand>
-    <a class="navbar-brand" routerLink="/" (click)="changePage('home')" mdbWavesEffect>
-      <img src="{{imageUrl}}top_logo.png" width="100px" height="50px">
+<!-- navigation -->
+<nav class="pages-nav">
+  <div class="pages-nav__item"><a class="link link--page" href="#page-home"><i class="fas fa-home"></i> Home</a></div>
+  <div class="pages-nav__item"><a class="link link--page" href="#page-docu"><i class="fas fa-building"></i> Housekeeping</a></div>
+  <div class="pages-nav__item"><a class="link link--page" href="#page-manuals"> <i class="fas fa-search-dollar"></i> Lost & Found</a></div>
+  <div class="pages-nav__item"><a class="link link--page" href="#page-software"><i class="fas fa-clipboard-list"></i> Inspection</a></div>
+  <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-buy">Where to buy</a></div>-->
+  <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-blog">Blog &amp; News</a></div>-->
+  <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-contact">Contact</a></div>-->
+  <div class="pages-nav__item pages-nav__item--social">
+    <a class="nav-link waves-light">Welcome, {{email}}</a>
+    <a *ngIf="loggedIn; else showLoginBtn" class="waves-light" mdbWavesEffect (click)="logoutUser()">
+      <i class="fas fa-sign-out-alt"></i> Logout
     </a>
-  </mdb-navbar-brand>
-
-  <links>
-    <ul class="navbar-nav mr-auto">
-
-      <li *ngFor="let page of pages; let i = index" class="nav-item" [ngClass]="{'active active-page': currentPage === page[1]}">
-        <a class="nav-link waves-light" routerLink="/{{page[1]}}" mdbWavesEffect (click)="changePage(page[1])">
-          <i *ngIf="i === 0" class="fas fa-home"></i>
-          <i *ngIf="i === 1" class="fas fa-building"></i>
-          <i *ngIf="i === 2" class="fas fa-search-dollar"></i>
-          <i *ngIf="i === 3" class="fas fa-clipboard-list"></i>
-          {{page[0]}}
-        </a>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav mr-auto">
-      <li *ngIf="loggedIn" class="navbar-text nav-item">
-        <a class="nav-link waves-light">
-          Welcome, {{email}}
-        </a>
-      </li>
-
-      <li class="navbar-text nav-item cool-link">
-        <a class="nav-link waves-light" mdbWavesEffect (click)="feedbackframe.show()">
-          <i class="fas fa-comment"></i> Feedback
-        </a>
-      </li>
-
-      <li class="navbar-text nav-item cool-link">
-        <a *ngIf="loggedIn; else showLoginBtn" class="nav-link waves-light" routerLink="/" mdbWavesEffect (click)="logoutUser()">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
-        <ng-template #showLoginBtn>
-          <a class="nav-link waves-light" mdbWavesEffect (click)="frame.show()">
-            <i class="fas fa-sign-in-alt"></i> Login
-          </a>
-        </ng-template>
-      </li>
-    </ul>
-
-  </links>
-</mdb-navbar>
-
-<router-outlet></router-outlet>
-
-<div class="footer-divider d-print-none"></div>
-
-<!-- Footer -->
-<footer class="page-footer font-small blue fixed-bottom">
-
-  <!-- Copyright -->
-  <div class="footer-copyright text-center indigo py-3">
+    <ng-template #showLoginBtn>
+      <a class="waves-light" mdbWavesEffect (click)="frame.show()">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+    </ng-template>
+    <!--<a class="link link&#45;&#45;social link&#45;&#45;faded" href="#"><i class="fa fa-twitter"></i><span class="text-hidden">Twitter</span></a>-->
+    <!--<a class="link link&#45;&#45;social link&#45;&#45;faded" href="#"><i class="fa fa-linkedin"></i><span class="text-hidden">LinkedIn</span></a>-->
+    <!--<a class="link link&#45;&#45;social link&#45;&#45;faded" href="#"><i class="fa fa-facebook"></i><span class="text-hidden">Facebook</span></a>-->
+    <!--<a class="link link&#45;&#45;social link&#45;&#45;faded" href="#"><i class="fa fa-youtube-play"></i><span class="text-hidden">YouTube</span></a>-->
   </div>
-  <!-- Copyright -->
+</nav>
+<!-- /navigation-->
+<!-- pages stack -->
+<div class="pages-stack">
+  <!-- page -->
+  <div class="page" id="page-home">
+    <!-- Blueprint header -->
+    <!--<header class="bp-header cf">-->
+      <!--<span class="bp-header__present">Blueprint <span class="bp-tooltip bp-icon bp-icon&#45;&#45;about" data-content="The Blueprints are a collection of basic and minimal website concepts, components, plugins and layouts with minimal style for easy adaption and usage, or simply for inspiration."></span></span>-->
+      <!--<h1 class="bp-header__title">Page Stack Navigation</h1>-->
+      <!--<p class="bp-header__desc">Based on Ilya Kostin's Dribbble shot <a href="https://dribbble.com/shots/2286042-Stacked-navigation">Stacked navigation</a></p>-->
+      <!--<nav class="bp-nav">-->
+        <!--<a class="bp-nav__item bp-icon bp-icon&#45;&#45;prev" href="http://tympanus.net/Blueprints/ZoomSlider/" data-info="previous Blueprint"><span>Previous Blueprint</span></a>-->
+        <!--&lt;!&ndash;a class="bp-nav__item bp-icon bp-icon&#45;&#45;next" href="" data-info="next Blueprint"><span>Next Blueprint</span></a&ndash;&gt;-->
+        <!--<a class="bp-nav__item bp-icon bp-icon&#45;&#45;drop" href="http://tympanus.net/codrops/?p=25311" data-info="back to the Codrops article"><span>back to the Codrops article</span></a>-->
+        <!--<a class="bp-nav__item bp-icon bp-icon&#45;&#45;archive" href="http://tympanus.net/codrops/category/blueprints/" data-info="Blueprints archive"><span>Go to the archive</span></a>-->
+      <!--</nav>-->
+    <!--</header>-->
+    <!--<img class="poster" src="images/1.jpg" alt="img01" />-->
 
-</footer>
-<!-- Footer -->
+    <app-home></app-home>
+  </div>
+  <!-- /page -->
+  <div class="page" id="page-docu">
+    <!--<header class="bp-header cf">-->
+      <!--<h1 class="bp-header__title">Documentation</h1>-->
+      <!--<p class="bp-header__desc">Based on Ilya Kostin's Dribbble shot <a href="https://dribbble.com/shots/2286042-Stacked-navigation">Stacked navigation</a></p>-->
+      <!--<p class="info">-->
+        <!--"We cannot have peace among men whose hearts find delight in killing any living creature." &mdash; Rachel Carson-->
+      <!--</p>-->
+    <!--</header>-->
+    <!--<img class="poster" src="images/6.jpg" alt="img06" />-->
+    <app-hk></app-hk>
+  </div>
+  <div class="page" id="page-manuals">
+    <!--<header class="bp-header cf">-->
+      <!--<h1 class="bp-header__title">Manuals</h1>-->
+      <!--<p class="bp-header__desc">Based on Ilya Kostin's Dribbble shot <a href="https://dribbble.com/shots/2286042-Stacked-navigation">Stacked navigation</a></p>-->
+      <!--<p class="info">-->
+        <!--"When you adopt a vegan diet we make a connection, you don't go back, it is not a diet, it is a lifestyle." &mdash; Freelee Frugivore-->
+      <!--</p>-->
+    <!--</header>-->
+    <!--<img class="poster" src="images/2.jpg" alt="img02" />-->
+    <app-lost></app-lost>
+  </div>
+  <div class="page" id="page-software">
+    <!--<header class="bp-header cf">-->
+      <!--<h1 class="bp-header__title">Software &amp; Downloads</h1>-->
+      <!--<p class="bp-header__desc">Based on Ilya Kostin's Dribbble shot <a href="https://dribbble.com/shots/2286042-Stacked-navigation">Stacked navigation</a></p>-->
+      <!--<p class="info">-->
+        <!--"I decided to pick the diet that I thought would maximize my chances of long-term survival." &mdash; Al Gore-->
+      <!--</p>-->
+    <!--</header>-->
+    <!--<img class="poster" src="images/3.jpg" alt="img03" />-->
+    <app-inspection></app-inspection>
+  </div>
+</div>
+<!-- /pages-stack -->
+<button class="menu-button"><span>Menu</span></button>
+
+<div class="footer-divider"></div>
 
 <!--Feedback Modal-->
 <div mdbModal #feedbackframe="mdbModal" class="modal fade left" tabindex="-1" role="dialog" [config]="{backdrop: false}">

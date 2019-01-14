@@ -1,3 +1,5 @@
+@import "../globalVars";
+
 footer {
   margin-top: 50px;
 }
@@ -12,7 +14,7 @@ footer {
   margin: 20px 0;
   width: 100%;
   height: 2em;
-  background-color: rgba(255,255,255,0);
+  background-color: transparent;
   @include heading;
 }
 
@@ -30,7 +32,14 @@ footer {
 
   li:hover:after {
     width: 100%;
-    background: rgba(255, 255, 255, .5);
+    background: rgb(203, 11, 0);
+  }
+
+  .nav-bg-scroll-down {
+    //background-color: #0d0d0db0 !important;
+    opacity: .8;
+    height: 50px;
+    font-size: 1em;
   }
 }
 
@@ -40,3 +49,6 @@ footer {
   }
 }
 
+.indigo {
+  background-image: url($my-base-path + 'navbar_background.jpg') !important;
+}

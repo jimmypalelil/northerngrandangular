@@ -57,7 +57,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.insService.getEmployees().then(data => {
       this.employees = data;
       if (this.currentEmployeIndex === undefined) {
-        this.currentEmployeIndex = 0
+        this.currentEmployeIndex = 0;
       }
       this.currentEmployee = data[this.currentEmployeIndex];
       this.getEmployeeIns(this.currentEmployee, 0);
@@ -203,8 +203,16 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     });
   }
 
-  radioChange(insScore: any) {
-    this.totalScore += Number(insScore);
-    this.totalItems++;
+  radioChange() {
+    this.totalItems = 0;
+    this.totalScore = 0;
+    for (const key in this.insScores) {
+      const score = this.insScores[key];
+      console.log(score);
+      if (score !== '-1') {
+        this.totalScore += Number(score);
+        this.totalItems++;
+      }
+    }
   }
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="utf-8">
   <title>Northern Grand Hotel Maintenance</title>
@@ -9,9 +9,9 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="assets/js/modernizr-custom.js"></script>
   <!--Font awesome-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <!--Matrerial theme-->
@@ -19,35 +19,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
   <script>
     new WOW().init();
-
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function() {scrollFunction()};
-
-    function scrollFunction() {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        document.getElementById("myBtn").style.display = "block";
-        document.getElementsByClassName('navbar')[0].classList.add('nav-bg-scroll-down');
-      } else {
-        document.getElementsByClassName('navbar')[0].classList.remove('nav-bg-scroll-down');
-        document.getElementById("myBtn").style.display = "none";
-      }
-    }
-
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-      document.body.scrollTop = 0; // For Safari
-      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
   </script>
 </head>
 <body id="body">
 <div id="main"></div>
-  <app-root></app-root>
-  <button mdbBtn mdbWavesEffect class="animated fadeInRight z-depth-3 d-print-none" onclick="topFunction()" id="myBtn"
-          mdbTooltip="Got To Top"
-          placement="top">
-    <i class="fas fa-chevron-up"></i>
-    Top
-  </button>
+
+<app-root></app-root>
+
 </body>
 </html>

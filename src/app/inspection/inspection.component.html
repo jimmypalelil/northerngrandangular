@@ -80,7 +80,7 @@
           <div *ngFor="let item of object.items; let i = index">
           <span>
             <p class="h6">{{item.item | uppercase}}</p>
-            <mat-radio-group [(ngModel)]="insScores[item._id]" (change)="radioChange(insScores[item._id])">
+            <mat-radio-group [(ngModel)]="insScores[item._id]" (change)="radioChange()">
               <mat-radio-button color="primary" value="1">Excellent</mat-radio-button>
               <mat-radio-button color="primary" value=".5">Needs Improvement</mat-radio-button>
               <mat-radio-button color="primary" value="0">Bad</mat-radio-button>
@@ -94,6 +94,7 @@
           </div>
         </div>
         <button mdbBtn mdbWavesEffect (click)="submitInspection()" class="teal darken-2"><i class="fa fa-paper-plane-o ml-1"></i> Submit Inspection</button>
+
         <div class="ins-score text-center z-depth-2 indigo darken-4" mdbBtn mdbWavesEffect>
           Total Score
           <br>
