@@ -63,6 +63,7 @@
 
 			if( current !== i ) {
 				classie.add(page, 'page--inactive');
+				classie.remove(page, 'page--active');
 
 				if( posIdx !== -1 ) {
 					// visible pages in the stack

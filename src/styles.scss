@@ -119,7 +119,7 @@ input[name=search] {
   transition: width 0.4s ease-in-out;
 }
 
-input[id=search]:focus {
+input[name=search]:focus {
   width: 100%;
   outline:none;
 }

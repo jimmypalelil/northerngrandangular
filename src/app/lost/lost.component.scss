@@ -7,28 +7,24 @@
   margin-top:3%;
 }
 
-@media (min-width: 70em) {
-  .update-lost-sidebar {
-    position: fixed;
-    top:0;
-    right:0;
-    height: 100%;
-    width: 400px;
-  }
+
+.update-lost-sidebar {
+  position: sticky;
+  float: right;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  transition: all 1s ease-in-out;
+  height: 100vh;
+  top:0;
+  bottom: 100%;
+  border-radius: 50px;
+  z-index: 1050;
 }
 
 
 @media (max-width: 37.5em)  {
   .lost-title {
     margin-top:20%;
-  }
-
-  .update-lost-sidebar {
-    position: fixed;
-    top:0;
-    right:0;
-    height: 100%;
-    width: 300px;
   }
 }
 

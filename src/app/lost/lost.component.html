@@ -1,5 +1,5 @@
 
-<div class="container" style="margin-top: 5%;">
+<div class="container">
   <hr class="my-4">
   <span class="lost-title">
       <img class="lost-image" src="{{imageUrl}}lost.png">
@@ -43,6 +43,12 @@
   <hr class="my-4">
   <span><input matInput (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By room number, item or date"></span>
   <hr class="my-3">
+
+  <app-updatelost *ngIf="showUpdateBar"
+                  [item]="currentLostItem"
+                  (updated)="updateItem()"
+                  (cancelled)="showUpdateBar = false;"
+                  class="z-depth-3 update-lost-sidebar animated fadeInRight"></app-updatelost>
 
   <mat-tab-group (selectedTabChange)="changeTab($event)" class="animated fadeInUp">
     <mat-tab color="primary" *ngFor="let tab of tabList" label="{{tab | uppercase}}">
@@ -106,12 +112,7 @@
   <div class="footer-divider"></div>
 </div>
 
-<app-updatelost *ngIf="showUpdateBar"
-                [item]="currentLostItem"
-                (updated)="updateItem()"
-                (cancelled)="showUpdateBar = false;"
-                class="z-depth-3 update-lost-sidebar animated fadeInRight"></app-updatelost>
-
+<!--Delete Modal-->
 <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -136,6 +137,7 @@
   </div>
 </div>
 
+<!--Email Modal-->
 <div mdbModal #emailFrame="mdbModal" class="modal fade left" id="deleteFrame" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

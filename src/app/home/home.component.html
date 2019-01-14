@@ -14,8 +14,8 @@
     <div class="col-md-4 offset-md-1 mx-3 my-3">
 
       <!-- Featured image -->
-      <div class="view overlay waves-light" mdbWavesEffect>
-        <img src="{{imageUrl}}card-photo.jpg" height="350px" width="500px" class="img-fluid">
+      <div class="view overlay waves-light z-depth-1-half" mdbWavesEffect>
+        <img src="{{imageUrl}}card-photo.jpg" class="img-fluid">
         <a>
           <div class="mask rgba-white-slight"></div>
         </a>
@@ -25,13 +25,9 @@
 
       <div class="col-md-7 text-md-left ml-3 mt-3">
         <blockquote class="blockquote text-center bq-primary">
-        <h3 class="h3 mb-3">Northern Grand Housekeeping Services</h3>
+        <h1 class="h2 mb-2">Northern Grand Housekeeping Services</h1>
         <div *ngIf="!showLogin; else showLoginCard;">
           <h5 class="h5 pb-1 purple-text"><i class="fa fa-user" aria-hidden="true"></i> Hello, {{email}}</h5>
-
-          <p class="note note-primary">
-            Now that you have logged in, navigate to the dashboard below
-          </p>
           <a mdbBtn mdbWavesEffect gradient="blue" (click)="logoutUser()">
             <i class="fas fa-sign-out-alt"></i> Logout
           </a>
@@ -53,34 +49,34 @@
 
 <div class="lobby-bg z-depth-4" parallax [config]="{initialValue: -100, ratio: .5}"></div>
 
-<div class="home-content container">
-  <div class="login-card z-depth-5">
-    <mdb-card *ngIf="showLogin" class="wow fadeInUp">
-      <div class="view rgba-white-slight waves-light" mdbWavesEffect>
-        <!-- Card img -->
-        <div class="view overlay zoom">
-          <mdb-card-img src="{{imageUrl}}login.png" alt="Card image cap"></mdb-card-img>
-        </div>
-      </div>
-      <!--Card content-->
-      <mdb-card-body  class="elegant-color white-text">
-        <!--Title-->
-        <mdb-card-title>
-          <h4>Login</h4>
-        </mdb-card-title>
+<!--<div class="home-content container">-->
+  <!--<div class="login-card z-depth-5">-->
+    <!--<mdb-card *ngIf="showLogin" class="wow fadeInUp">-->
+      <!--<div class="view rgba-white-slight waves-light" mdbWavesEffect>-->
+        <!--&lt;!&ndash; Card img &ndash;&gt;-->
+        <!--<div class="view overlay zoom">-->
+          <!--<mdb-card-img src="{{imageUrl}}login.png" alt="Card image cap"></mdb-card-img>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;Card content&ndash;&gt;-->
+      <!--<mdb-card-body  class="elegant-color white-text">-->
+        <!--&lt;!&ndash;Title&ndash;&gt;-->
+        <!--<mdb-card-title>-->
+          <!--<h4>Login</h4>-->
+        <!--</mdb-card-title>-->
 
-        <!--Text-->
-        <mdb-card-text>
-          Please Login to Continue
-        </mdb-card-text>
+        <!--&lt;!&ndash;Text&ndash;&gt;-->
+        <!--<mdb-card-text>-->
+          <!--Please Login to Continue-->
+        <!--</mdb-card-text>-->
 
-        <a href="#" mdbBtn class="young-passion-gradient .z-depth-5" mdbWavesEffect (click)="showLoginModal()">Login</a>
-      </mdb-card-body>
-    </mdb-card>
-  </div>
+        <!--<a href="#" mdbBtn class="young-passion-gradient .z-depth-5" mdbWavesEffect (click)="showLoginModal()">Login</a>-->
+      <!--</mdb-card-body>-->
+    <!--</mdb-card>-->
+  <!--</div>-->
 
 
-  <!--<div class="home-content card-group wow fadeInUp z-depth-5" *ngIf="!showLogin">-->
+  <!--<div class="home-content card-group animated fadeInUp z-depth-5" *ngIf="!showLogin">-->
     <!--&lt;!&ndash; Card &ndash;&gt;-->
     <!--<mdb-card>-->
       <!--<div class="view rgba-white-slight waves-light" mdbWavesEffect>-->
@@ -102,7 +98,7 @@
         <!--</mdb-card-text>-->
 
         <!--<a href="#" mdbBtn class="blue-gradient .z-depth-5" mdbWavesEffect-->
-           <!--(click)="changePage('hk')" routerLink="/hk">Housekeeping Dashboard</a>-->
+           <!--(click)="changePage('hk')">Housekeeping Dashboard</a>-->
       <!--</mdb-card-body>-->
     <!--</mdb-card>-->
 
@@ -159,7 +155,7 @@
     <!--</mdb-card>-->
 
   <!--</div>-->
-</div>
+<!--</div>-->
 
 
 

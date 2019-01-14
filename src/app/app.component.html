@@ -2,9 +2,10 @@
 <!-- navigation -->
 <nav class="pages-nav">
   <div class="pages-nav__item"><a class="link link--page" href="#page-home"><i class="fas fa-home"></i> Home</a></div>
-  <div class="pages-nav__item"><a class="link link--page" href="#page-docu"><i class="fas fa-building"></i> Housekeeping</a></div>
-  <div class="pages-nav__item"><a class="link link--page" href="#page-manuals"> <i class="fas fa-search-dollar"></i> Lost & Found</a></div>
-  <div class="pages-nav__item"><a class="link link--page" href="#page-software"><i class="fas fa-clipboard-list"></i> Inspection</a></div>
+  <div class="pages-nav__item"><a class="link link--page" href="#page-hk"><i class="fas fa-building"></i> Housekeeping</a></div>
+  <div class="pages-nav__item"><a class="link link--page" href="#page-lost"> <i class="fas fa-search-dollar"></i> Lost & Found</a></div>
+  <div class="pages-nav__item"><a class="link link--page" href="#page-inspection"><i class="fas fa-clipboard-list"></i> Inspection</a></div>
+  <div class="pages-nav__item"><a class="link link--page" (click)="feedbackframe.show()" href="#page-home"><i class="fas fa-comment"></i> Feedback</a></div>
   <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-buy">Where to buy</a></div>-->
   <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-blog">Blog &amp; News</a></div>-->
   <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-contact">Contact</a></div>-->
@@ -45,10 +46,10 @@
     <!--</header>-->
     <!--<img class="poster" src="images/1.jpg" alt="img01" />-->
 
-    <app-home></app-home>
+    <app-home class="page-overflow"></app-home>
   </div>
   <!-- /page -->
-  <div class="page" id="page-docu">
+  <div class="page" id="page-hk">
     <!--<header class="bp-header cf">-->
       <!--<h1 class="bp-header__title">Documentation</h1>-->
       <!--<p class="bp-header__desc">Based on Ilya Kostin's Dribbble shot <a href="https://dribbble.com/shots/2286042-Stacked-navigation">Stacked navigation</a></p>-->
@@ -57,9 +58,9 @@
       <!--</p>-->
     <!--</header>-->
     <!--<img class="poster" src="images/6.jpg" alt="img06" />-->
-    <app-hk></app-hk>
+    <app-hk class="page-overflow"></app-hk>
   </div>
-  <div class="page" id="page-manuals">
+  <div class="page" id="page-lost">
     <!--<header class="bp-header cf">-->
       <!--<h1 class="bp-header__title">Manuals</h1>-->
       <!--<p class="bp-header__desc">Based on Ilya Kostin's Dribbble shot <a href="https://dribbble.com/shots/2286042-Stacked-navigation">Stacked navigation</a></p>-->
@@ -68,9 +69,9 @@
       <!--</p>-->
     <!--</header>-->
     <!--<img class="poster" src="images/2.jpg" alt="img02" />-->
-    <app-lost></app-lost>
+    <app-lost class="page-overflow"></app-lost>
   </div>
-  <div class="page" id="page-software">
+  <div class="page" id="page-inspection">
     <!--<header class="bp-header cf">-->
       <!--<h1 class="bp-header__title">Software &amp; Downloads</h1>-->
       <!--<p class="bp-header__desc">Based on Ilya Kostin's Dribbble shot <a href="https://dribbble.com/shots/2286042-Stacked-navigation">Stacked navigation</a></p>-->
@@ -79,7 +80,7 @@
       <!--</p>-->
     <!--</header>-->
     <!--<img class="poster" src="images/3.jpg" alt="img03" />-->
-    <app-inspection></app-inspection>
+    <app-inspection class="page-overflow"></app-inspection>
   </div>
 </div>
 <!-- /pages-stack -->

@@ -4,6 +4,7 @@ import {ListService} from '../services/list.service';
 import {LostItem} from '../models/lostitem';
 import {ReturnedItem} from '../models/returneditem';
 import {environment} from '../../environments/environment';
+import {browser} from 'protractor';
 
 @Component({
   selector: 'app-lost',
@@ -30,6 +31,11 @@ export class LostComponent implements OnInit {
     this.getItemList();
     this.currentLostItem = new LostItem();
     this.currentReturnItem = new ReturnedItem();
+
+    window.onscroll = () => {
+      console.log(window.innerHeight);
+    };
+
   }
 
   isHK(): boolean {
