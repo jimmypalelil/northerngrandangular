@@ -9,10 +9,12 @@
   <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-blog">Blog &amp; News</a></div>-->
   <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-contact">Contact</a></div>-->
   <div class="pages-nav__item pages-nav__item--social">
-    <a class="nav-link waves-light">Welcome, {{email}}</a>
-    <a *ngIf="loggedIn; else showLoginBtn" class="waves-light" mdbWavesEffect (click)="logoutUser()">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
+    <div *ngIf="loggedIn; else showLoginBtn">
+      <a class="nav-link waves-light">Welcome, {{email}}</a>
+      <a class="waves-light" mdbWavesEffect (click)="logoutUser()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
     <ng-template #showLoginBtn>
       <a class="waves-light" mdbWavesEffect (click)="frame.show()">
         <i class="fas fa-sign-in-alt"></i> Login
@@ -83,7 +85,8 @@
 <!-- /pages-stack -->
 <button class="menu-button"><span>Menu</span></button>
 
-<div class="footer-divider"></div>
+<!--<div class="footer-divider"></div>-->
+
 
 <!--Feedback Modal-->
 <div mdbModal #feedbackframe="mdbModal" class="modal fade left" tabindex="-1" role="dialog" [config]="{backdrop: false}">

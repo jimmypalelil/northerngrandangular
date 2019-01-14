@@ -77,6 +77,7 @@
 			}
 			else {
 				classie.remove(page, 'page--inactive');
+				classie.add(page, 'page--active');
 			}
 
 			page.style.zIndex = i < current ? parseInt(current - i) : parseInt(pagesTotal + current - i);

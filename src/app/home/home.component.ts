@@ -33,4 +33,11 @@ export class HomeComponent implements OnInit {
   changePage(page) {
     this.auth.currentPage.next(page);
   }
+
+  logoutUser() {
+    localStorage.clear();
+    this.changePage('home');
+    this.auth.loggedIn.next(false);
+    location.reload();
+  }
 }

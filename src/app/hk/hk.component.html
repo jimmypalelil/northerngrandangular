@@ -47,11 +47,11 @@
         <!--Search Bar-->
         <div class="search-bar d-print-none">
           <hr class="my-4">
-          <span><input (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By Room No."></span>
+          <span><input (keyup)="applyFilter($event.target.value)" name="search" placeholder="Search... By Room No."></span>
           <hr class="my-3">
         </div>
 
-        <div class="table-container">
+        <div class="table-container col-md-12">
           <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 animated fadeInUp">
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
@@ -155,3 +155,5 @@
     </div>
   </div>
 </div>
+
+<div class="footer-divider"></div>

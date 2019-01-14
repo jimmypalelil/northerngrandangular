@@ -39,21 +39,28 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    let url;
+    if (environment.production) {
+      url = '/static/assets/js/';
+    } else {
+      url = '/assets/js/';
+    }
     setTimeout(() => {
-      let url;
-      if (environment.production) {
-        url = '/static/assets/js/'
-      } else {
-        url = '/assets/js/';
-      }
-      const dynamicScripts = [url + 'classie.js', url + 'main.js'];
-      for (let i = 0; i < dynamicScripts .length; i++) {
+      const dynamicScripts = url + 'classie.js';
+      const node = document.createElement('script');
+      node['src'] = dynamicScripts;
+      node['type'] = 'text/javascript';
+      document.getElementsByTagName('body')[0].appendChild(node);
+    }, 1000);
+
+    setTimeout(() => {
+      const dynamicScripts = url + 'main.js';
         const node = document.createElement('script');
-        node['src'] = dynamicScripts[i];
+        node['src'] = dynamicScripts;
         node['type'] = 'text/javascript';
         document.getElementsByTagName('body')[0].appendChild(node);
-      }
-    }, 1000);
+    }, 1500);
+
     this.ensureAuth.canActivate();
     this.ensureAuth.showLoginModal.subscribe(value => {
       if (value) {
@@ -92,6 +99,7 @@ export class AppComponent implements OnInit {
         this.snackBar.open('Logged In Successfully!!!', '', {
           duration: 2000, verticalPosition: 'bottom'
         });
+        location.reload();
       }
     }).catch(() => {
       this.snackBar.open('Login Failed!!!', '', {
@@ -104,6 +112,7 @@ export class AppComponent implements OnInit {
     localStorage.clear();
     this.changePage('home');
     this.auth.loggedIn.next(false);
+    location.reload();
   }
 
   sendFeedback() {
