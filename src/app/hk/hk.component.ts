@@ -82,14 +82,10 @@ export class HkComponent implements OnInit, AfterViewInit {
     this.toggleSpinner();
     this.listService.getRoomList(type.data, month, year).then(data => {
       this.dataSource = new MatTableDataSource(data);
-      this.dataSource.filterPredicate = (room: Room, filter: String | Number) => {
-        if (typeof filter === 'number') {
-          return (room.room_number >= Number(filter) && room.room_number < (Number(filter) + 100));
-        } else {
-          return (room.room_number >= Number(this.currentFloor) &&
-            room.room_number < Number(this.currentFloor) + 100 && room.status === filter);
-        }
-      };
+      this.dataSource.filterPredicate = (room: Room, filter: String | Number) =>
+        (room.room_number >= Number(filter) && room.room_number < (Number(filter) + 100)) ||
+         (room.room_number >= Number(this.currentFloor) &&
+          room.room_number < Number(this.currentFloor) + 100 && room.status === filter);
       this.changeFloor(this.currentFloor);
       this.currentType = type;
       this.currentStatus = 'all';
@@ -161,7 +157,7 @@ export class HkComponent implements OnInit, AfterViewInit {
     } else if (index === 2) {
       this.dataSource.filter = 'clean';
     } else {
-      this.dataSource.filter = this.currentFloor;
+      this.dataSource.filter = '' + this.currentFloor;
     }
   }
 
