@@ -42,8 +42,8 @@
       <h1 class="text-center"><i class="fas fa-search-dollar"></i> Lost & Found</h1>
     </ng-template>
   </div>
-  <div class="page" id="page-inspection" (click)="currentPage = 'ins'">
-    <app-inspection *ngIf="currentPage === 'ins'; else showInsTitle" class="page-overflow"></app-inspection>
+  <div class="page" id="page-inspection" (click)="currentPage = 'inspection'">
+    <app-inspection *ngIf="currentPage === 'inspection'; else showInsTitle" class="page-overflow"></app-inspection>
     <ng-template #showInsTitle>
       <h1 class="text-center"><i class="fas fa-clipboard-list"></i> Inspections</h1>
     </ng-template>
