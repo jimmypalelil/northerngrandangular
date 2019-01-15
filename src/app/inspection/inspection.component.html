@@ -93,7 +93,14 @@
             <hr class="my-3">
           </div>
         </div>
-        <button mdbBtn mdbWavesEffect (click)="submitInspection()" class="teal darken-2"><i class="fa fa-paper-plane-o ml-1"></i> Submit Inspection</button>
+        <button *ngIf="!showSpinner" mdbBtn mdbWavesEffect (click)="submitInspection()"
+                [disabled]="showSpinner" class="teal darken-2">
+          <i class="fa fa-paper-plane-o ml-1"></i> Submit Inspection
+        </button>
+        <button *ngIf="showSpinner" mdbBtn disabled class="teal darken-2">
+          <p class="red-text"><i class="fa fa-paper-plane-o ml-1"></i> Submitting...</p>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </button>
 
         <div class="ins-score text-center z-depth-2 indigo darken-4" mdbBtn mdbWavesEffect>
           Total Score
