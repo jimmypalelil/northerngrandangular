@@ -129,4 +129,8 @@ export class AppComponent implements OnInit {
       });
     }
   }
+
+  setCurrentPage(pageName: string) {
+    this.currentPage = pageName;
+  }
 }

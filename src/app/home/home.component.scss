@@ -7,13 +7,16 @@
 
 .lobby-bg {
   background: url($my-base-path + 'lobby_background.jpg') no-repeat;
-  height:55%;
+  height: 100vh;
   width: 100%;
+  z-index: -1;
+  position: absolute;
+  bottom: 0;
   background-size: cover;
 }
 
 .hotel-logo {
-  margin-top:5%;
+  margin-top:15%;
   background: url($my-base-path + 'banner.png') no-repeat;
   height:200px;
   width: 100%;

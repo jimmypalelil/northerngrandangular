@@ -28,14 +28,11 @@ export class LostComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.getItemList();
+    setTimeout(() => {
+      this.getItemList();
+    }, 500);
     this.currentLostItem = new LostItem();
     this.currentReturnItem = new ReturnedItem();
-
-    window.onscroll = () => {
-      console.log(window.innerHeight);
-    };
-
   }
 
   isHK(): boolean {
