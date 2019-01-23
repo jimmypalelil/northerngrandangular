@@ -31,19 +31,17 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'view/delete'];
   inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'view/delete'];
   scoreCategory = ['Bad', 'Needs Improvement', 'Excellent'];
-  tableSorter: MatSort;
   showSpinner = false;
-  currentEmployeIndex: number;
+  currentEmployeeIndex: number;
   totalScore: number;
   totalItems: number;
 
   constructor(private insService: InspectionService, public snackBar: MatSnackBar) {
     this.panelOpened = false;
     this.currentInspection = new Inspection();
-    this.tableSorter = new MatSort();
   }
 
-  @ViewChild(MatSort) sort;
+  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {}
 
@@ -56,10 +54,10 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   getEmployees() {
     this.insService.getEmployees().then(data => {
       this.employees = data;
-      if (this.currentEmployeIndex === undefined) {
-        this.currentEmployeIndex = 0;
+      if (this.currentEmployeeIndex === undefined) {
+        this.currentEmployeeIndex = 0;
       }
-      this.currentEmployee = data[this.currentEmployeIndex];
+      this.currentEmployee = data[this.currentEmployeeIndex];
       this.getEmployeeIns(this.currentEmployee, 0);
     });
   }
@@ -69,7 +67,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.showInspection = false;
     this.showInspectionForm = false;
     this.currentEmployee = employee;
-    this.currentEmployeIndex = index;
+    this.currentEmployeeIndex = index;
     this.insService.getEmployeeIns(employee['_id']).then(data => {
       this.employeeScores = new MatTableDataSource(data[0]['Monthly Scores']);
       this.employeeScores.sort = this.sort;
@@ -82,9 +80,9 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
     this.currentInspection.year = this.newInspectionDate.getFullYear();
     const ids = [];
-    for (const i in this.selectedEmployees) {
-      ids.push(this.selectedEmployees[i]['_id']);
-    }
+    this.selectedEmployees.forEach(function (employee) {
+      ids.push(employee['_id']);
+    });
     this.insService.startNewInspection(this.currentInspection, ids).then(data => {
       this.insItems = data;
       this.totalItems = 0;
@@ -138,9 +136,17 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       this.showInspections = true;
       this.showInspection = false;
       this.showInspectionForm = false;
-      this.employeeInspections = new MatTableDataSource<any>(data);
+      this.employeeInspections = new MatTableDataSource(data);
+      this.sort.active = 'day';
+      this.sort.direction = 'desc';
       this.employeeInspections.sort = this.sort;
     });
+  }
+
+  sortData(dataSource, event) {
+    this.sort.active = event.active;
+    this.sort.direction = event.direction;
+    dataSource.sort = this.sort;
   }
 
   viewInspection(inspection) {
@@ -150,6 +156,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       this.showInspections = false;
       this.showInspectionForm = false;
       this.inspectionItems = data;
+      console.log(data);
     });
   }
 
@@ -208,7 +215,6 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.totalScore = 0;
     for (const key in this.insScores) {
       const score = this.insScores[key];
-      console.log(score);
       if (score !== '-1') {
         this.totalScore += Number(score);
         this.totalItems++;

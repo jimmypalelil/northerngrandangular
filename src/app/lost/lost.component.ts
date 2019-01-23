@@ -79,7 +79,6 @@ export class LostComponent implements OnInit {
     } else {
       this.getReturnedItemList();
     }
-    this.sort.active = '';
   }
 
   applyFilter(filterValue: string) {
@@ -128,7 +127,6 @@ export class LostComponent implements OnInit {
           this.list.addNewLostItem(this.currentLostItem).then(msg => {
             this.tabGroup.selectedIndexChange.emit(0);
             this.getItemList();
-            this.dataSource.sort = this.sort;
             this.snackBar.open('Item Added Successfully', '', {
               duration: 2000
             });

@@ -63,22 +63,22 @@
 
             <div *ngIf="value === 'action' && tabGroup.selectedIndex === 0">
               <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3"
-                      mdbTooltip="Delete"
-                      placement="right" title="Delete Item"
+                      matTooltip="Delete Item"
+                      matTooltipPosition ="below"
                       (click)="sendItemInfo(element); frame.show()">
                 <i class="fas fa-trash-alt"></i>
               </button>
               <button mdbBtn gradient="tempting-azure" class="edit-button z-depth-3"
-                      mdbTooltip="Email Jennifer"
-                      placement="right" title="Email Jennifer"
+                      matTooltip="Email Jennifer"
+                      matTooltipPosition ="below"
                       *ngIf="!isHK()" (click)="sendItemInfo(element); emailFrame.show()">
                 <i class="far fa-envelope"></i>
               </button>
 
 
               <button mdbWavesEffect mdbBtn
-                      mdbTooltip="Edit"
-                      placement="right" title="Update Item"
+                      matTooltip="Edit Item"
+                      matTooltipPosition ="below"
                       class="edit-button z-depth-3"
                       gradient="rainy-ashville"
                       (click)="sendItemInfo(element);showUpdateBar = true"><i class="far fa-edit"></i>
@@ -86,16 +86,16 @@
 
 
               <button mdbBtn gradient="sunny-morning" class="edit-button z-depth-3"
-                      mdbTooltip="Return to Guest"
-                      placement="right" title="Return Item to Guest"
+                      matTooltip="Return to Guest"
+                      matTooltipPosition ="below"
                       (click)="sendItemInfo(element); returnFrame.show()">
                 <i class="fas fa-gift"></i>
               </button>
             </div>
 
             <button mdbBtn gradient="morpheus-den" class="edit-button z-depth-3"
-                    mdbTooltip="Undo Returned Item"
-                    placement="right" title="Undo Return"
+                    matTooltip="Undo Return"
+                    matTooltipPosition ="below"
                     *ngIf="i === displayedColumns.length-1 && tabGroup.selectedIndex === 1"
                     (click)="sendItemInfo(element); undoFrame.show()">
               <i class="fas fa-undo"></i>

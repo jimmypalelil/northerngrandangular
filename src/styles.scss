@@ -59,23 +59,10 @@ mat-cell {
   color: white !important;
 }
 
-mat-table {
+mat-table, mat-tab, mat-tab-group, .table-container {
   overflow:hidden;
   background-color: transparent !important;
 }
-
-mat-tab {
-  overflow: hidden;
-}
-
-mat-tab-group {
-  overflow: hidden;
-}
-
-.table-container {
-  overflow: hidden;
-}
-
 
 mdb-card-img > img {
   width: 555px !important;
@@ -189,7 +176,10 @@ app-lost {
 }
 
 mat-progress-spinner {
-  z-index: 10000000000 !important;
+  position:fixed;
+  top: 50%;
+  right:50%;
+  z-index: 12000 !important;
 }
 
 @mixin heading {
@@ -204,4 +194,19 @@ mat-progress-spinner {
   height: 2em;
   background-color: transparent;
   @include heading;
+}
+
+@media print {
+  mat-tab-label {
+    display: none;
+  }
+
+  html.js,
+  .js body,
+  .js .page {
+    margin: auto;
+    margin-top: 0px !important;
+    height: auto;
+    border: 1px solid;
+  }
 }
