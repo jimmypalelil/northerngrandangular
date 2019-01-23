@@ -56,3 +56,10 @@ mat-progress-spinner {
   z-index: 12000;
 }
 
+.mat-radio-button {
+  margin: 1rem !important;
+}
+
+textarea::placeholder {
+  color: white;
+}
