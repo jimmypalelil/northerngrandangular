@@ -35,6 +35,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   currentEmployeeIndex: number;
   totalScore: number;
   totalItems: number;
+  catScores: number[] = [];
 
   constructor(private insService: InspectionService, public snackBar: MatSnackBar) {
     this.panelOpened = false;
@@ -156,7 +157,15 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       this.showInspections = false;
       this.showInspectionForm = false;
       this.inspectionItems = data;
-      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        const items = data[i].items;
+        let totScore = 0, count = 0;
+        items.forEach(function(item) {
+          totScore += item.item.score;
+          count++;
+        });
+        this.catScores[i] = totScore / count;
+      }
     });
   }
 

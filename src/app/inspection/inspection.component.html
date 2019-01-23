@@ -190,8 +190,8 @@
 
       <!--Inspection Scores-->
       <div *ngIf="showInspection">
-        <div *ngFor="let object of inspectionItems">
-          <p class="h3">{{object._id | uppercase}}</p>
+        <div *ngFor="let object of inspectionItems; let i = index">
+          <p class="h3">{{object._id | uppercase}} (Category Score: {{catScores[i] * 100 | number:'2.1-2'}}%)</p>
           <dl class="row" *ngFor="let item of object.items">
             <dt class="col-sm-4">{{item.inspection.item | uppercase}}</dt>
             <dd class="col-sm-4">{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
