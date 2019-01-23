@@ -83,6 +83,7 @@
             <p class="h6">{{item.item | uppercase}}</p>
             <mat-radio-group [(ngModel)]="insScores[item._id]" (change)="radioChange()">
               <mat-radio-button color="primary" value="1">Excellent</mat-radio-button>
+              <mat-radio-button color="primary" value=".80">Good</mat-radio-button>
               <mat-radio-button color="primary" value=".5">Needs Improvement</mat-radio-button>
               <mat-radio-button color="primary" value="0">Bad</mat-radio-button>
               <mat-radio-button color="primary" value="-1" [checked]="insScores[item._id] === ''">None</mat-radio-button>
@@ -106,7 +107,7 @@
         <div class="ins-score text-center z-depth-2 indigo darken-4" mdbBtn mdbWavesEffect>
           Total Score
           <br>
-          {{totalScore}} / {{totalItems}}
+          {{totalScore / totalItems | number:'1.1-2'}}
           <br>
           {{totalScore / totalItems *  100 | number:'1.1-2'}} %
         </div>
@@ -193,7 +194,7 @@
           <p class="h3">{{object._id | uppercase}}</p>
           <dl class="row" *ngFor="let item of object.items">
             <dt class="col-sm-4">{{item.inspection.item | uppercase}}</dt>
-            <dd class="col-sm-4">{{item.item.score != -1 ? scoreCategory[item.item.score * 2] : 'Not Inspected'}}</dd>
+            <dd class="col-sm-4">{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
             <dd class="col-sm-4">{{item.item.comment}}</dd>
           </dl>
           <hr class="my-4">

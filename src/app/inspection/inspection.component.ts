@@ -30,7 +30,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   showInspectionForm = false;
   MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'view/delete'];
   inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'view/delete'];
-  scoreCategory = ['Bad', 'Needs Improvement', 'Excellent'];
+  scoreCategory = ['Bad', 'Needs Improvement', 'Good', 'Excellent'];
   showSpinner = false;
   currentEmployeeIndex: number;
   totalScore: number;
@@ -220,5 +220,9 @@ export class InspectionComponent implements OnInit, AfterViewInit {
         this.totalItems++;
       }
     }
+  }
+
+  floor(n: number) {
+    return Math.floor(n);
   }
 }
