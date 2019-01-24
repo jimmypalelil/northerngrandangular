@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {InventoryService} from '../services/inventory.service';
 import {MatSnackBar, MatSort, MatTabChangeEvent, MatTableDataSource} from '@angular/material';
 import {InventoryItem} from '../models/InventoryItem';
+import {Room} from '../models/room';
 
 
 @Component({
@@ -49,13 +50,15 @@ export class InventoryComponent implements OnInit {
       this.displayedColumns = itemLabels;
       this.displayedColumns.push('action');
       this.inventoryTableData = new MatTableDataSource(this.inventoryItems[this.currentTypeIndex].items);
+      this.inventoryTableData.filterPredicate = (inventoryItem: any, filter: string) =>
+        inventoryItem['item_name'] === filter || inventoryItem['cost_per_item'] === filter;
       this.inventoryTableData.sort = this.sort;
     });
   }
 
   changeType(index: number) {
     this.currentTypeIndex = index;
-    this.inventoryTableData = new MatTableDataSource(this.inventoryItems[index].items);
+    this.inventoryTableData.data = this.inventoryItems[index].items;
     this.inventoryTableData.sort = this.sort;
   }
 
@@ -71,5 +74,9 @@ export class InventoryComponent implements OnInit {
       this.panelOpened = false;
       this.getInventoryItems();
     });
+  }
+
+  applyFilter(filter: string): void {
+    this.inventoryTableData.filter = filter;
   }
 }
