@@ -65,7 +65,7 @@
             {{value | uppercase}}
           </mat-header-cell>
           <mat-cell *matCellDef="let element" class="animated fadeInUp">
-            {{value === 'name'? (element[value] | uppercase) : element[value]}}
+            {{value === 'item_name'? (element[value] | uppercase) : (element[value] | number:'.0-2')}}
 
             <div *ngIf="value === 'action'">
               <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3"
