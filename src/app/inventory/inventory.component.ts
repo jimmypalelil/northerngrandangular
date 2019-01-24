@@ -16,10 +16,13 @@ export class InventoryComponent implements OnInit {
   displayedColumns: string[];
   currentTypeIndex = 0;
   newInventoryItem: InventoryItem;
-  private panelOpened: boolean;
+  panelOpened: boolean;
+  showUpdateBar: boolean;
 
   constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar) {
     this.newInventoryItem = new InventoryItem();
+    this.panelOpened = false;
+    this.showUpdateBar = false;
   }
 
   @ViewChild(MatSort) sort: MatSort;
