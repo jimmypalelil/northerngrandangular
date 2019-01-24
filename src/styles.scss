@@ -197,10 +197,6 @@ mat-progress-spinner {
 }
 
 @media print {
-  mat-tab-label {
-    display: none;
-  }
-
   html.js,
   .js body,
   .js .page {
@@ -208,4 +204,9 @@ mat-progress-spinner {
     margin-top: 0 !important;
     height: auto;
   }
+}
+
+.card {
+  background-color: rgb(42, 43, 48);
+  color: white !important;
 }

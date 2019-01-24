@@ -1,0 +1,49 @@
+@import "../../globalVars";
+
+
+.lost-title {
+  display:flex;
+  justify-content: center;
+  margin-top:3%;
+}
+
+
+.update-lost-sidebar {
+  position: sticky;
+  float: right;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  transition: all 1s ease-in-out;
+  height: 100vh;
+  top:0;
+  bottom: 100%;
+  border-radius: 50px;
+  z-index: 1050;
+}
+
+
+@media (max-width: 37.5em)  {
+  .lost-title {
+    margin-top:20%;
+  }
+}
+
+.lost-title-text {
+  align-self: center;
+  font-family:fantasy;
+  font-size: 40px;
+}
+
+.lost-image {
+  height: 30px;
+  align-self: center;
+  margin-top: -8px;
+}
+
+::ng-deep .cdk-overlay-container{
+  z-index: 1200 !important;
+}
+
+.inventory-container {
+  margin: 2% 5%;
+}

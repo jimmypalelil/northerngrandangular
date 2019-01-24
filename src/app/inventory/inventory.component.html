@@ -1,0 +1,124 @@
+
+<div class="inventory-container">
+  <hr class="my-4">
+  <span class="lost-title">
+    <h5 class="lost-title-text display-5"><i class="fas fa-warehouse"></i> Inventory</h5>
+  </span>
+  <hr class="my-4">
+  <mat-accordion>
+    <mat-expansion-panel  [expanded]="panelOpened" (opened)="setPanelOpen(true)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p><i class="fas fa-plus-circle"></i> New Item</p>
+        </mat-panel-title>
+        <mat-panel-description>
+          Make a new Item entry
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form>
+        <mat-form-field>
+          <mat-select placeholder="Item Type" name="type" [(ngModel)]="newInventoryItem.type">
+            <mat-option *ngFor="let type of types" [value]="type">
+              {{type | uppercase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Item Name" name="itemName" [(ngModel)]="newInventoryItem.name" required>
+        </mat-form-field>
+
+        <span *ngFor="let formItem of displayedColumns">
+          <mat-form-field  *ngIf="formItem !== 'action' && formItem !== 'item_name' && formItem !== 'total_count'
+              && formItem !== 'total_cost'">
+            <input type="number" matInput placeholder="{{formItem | uppercase}}"
+                   name="{{formItem}}" [(ngModel)]="newInventoryItem[formItem]" required>
+          </mat-form-field>
+        </span>
+
+        <mat-action-row>
+          <!--"Add" button-->
+          <button mat-mini-fab color="primary" (click)="addItem()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+        </mat-action-row>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <hr class="my-4">
+  <span><input matInput (keyup)="applyFilter($event.target.value.trim())" id="search" name="search"
+               placeholder="Search... By Item Name"></span>
+  <hr class="my-3">
+
+  <app-updatelost *ngIf="showUpdateBar"
+                  [item]="currentLostItem"
+                  (updated)="updateItem()"
+                  (cancelled)="showUpdateBar = false;"
+                  class="z-depth-3 update-lost-sidebar animated fadeInRight"></app-updatelost>
+
+  <mat-tab-group (selectedTabChange)="changeType($event.index)" class="animated fadeInUp">
+    <mat-tab color="primary" *ngFor="let type of types" label="{{type | uppercase}}">
+      <hr class="my-4">
+      <mat-table [dataSource]="inventoryTableData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 lost-table">
+        <ng-container *ngFor="let value of displayedColumns; let i = index" cdkColumnDef="{{value}}">
+          <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header class="z-depth-1-half text-center">
+            {{value | uppercase}}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="animated fadeInUp">
+            {{value === 'name'? (element[value] | uppercase) : element[value]}}
+
+            <div *ngIf="value === 'action'">
+              <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3"
+                      matTooltip="Delete Item"
+                      matTooltipPosition ="below"
+                      (click)="sendItemInfo(element); frame.show()">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+
+              <button mdbWavesEffect mdbBtn
+                      matTooltip="Edit Item"
+                      matTooltipPosition ="below"
+                      class="edit-button z-depth-3"
+                      gradient="rainy-ashville"
+                      (click)="sendItemInfo(element);showUpdateBar = true"><i class="far fa-edit"></i>
+              </button>
+            </div>
+
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns" class="z-depth-3"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="footer-divider"></div>
+</div>
+
+<!--Delete Modal-->
+<!--<div mdbModal #deleteFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">-->
+  <!--<div class="modal-dialog" role="document">-->
+    <!--<div class="modal-content">-->
+      <!--<div class="modal-header text-center">-->
+        <!--<h4 class="modal-title w-100 font-weight-bold">Delete Item</h4>-->
+        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deleteFrame.hide()">-->
+          <!--<span aria-hidden="true">&times;</span>-->
+        <!--</button>-->
+      <!--</div>-->
+      <!--<div class="modal-body mx-3">-->
+
+        <!--<blockquote class="blockquote bq-warning" *ngIf="currentLostItem !== null">-->
+          <!--<p class="bq-title">Are you sure you wanna delete the following Item?</p>-->
+          <!--<p>{{currentLostItem.item_description | uppercase}} found in: {{currentLostItem.room_number}}</p>-->
+        <!--</blockquote>-->
+      <!--</div>-->
+      <!--<div class="modal-footer d-flex justify-content-center">-->
+        <!--<button mdbBtn color="default" class="waves-light btn btn-primary" (click)="deleteFrame.hide()" mdbWavesEffect>Cancel</button>-->
+        <!--<button mdbBtn color="default" class="waves-light btn btn-danger btn-rounded" color="danger" (click)="deleteFrame.hide();deleteLostItem()" mdbWavesEffect>Delete</button>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+
+

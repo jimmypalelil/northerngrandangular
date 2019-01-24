@@ -57,6 +57,7 @@ import { HomeComponent } from './home/home.component';
 import { InspectionComponent } from './inspection/inspection.component';
 import {InspectionService} from './services/inspection.service';
 import { UpdatelostComponent } from './updatelost/updatelost.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { UpdatelostComponent } from './updatelost/updatelost.component';
     LoginComponent,
     HomeComponent,
     InspectionComponent,
-    UpdatelostComponent
+    UpdatelostComponent,
+    InventoryComponent
   ],
   imports: [
     ParallaxModule,

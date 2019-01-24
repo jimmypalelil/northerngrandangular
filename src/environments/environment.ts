@@ -9,6 +9,7 @@ export const environment = {
   Url: 'http://127.0.0.1:5000/list/',
   lostUrl: 'http://127.0.0.1:5000/lostAndFound/',
   insUrl: 'http://127.0.0.1:5000/inspection/',
+  invUrl: 'http://127.0.0.1:5000/inventory/',
   imageUrl: '/assets/images/'
 };
 
