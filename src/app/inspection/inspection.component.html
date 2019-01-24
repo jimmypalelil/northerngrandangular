@@ -5,7 +5,7 @@
     <div class="fixed">
       <mat-list *ngIf="isAdmin()">
         <h3 mat-subheader>Admin Controls</h3>
-        <button mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
+        <button *ngIf="!isProduction()" mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
         <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
       </mat-list>
       <hr class="my-4">

@@ -204,6 +204,10 @@ mat-progress-spinner {
     margin-top: 0 !important;
     height: auto;
   }
+
+  mat-tab-header {
+    display: none !important;
+  }
 }
 
 .card {

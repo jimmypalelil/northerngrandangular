@@ -111,6 +111,7 @@ export class HkComponent implements OnInit, AfterViewInit {
     });
     const total = this.dataSource.filteredData.length;
     this.counts = [total, total - doneCount, doneCount];
+    this.selection.clear();
   }
 
   setType(type) {

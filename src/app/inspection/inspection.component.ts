@@ -1,9 +1,8 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {InspectionService} from '../services/inspection.service';
 import {Inspection} from '../models/inspection';
 import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
-import {Room} from '../models/room';
-import {InspectionScore} from '../models/inspectionScore';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-inspection',
@@ -233,5 +232,9 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   floor(n: number) {
     return Math.floor(n);
+  }
+
+  isProduction() {
+    return environment.production;
   }
 }

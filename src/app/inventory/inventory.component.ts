@@ -3,6 +3,7 @@ import {InventoryService} from '../services/inventory.service';
 import {MatSnackBar, MatSort, MatTabChangeEvent, MatTableDataSource} from '@angular/material';
 import {InventoryItem} from '../models/InventoryItem';
 import {Room} from '../models/room';
+import {environment} from '../../environments/environment';
 
 
 @Component({
@@ -29,7 +30,9 @@ export class InventoryComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.getInventoryItems();
+    setTimeout(() => {
+      this.getInventoryItems();
+    }, 500);
   }
 
   getInventoryItems() {
@@ -85,4 +88,6 @@ export class InventoryComponent implements OnInit {
     this.sort.direction = event.direction;
     this.inventoryTableData.sort = this.sort;
   }
+
+
 }
