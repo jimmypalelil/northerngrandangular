@@ -61,7 +61,7 @@
       <hr class="my-4">
       <mat-table [dataSource]="inventoryTableData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 lost-table">
         <ng-container *ngFor="let value of displayedColumns; let i = index" cdkColumnDef="{{value}}">
-          <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header class="z-depth-1-half text-center">
+          <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header class="text-center">
             {{value | uppercase}}
           </mat-header-cell>
           <mat-cell *matCellDef="let element" class="animated fadeInUp">

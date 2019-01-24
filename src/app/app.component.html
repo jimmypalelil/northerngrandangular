@@ -52,7 +52,7 @@
   <div class="page" id="page-inventory" (click)="currentPage = 'inventory'">
     <app-inventory *ngIf="currentPage === 'inventory'; else showInvTitle" class="page-overflow"></app-inventory>
     <ng-template #showInvTitle>
-      <h1 class="text-center"><i class="fas fa-warehouse"></i> Inspections</h1>
+      <h1 class="text-center"><i class="fas fa-warehouse"></i> Inventory</h1>
     </ng-template>
   </div>
 </div>

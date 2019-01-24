@@ -79,4 +79,10 @@ export class InventoryComponent implements OnInit {
   applyFilter(filter: string): void {
     this.inventoryTableData.filter = filter;
   }
+
+  sortData(event) {
+    this.sort.active = event.active;
+    this.sort.direction = event.direction;
+    this.inventoryTableData.sort = this.sort;
+  }
 }
