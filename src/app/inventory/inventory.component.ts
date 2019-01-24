@@ -11,7 +11,7 @@ import {InventoryItem} from '../models/InventoryItem';
 })
 export class InventoryComponent implements OnInit {
   inventoryItems: any[];
-  inventoryTableData: MatTableDataSource;
+  inventoryTableData: MatTableDataSource<any>;
   types: string[];
   displayedColumns: string[];
   currentTypeIndex = 0;
