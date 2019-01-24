@@ -1,7 +1,7 @@
 <div class="row" style="margin-top: 3%;">\
 
   <!--Left Panel-->
-  <div class="col-md-2 d-print-none two animated fadeInLeft" style="margin-top: 2%;padding-left:2%;">
+  <div class="col-sm-2 d-print-none two animated fadeInLeft" style="margin-top: 2%;padding-left:2%;">
     <div class="fixed">
       <mat-list *ngIf="isAdmin()">
         <h3 mat-subheader>Admin Controls</h3>
@@ -27,9 +27,7 @@
   <!--Left Panel Ends-->
 
   <!--Inspection Panel-->
-  <div class="col-md-7 three">
-    <hr class="my-4 d-print-none">
-
+  <div class="col-sm-7 three">
     <mat-progress-spinner color="warn" mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
 
     <!--Employee Details-->
@@ -50,7 +48,7 @@
         </mdb-card-body>
       </mdb-card>
 
-      <hr class="my-4 d-print-none">
+      <br>
 
       <mdb-card *ngIf="showInspection || showInspections" class="text-center sticky-top" style="z-index:1040 !important;">
         <mdb-card-body>
@@ -72,6 +70,7 @@
           </mdb-card-text>
         </mdb-card-body>
       </mdb-card>
+      <br>
       <!--Employee Details End-->
 
       <!--Inspection Form List Begins-->
@@ -189,15 +188,14 @@
       </div>
 
       <!--Inspection Scores-->
-      <div *ngIf="showInspection">
-        <div *ngFor="let object of inspectionItems; let i = index">
+      <div class="row" *ngIf="showInspection">
+        <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index">
           <p class="h3">{{object._id | uppercase}} (Category Score: {{catScores[i] * 100 | number:'2.1-2'}}%)</p>
           <dl class="row" *ngFor="let item of object.items">
-            <dt class="col-md-4">{{item.inspection.item | uppercase}}</dt>
-            <dd class="col-md-4">{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
-            <dd class="col-md-4">{{item.item.comment}}</dd>
+              <dt class="col-sm-4">{{item.inspection.item | uppercase}}</dt>
+              <dd class="col-sm-4">{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
+              <dd class="col-sm-4">{{item.item.comment}}</dd>
           </dl>
-          <hr class="my-4">
         </div>
       </div>
 
@@ -206,7 +204,7 @@
   </div>
 
   <!--Right Panel Begins-->
-  <div class="col-md-2 one animated fadeInRight d-print-none" style="margin-top:2%">
+  <div class="col-sm-2 one animated fadeInRight d-print-none" style="margin-top:2%">
     <!--New Inspection Form-->
     <mat-list class="fixed">
       <h3 mat-subheader>Start New Inpsection</h3>

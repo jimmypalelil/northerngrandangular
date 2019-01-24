@@ -63,3 +63,23 @@ mat-progress-spinner {
 textarea::placeholder {
   color: white;
 }
+
+.inspection-scores {
+  border: 1px solid #942f2f;
+}
+
+@media print {
+  .col-sm-7 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin: 0 0;
+  }
+
+  .inspection-scores {
+    border: 1px dotted grey;
+  }
+
+  dl {
+    margin-bottom: 0;
+  }
+}
