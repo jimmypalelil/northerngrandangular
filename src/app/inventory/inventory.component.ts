@@ -20,11 +20,13 @@ export class InventoryComponent implements OnInit {
   newInventoryItem: InventoryItem;
   panelOpened: boolean;
   showUpdateBar: boolean;
+  currentInventoryItem: InventoryItem;
 
   constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar) {
     this.newInventoryItem = new InventoryItem();
     this.panelOpened = false;
     this.showUpdateBar = false;
+    this.currentInventoryItem = new InventoryItem();
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -89,5 +91,29 @@ export class InventoryComponent implements OnInit {
     this.inventoryTableData.sort = this.sort;
   }
 
+  sendItemInfo(inventoryItem) {
+    this.currentInventoryItem = inventoryItem;
+  }
 
+  deleteInventoryItem() {
+    this.inventoryService.deleteInventoryItem(this.currentInventoryItem).then(msg => {
+      this.snackBar.open(msg['text'], '', {
+        duration: 2000,
+      });
+      this.inventoryTableData.data.splice(this.inventoryTableData.data.indexOf(this.currentInventoryItem), 1);
+      this.inventoryTableData._updateChangeSubscription();
+    });
+  }
+
+  updateInventoryItem() {
+    // Update Total Count first
+    const i = this.currentInventoryItem;
+    i['total_count'] = i['laundry'] + i['lock_up'] + i['second'] + i['third'] + i['fourth'] + i['fifth'] + i['sixth'] + i['par_stock'];
+    i['total_cost'] = i['cost_per_item'] * i['total_count'];
+    this.inventoryService.updateInventoryItem(this.currentInventoryItem).then(msg => {
+      this.snackBar.open(msg['text'], '', {
+        duration: 2000,
+      });
+    });
+  }
 }

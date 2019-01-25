@@ -1,10 +1,9 @@
 
 <div class="inventory-container">
-  <hr class="my-4">
-  <span class="lost-title">
-    <h5 class="lost-title-text display-5"><i class="fas fa-warehouse"></i> Inventory</h5>
+  <span class="inventory-title">
+    <h5 class="inventory-title-text display-5"><i class="fas fa-warehouse"></i> Inventory</h5>
   </span>
-  <hr class="my-4">
+  <br><br>
   <mat-accordion>
     <mat-expansion-panel  [expanded]="panelOpened" (opened)="setPanelOpen(true)">
       <mat-expansion-panel-header>
@@ -25,7 +24,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="Item Name" name="itemName" [(ngModel)]="newInventoryItem.name" required>
+          <input matInput placeholder="Item Name" name="itemName" [(ngModel)]="newInventoryItem.item_name" required>
         </mat-form-field>
 
         <span *ngFor="let formItem of displayedColumns">
@@ -71,7 +70,7 @@
               <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3"
                       matTooltip="Delete Item"
                       matTooltipPosition ="below"
-                      (click)="sendItemInfo(element); frame.show()">
+                      (click)="sendItemInfo(element); deleteFrame.show()">
                 <i class="fas fa-trash-alt"></i>
               </button>
 
@@ -80,7 +79,7 @@
                       matTooltipPosition ="below"
                       class="edit-button z-depth-3"
                       gradient="rainy-ashville"
-                      (click)="sendItemInfo(element);showUpdateBar = true"><i class="far fa-edit"></i>
+                      (click)="sendItemInfo(element);updateFrame.show()"><i class="far fa-edit"></i>
               </button>
             </div>
 
@@ -96,29 +95,125 @@
 </div>
 
 <!--Delete Modal-->
-<!--<div mdbModal #deleteFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">-->
-  <!--<div class="modal-dialog" role="document">-->
-    <!--<div class="modal-content">-->
-      <!--<div class="modal-header text-center">-->
-        <!--<h4 class="modal-title w-100 font-weight-bold">Delete Item</h4>-->
-        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deleteFrame.hide()">-->
-          <!--<span aria-hidden="true">&times;</span>-->
-        <!--</button>-->
-      <!--</div>-->
-      <!--<div class="modal-body mx-3">-->
+<div mdbModal #deleteFrame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Delete Inventory Item</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deleteFrame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
 
-        <!--<blockquote class="blockquote bq-warning" *ngIf="currentLostItem !== null">-->
-          <!--<p class="bq-title">Are you sure you wanna delete the following Item?</p>-->
-          <!--<p>{{currentLostItem.item_description | uppercase}} found in: {{currentLostItem.room_number}}</p>-->
-        <!--</blockquote>-->
-      <!--</div>-->
-      <!--<div class="modal-footer d-flex justify-content-center">-->
-        <!--<button mdbBtn color="default" class="waves-light btn btn-primary" (click)="deleteFrame.hide()" mdbWavesEffect>Cancel</button>-->
-        <!--<button mdbBtn color="default" class="waves-light btn btn-danger btn-rounded" color="danger" (click)="deleteFrame.hide();deleteLostItem()" mdbWavesEffect>Delete</button>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
+        <blockquote class="blockquote bq-warning" *ngIf="currentLostItem !== null">
+          <p class="bq-title">Are you sure you wanna delete the following Item?</p>
+          <p>{{currentInventoryItem.item_name | uppercase}}</p>
+        </blockquote>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button mdbBtn color="default" class="waves-light btn btn-primary" (click)="deleteFrame.hide()" mdbWavesEffect>Cancel</button>
+        <button mdbBtn class="waves-light btn btn-danger btn-rounded" color="danger" (click)="deleteFrame.hide();deleteInventoryItem()" mdbWavesEffect>Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
+<!--Update Modal-->
+<div mdbModal class="modal fade" #updateFrame="mdbModal" id="updateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Edit Inventory Item: {{currentInventoryItem.item_name}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="updateFrame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Item Name
+          </mat-placeholder>
+          <input matInput type="text" name="itemName" [value]="currentInventoryItem.item_name" autofocus [(ngModel)]="currentInventoryItem.item_name" required>
+        </mat-form-field>
 
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Laundry
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.laundry" [(ngModel)]="currentInventoryItem.laundry" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Lockup
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.lock_up" [(ngModel)]="currentInventoryItem.lock_up" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Second Floor
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.second" [(ngModel)]="currentInventoryItem.second" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Third Floor
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.third" [(ngModel)]="currentInventoryItem.third" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Fourth Floor
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.fourth" [(ngModel)]="currentInventoryItem.fourth" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Fifth Floor
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.fifth" [(ngModel)]="currentInventoryItem.fifth" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Sixth Floor
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.sixth" [(ngModel)]="currentInventoryItem.sixth" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Par Stock
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.par_stock" [(ngModel)]="currentInventoryItem.par_stock" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Par 2.5
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.par_25" [(ngModel)]="currentInventoryItem.par_25" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Item Type" name="type" [(ngModel)]="currentInventoryItem.type">
+            <mat-option *ngFor="let type of types" [value]="type">
+              {{type | uppercase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button mdbBtn color="danger" class="waves-light btn btn-primary" (click)="updateFrame.hide()" mdbWavesEffect>Cancel</button>
+        <button class="btn btn-unique" (click)="updateInventoryItem();updateFrame.hide()">Update <i class="fa fa-paper-plane-o ml-1"></i></button>
+      </div>
+    </div>
+  </div>
+</div>

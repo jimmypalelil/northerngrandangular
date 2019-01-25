@@ -218,3 +218,8 @@ mat-progress-spinner {
 hr {
   border-color: white;
 }
+
+.mat-tab-header-pagination-chevron,
+.mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron{
+  border-color: rgba(255, 255, 255, 0.87);
+}

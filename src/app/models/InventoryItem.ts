@@ -1,5 +1,5 @@
 export class InventoryItem {
-  name = '';
+  item_name = '';
   laundry = 0;
   lock_up = 0;
   second = 0;
