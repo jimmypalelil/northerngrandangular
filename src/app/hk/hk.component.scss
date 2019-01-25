@@ -101,3 +101,20 @@ mat-cell, mat-header-cell {
   position: relative;
   bottom: 3px;
 }
+
+.print-data {
+  display: none;
+}
+
+@media print {
+  .col-sm-7 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin: 0 0;
+  }
+
+  .print-data {
+    display: block;
+    border: 1px solid grey;
+  }
+}

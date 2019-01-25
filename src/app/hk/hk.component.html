@@ -1,4 +1,4 @@
-<div class="row justify-content-center" style="margin-top: 3%">
+<div class="row justify-content-center" style="margin: auto;">
 
   <div class="col-md-2 two d-print-none">
     <div class="fixed animated fadeInLeft">
@@ -19,10 +19,8 @@
     </div>
   </div>
 
-  <div class="col-md-6 three">
-    <hr class="my-4">
-
-    <mdb-card class="text-center">
+  <div class="col-sm-7 three">
+    <mdb-card class="text-center list-title">
       <mdb-card-body>
         <mdb-card-title>
           <h3>{{currentType['label'] | uppercase}}</h3>
@@ -30,18 +28,19 @@
         <mdb-card-text>
           <h5>{{currentMonth | uppercase}} {{currentYear}}</h5>
         </mdb-card-text>
-        <mdb-card-text>
+        <mdb-card-text class="d-print-none">
           {{floors[currentFloor / 100 - 2].label | uppercase}}
         </mdb-card-text>
         <button mdbBtn mdbWavesEffect class="d-print-none d-none d-lg-inline"
-                onclick="document.body.scrollTop = 0;document.documentElement.scrollTop = 0;window.print()" color="primary">
+               onclick="document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;window.print()" color="primary">
           <i class="fas fa-print"></i> Print List
         </button>
       </mdb-card-body>
     </mdb-card>
 
-    <hr class="my-4">
-    <mat-tab-group (selectedTabChange)="changeTab($event)">
+    <hr class="my-4 d-print-none">
+    <mat-tab-group class="d-print-none" (selectedTabChange)="changeTab($event)">
       <mat-tab color="primary" *ngFor="let month of months[currentType['index']]" label="{{month | uppercase}}">
 
         <!--Search Bar-->
@@ -51,7 +50,7 @@
           <hr class="my-3">
         </div>
 
-        <div class="table-container col-md-12">
+        <div class="table-container col-sm-12">
           <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 animated fadeInUp">
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
@@ -125,8 +124,17 @@
 
 
     <!--For Printing-->
-    <div>
-
+    <div class="row">
+      <div class="col-sm-2 print-data" *ngFor="let room of dataSource.data; let i = index">
+        <div class="row">
+          <div class="col-sm-4">{{room.room_number}}</div>
+          <div class="col-sm-4">{{room.type}}</div>
+          <div class="col-sm-4">
+            <i *ngIf="room.status === 'clean'" class="fas fa-check-circle"></i>
+            <i *ngIf="room.status === 'not done'" class="fas fa-times-circle"></i>
+          </div>
+        </div>
+      </div>
     </div>
     <!--Printing Ends-->
 

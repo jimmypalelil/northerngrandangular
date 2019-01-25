@@ -40,11 +40,16 @@ export class HkComponent implements OnInit, AfterViewInit {
   currentStatus: string;
   showSpinner = false;
   selection = new SelectionModel<Room>(true, []);
+  showPrintData = false;
+
+
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort;
   @ViewChild('floorBtnGrp') floorBtnGrp: MatButtonToggleGroup;
 
-  constructor(private router: Router, private listService: ListService, public snackBar: MatSnackBar) {}
+  constructor(private router: Router, private listService: ListService, public snackBar: MatSnackBar) {
+    this.dataSource = new MatTableDataSource<any>();
+  }
 
   ngOnInit() {
     this.currentType = JSON.parse(JSON.stringify(this.types))[0];
@@ -203,5 +208,9 @@ export class HkComponent implements OnInit, AfterViewInit {
         duration: 2000,
       });
     });
+  }
+
+  floorNum(value: number) {
+    return Math.floor(value);
   }
 }
