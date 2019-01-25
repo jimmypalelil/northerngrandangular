@@ -242,7 +242,7 @@
 
         <blockquote class="blockquote bq-warning" *ngIf="currentLostItem !== null">
           <p class="bq-title">Are you sure you want to REPLACE the following Item in the Lost & Found List</p>
-          <p>{{currentLostItem.item_description | uppercase}} found in: {{currentLostItem.room_number}}</p>
+          <p>{{currentReturnItem.item_description | uppercase}} found in: {{currentReturnItem.room_number}}</p>
         </blockquote>
       </div>
       <div class="modal-footer d-flex justify-content-center">

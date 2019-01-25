@@ -202,6 +202,13 @@
         </mat-form-field>
 
         <mat-form-field>
+          <mat-placeholder>
+            <i class="fa fa-user prefix grey-text"></i> Cost Per Item
+          </mat-placeholder>
+          <input matInput type="number" name="room_no" [value]="currentInventoryItem.cost_per_item" [(ngModel)]="currentInventoryItem.cost_per_item" required>
+        </mat-form-field>
+
+        <mat-form-field>
           <mat-select placeholder="Item Type" name="type" [(ngModel)]="currentInventoryItem.type">
             <mat-option *ngFor="let type of types" [value]="type">
               {{type | uppercase}}
