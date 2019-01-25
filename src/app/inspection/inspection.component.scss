@@ -77,9 +77,18 @@ textarea::placeholder {
 
   .inspection-scores {
     border: 1px dotted grey;
+    font-size: 12px;
+  }
+
+  .cat-title {
+    font-size: 15px;
   }
 
   dl {
     margin-bottom: 0;
+  }
+
+  .col-sm-4 {
+    margin: 0;
   }
 }

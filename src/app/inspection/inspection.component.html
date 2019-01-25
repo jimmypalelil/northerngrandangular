@@ -1,4 +1,4 @@
-<div class="row" style="margin-top: 3%;">\
+<div class="row">
 
   <!--Left Panel-->
   <div class="col-sm-2 d-print-none two animated fadeInLeft" style="margin-top: 2%;padding-left:2%;">
@@ -35,11 +35,11 @@
       <mdb-card class="text-center">
         <mdb-card-body>
           <mdb-card-title>
-            <h2>{{currentEmployee['name']}}</h2>
+            <h3>{{currentEmployee['name']}}</h3>
           </mdb-card-title>
           <mdb-card-text>
             <span *ngIf="currentEmployee['num_inspetions'] != 0; else showZeroScore">
-              <h4>Total Inspections: {{currentEmployee['num_inspections']}} | Overall Score: {{currentEmployee['total_score'] / currentEmployee['num_inspections'] * 100| number:'1.1-2'}}%</h4>
+              <h5>Total Inspections: {{currentEmployee['num_inspections']}} | Overall Score: {{currentEmployee['total_score'] / currentEmployee['num_inspections'] * 100| number:'1.1-2'}}%</h5>
             </span>
             <ng-template #showZeroScore>
               Total Inspections: 0 | Score: 0%
@@ -52,7 +52,7 @@
 
       <mdb-card *ngIf="showInspection || showInspections" class="text-center sticky-top" style="z-index:1040 !important;">
         <mdb-card-body>
-          <mdb-card-title>
+          <mdb-card-title class="d-print-none">
             <h3 *ngIf="showInspections">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h3>
             <h3 *ngIf="showInspection">Inspection Details</h3>
           </mdb-card-title>
@@ -190,11 +190,11 @@
       <!--Inspection Scores-->
       <div class="row" *ngIf="showInspection">
         <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index">
-          <p class="h3">{{object._id | uppercase}} (Category Score: {{catScores[i] * 100 | number:'2.1-2'}}%)</p>
+          <p class="h3 cat-title">{{object._id | uppercase}} (Category Score: {{catScores[i] * 100 | number:'2.1-2'}}%)</p>
           <dl class="row" *ngFor="let item of object.items">
-              <dt class="col-sm-4">{{item.inspection.item | uppercase}}</dt>
-              <dd class="col-sm-4">{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
-              <dd class="col-sm-4">{{item.item.comment}}</dd>
+              <dt class="col-sm-3">{{item.inspection.item | uppercase}}</dt>
+              <dd class="col-sm-3">{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
+              <dd class="col-sm-6">{{item.item.comment}}</dd>
           </dl>
         </div>
       </div>
