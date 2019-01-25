@@ -125,12 +125,14 @@
 
     <!--For Printing-->
     <div class="row">
-      <div class="col-sm-2 print-data" *ngFor="let room of dataSource.data; let i = index">
-        <div class="row">
-          <div class="col-sm-4">{{room.room_number}}</div>
-          <div class="col-sm-4">{{room.type}}</div>
-          <div class="col-sm-4">
-            <i *ngIf="room.status === 'clean'" class="fas fa-check"></i>
+      <div *ngFor="let array of printData; let i = index">
+        <div class="column">
+          <div class="row print-data" *ngFor="let room of array">
+            <div class="col-sm-4">{{room.room_number}}</div>
+            <div class="col-sm-4">{{room.type}}</div>
+            <div class="col-sm-4">
+              <i *ngIf="room.status === 'clean'" class="fas fa-check"></i>
+            </div>
           </div>
         </div>
       </div>

@@ -31,6 +31,7 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   statuses = ['All Rooms', 'Undone Rooms', 'Done Rooms'];
   counts = [0, 0, 0];
+  printData = [[]];
 
   dataSource: MatTableDataSource<Room>;
   currentFloor = 200;
@@ -95,6 +96,12 @@ export class HkComponent implements OnInit, AfterViewInit {
       this.currentType = type;
       this.currentStatus = 'all';
       this.toggleSpinner();
+      const print_data = [[], [], [], [], []];
+      data.forEach(function(room) {
+        print_data[Math.floor(room.room_number / 100) - 2].push(room);
+      });
+      console.log(print_data);
+      this.printData = print_data;
     });
   }
 
