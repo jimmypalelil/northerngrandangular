@@ -115,10 +115,14 @@ mat-cell, mat-header-cell {
 
   .print-data {
     display: flex;
-    border-bottom: 1px dotted grey;
+
     font-size: 16px;
     width: 200px;
     margin: 5px;
+  }
+
+  .print-data .status {
+    border-bottom: 1px dashed grey;
   }
 
   .column {

@@ -132,7 +132,7 @@
           <div class="row print-data" *ngFor="let room of array">
             <div class="col-sm-4">{{room.room_number}}</div>
             <div class="col-sm-4">{{room.type}}</div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 status">
               <i *ngIf="room.status === 'clean'" class="fas fa-check"></i>
             </div>
           </div>
