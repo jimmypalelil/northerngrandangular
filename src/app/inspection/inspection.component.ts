@@ -27,8 +27,8 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   showInspections = false;
   showInspection = false;
   showInspectionForm = false;
-  MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'view/delete'];
-  inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'view/delete'];
+  MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'action'];
+  inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'action'];
   scoreCategory = ['Bad', 'Needs Improvement', 'Good', 'Excellent'];
   showSpinner = false;
   currentEmployeeIndex: number;

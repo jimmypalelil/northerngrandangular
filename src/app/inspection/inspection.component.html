@@ -172,14 +172,16 @@
                 {{value === 'year' || value === 'num_inspections' ? element[value] : ''}}
               </ng-template>
 
-              <div *ngIf="value === 'view/delete'; else showData">
-                <button mdbBtn mdbWavesEffect color="primary"
-                        class="edit-button z-depth-2"
+              <div *ngIf="value === 'action'; else showData">
+                <button mdbBtn mdbWavesEffect color="primary" class="edit-button z-depth-3"
+                        matTooltip="View"
+                        matTooltipPosition ="below"
                         (click)="viewInspections(element)">
                   <i class="far fa-eye"></i>
                 </button>
-                <button mdbWavesEffect mdbBtn color="danger"
-                        class="edit-button z-depth-2"
+                <button mdbWavesEffect mdbBtn color="danger" class="edit-button z-depth-3"
+                        matTooltip="Delete"
+                        matTooltipPosition ="below"
                         (click)="setCurrentScore(element); deleteMonthlyInspectionFrame.show()">
                   <i class="far fa-trash-alt"></i>
                 </button>
@@ -207,15 +209,17 @@
               {{value === 'score' ? (element['inspections'][value] * 100 | number:'2.1-2') + '%' : ''}}
               {{value !== 'month' && value !== 'score' ? element['inspections'][value] : ''}}
 
-              <div *ngIf="value === 'view/delete'">
-                <button mdbBtn mdbWavesEffect color="primary"
-                        class="edit-button z-depth-2"
+              <div *ngIf="value === 'action'">
+                <button mdbBtn mdbWavesEffect color="primary" class="edit-button z-depth-3"
+                        matTooltip="View"
+                        matTooltipPosition ="below"
                         (click)="viewInspection(element['inspections'])">
                   <i class="far fa-eye"></i>
                 </button>
 
-                <button mdbBtn mdbWavesEffect color="danger"
-                        class="edit-button z-depth-2"
+                <button mdbBtn mdbWavesEffect color="danger" class="edit-button z-depth-3"
+                        matTooltip="Delete"
+                        matTooltipPosition ="below"
                         (click)="deleteInspectionFrame.show(); setCurrentInspection(element)">
                   <i class="far fa-trash-alt"></i>
                 </button>

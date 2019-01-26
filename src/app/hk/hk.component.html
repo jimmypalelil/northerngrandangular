@@ -81,7 +81,8 @@
                         (click)="value !== 'edit' ? selection.toggle(element) : null">
                 <span class="font-weight-bold" [ngClass]="{'green-text': element.status ==='clean', 'red-text': element.status === 'not done'}">
                   {{value === 'status' ? '' : element[value]}}
-                  <span *ngIf="value === 'status'" style="font-size: 30px;">
+                  <span *ngIf="value === 'status'" style="font-size: 30px;" [matTooltip] = "element.status | uppercase"
+                        matTooltipPosition ="after">
                     <i *ngIf="element[value] === 'clean'; else notDone" class="fas fa-check-circle"></i>
                     <ng-template #notDone><i class="fas fa-times-circle"></i></ng-template>
                   </span>
