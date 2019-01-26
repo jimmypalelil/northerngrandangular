@@ -28,17 +28,17 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['select', 'room_number', 'type', 'status', 'edit'];
   dataDisplayColumns = ['room_number', 'type', 'status', 'edit'];
-
-  statuses = ['All Rooms', 'Undone Rooms', 'Done Rooms'];
+  currentFloor = 200;
+  statuses = [{label: 'All Rooms', data: this.currentFloor}, {label: 'Undone Rooms', data: 'not done'},
+    {label: 'Done Rooms', data: 'clean'}];
+  currentStatusIndex: number;
   counts = [0, 0, 0];
   allRooms = [[]];
 
   dataSource: MatTableDataSource<Room>;
-  currentFloor = 200;
   currentMonth: string;
   currentYear: number;
   currentType: any;
-  currentStatus: string;
   showSpinner = false;
   selection = new SelectionModel<Room>(true, []);
   showPrintData = false;
@@ -93,11 +93,10 @@ export class HkComponent implements OnInit, AfterViewInit {
         print_data[Math.floor(room.room_number / 100) - 2].push(room);
       });
       this.allRooms = print_data;
-      this.dataSource.filterPredicate = (room: Room, filter: String | Number) =>
+      this.dataSource.filterPredicate = (room: Room, filter: String) =>
         room.status === filter || room.room_number >= Number(filter);
       this.changeFloor(this.currentFloor);
       this.currentType = type;
-      this.currentStatus = 'all';
       this.toggleSpinner();
     });
   }
@@ -121,6 +120,8 @@ export class HkComponent implements OnInit, AfterViewInit {
     const total = this.dataSource.data.length;
     this.counts = [total, total - doneCount, doneCount];
     this.selection.clear();
+    this.currentStatusIndex = 0;
+    this.dataSource.filter = this.statuses[this.currentStatusIndex].data;
   }
 
   setType(type) {
@@ -162,13 +163,8 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   setStatus(index) {
     this.selection.clear();
-    if (index === 1) {
-      this.dataSource.filter = 'not done';
-    } else if (index === 2) {
-      this.dataSource.filter = 'clean';
-    } else {
-      this.dataSource.filter = '' + this.currentFloor;
-    }
+    this.currentStatusIndex = index;
+    this.dataSource.filter = this.statuses[index].data;
   }
 
   setCurrentYear(year: number) {

@@ -127,6 +127,8 @@ mat-cell, mat-header-cell {
   .column {
     float: left;
     width: 25%;
+    padding: 0;
+    margin:0;
   }
 
   /* Clear floats after the columns */
@@ -134,6 +136,14 @@ mat-cell, mat-header-cell {
     content: "";
     display: table;
     clear: both;
+  }
+
+  .card-body {
+    font-weight: 300;
+    font-size: 17px;
+    margin:0;
+    padding: 0;
+    color: #d7c3c7;
   }
 }
 
