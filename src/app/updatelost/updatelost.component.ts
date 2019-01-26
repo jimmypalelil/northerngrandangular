@@ -9,9 +9,8 @@ import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatSnackBar} from '@angular/ma
 })
 export class UpdatelostComponent implements OnInit {
   item: any;
-
   constructor(private listService: ListService,
-              private bottomSheetRef: MatBottomSheetRef<UpdatelostComponent>,
+              public bottomSheetRef: MatBottomSheetRef<UpdatelostComponent>,
               @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
               private snackbar: MatSnackBar) {
     this.item = data.item;
