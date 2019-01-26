@@ -1,14 +1,16 @@
 <div class="row">
 
   <!--Left Panel-->
-  <div class="col-sm-2 d-print-none two animated fadeInLeft" style="margin-top: 2%;padding-left:2%;">
+  <div class="col-sm-2 d-print-none two animated fadeInLeft" style="margin-top: 3%;padding-left: 2%">
     <div class="fixed">
-      <mat-list *ngIf="isAdmin()">
-        <h3 mat-subheader>Admin Controls</h3>
-        <button *ngIf="!isProduction()" mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
-        <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
-      </mat-list>
-      <hr class="my-4">
+      <div *ngIf="isAdmin()">
+        <mat-list >
+          <h3 mat-subheader>Admin Controls</h3>
+          <button *ngIf="!isProduction()" mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
+          <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
+        </mat-list>
+        <hr class="my-4">
+      </div>
       <mat-list class="fixed">
         <h3 mat-subheader>Employees</h3>
         <a mdbWavesEffect mat-list-item *ngFor="let employee of employees; let i = index"
@@ -204,7 +206,7 @@
   </div>
 
   <!--Right Panel Begins-->
-  <div class="col-sm-2 one animated fadeInRight d-print-none" style="margin-top:2%">
+  <div class="col-sm-2 one animated fadeInRight d-print-none">
     <!--New Inspection Form-->
     <mat-list class="fixed">
       <h3 mat-subheader>Start New Inpsection</h3>

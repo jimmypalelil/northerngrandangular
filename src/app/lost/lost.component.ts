@@ -1,10 +1,19 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatSnackBar, MatSort, MatTabChangeEvent, MatTabGroup, MatTableDataSource} from '@angular/material';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {
+  MAT_BOTTOM_SHEET_DATA,
+  MatBottomSheet,
+  MatBottomSheetRef,
+  MatSnackBar,
+  MatSort,
+  MatTabChangeEvent,
+  MatTabGroup,
+  MatTableDataSource
+} from '@angular/material';
 import {ListService} from '../services/list.service';
 import {LostItem} from '../models/lostitem';
 import {ReturnedItem} from '../models/returneditem';
 import {environment} from '../../environments/environment';
-import {browser} from 'protractor';
+import {UpdatelostComponent} from '../updatelost/updatelost.component';
 
 @Component({
   selector: 'app-lost',
@@ -22,7 +31,7 @@ export class LostComponent implements OnInit {
   showUpdateBar = false;
   imageUrl = environment.imageUrl;
 
-  constructor(private list: ListService, private snackBar: MatSnackBar) {}
+  constructor(private list: ListService, private snackBar: MatSnackBar, private updateSheet: MatBottomSheet) {}
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
@@ -99,6 +108,12 @@ export class LostComponent implements OnInit {
     }
   }
 
+  openUpdateSheet(item): void {
+    this.updateSheet.open(UpdatelostComponent, {
+      data: {item: item},
+    });
+  }
+
   deleteLostItem() {
     if (this.isHK()) {
       this.list.deleteLostItem(this.currentLostItem).then(msg => {
@@ -171,11 +186,5 @@ export class LostComponent implements OnInit {
       this.snackBar.open(msg['text'], '', {duration: 2000});
     });
   }
-
-  updateItem() {
-    this.showUpdateBar = false;
-    this.list.updateLostItem(this.currentLostItem).then(msg => {
-      this.snackBar.open(msg['text'], '', {duration: 2000});
-    });
-  }
 }
+

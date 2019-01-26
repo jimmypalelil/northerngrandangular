@@ -35,6 +35,7 @@ import {
   MatSortModule,
   MatStepperModule,
   MatTableModule,
+  MatBottomSheetModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
@@ -48,7 +49,7 @@ import { AppComponent } from './app.component';
 import {ListService} from './services/list.service';
 import { HkComponent } from './hk/hk.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { LostComponent } from './lost/lost.component';
+import {LostComponent} from './lost/lost.component';
 import {AuthService} from './services/auth.service';
 import {EnsureAuthenticatedService} from './services/ensure-authenticated.service';
 import {LoginRedirectService} from './services/login-redirect.service';
@@ -94,6 +95,7 @@ import { InventoryComponent } from './inventory/inventory.component';
     MatDividerModule,
     MatExpansionModule,
     MatGridListModule,
+    MatBottomSheetModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
@@ -127,6 +129,9 @@ import { InventoryComponent } from './inventory/inventory.component';
   ],
   providers: [ListService, AuthService, EnsureAuthenticatedService, LoginRedirectService, InspectionService],
   bootstrap: [AppComponent],
-  schemas: [ NO_ERRORS_SCHEMA ]
+  schemas: [ NO_ERRORS_SCHEMA ],
+  entryComponents: [
+    UpdatelostComponent
+  ]
 })
 export class AppModule { }

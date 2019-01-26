@@ -44,12 +44,6 @@
   <span><input matInput (keyup)="applyFilter($event.target.value)" id="search" name="search" placeholder="Search... By room number, item or date"></span>
   <hr class="my-3">
 
-  <app-updatelost *ngIf="showUpdateBar"
-                  [item]="currentLostItem"
-                  (updated)="updateItem()"
-                  (cancelled)="showUpdateBar = false;"
-                  class="z-depth-3 update-lost-sidebar animated fadeInRight"></app-updatelost>
-
   <mat-tab-group (selectedTabChange)="changeTab($event)" class="animated fadeInUp">
     <mat-tab color="primary" *ngFor="let tab of tabList" label="{{tab | uppercase}}">
       <hr class="my-4">
@@ -81,7 +75,7 @@
                       matTooltipPosition ="below"
                       class="edit-button z-depth-3"
                       gradient="rainy-ashville"
-                      (click)="sendItemInfo(element);showUpdateBar = true"><i class="far fa-edit"></i>
+                      (click)="sendItemInfo(element);openUpdateSheet(element)"><i class="far fa-edit"></i>
               </button>
 
 

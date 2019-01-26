@@ -31,7 +31,7 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   statuses = ['All Rooms', 'Undone Rooms', 'Done Rooms'];
   counts = [0, 0, 0];
-  printData = [[]];
+  allRooms = [[]];
 
   dataSource: MatTableDataSource<Room>;
   currentFloor = 200;
@@ -88,20 +88,17 @@ export class HkComponent implements OnInit, AfterViewInit {
     this.toggleSpinner();
     this.listService.getRoomList(type.data, month, year).then(data => {
       this.dataSource = new MatTableDataSource(data);
-      this.dataSource.filterPredicate = (room: Room, filter: String | Number) =>
-        (room.room_number >= Number(filter) && room.room_number < (Number(filter) + 100)) ||
-         (room.room_number >= Number(this.currentFloor) &&
-          room.room_number < Number(this.currentFloor) + 100 && room.status === filter);
-      this.changeFloor(this.currentFloor);
-      this.currentType = type;
-      this.currentStatus = 'all';
-      this.toggleSpinner();
       const print_data = [[], [], [], [], []];
       data.forEach(function(room) {
         print_data[Math.floor(room.room_number / 100) - 2].push(room);
       });
-      console.log(print_data);
-      this.printData = print_data;
+      this.allRooms = print_data;
+      this.dataSource.filterPredicate = (room: Room, filter: String | Number) =>
+        room.status === filter || room.room_number >= Number(filter);
+      this.changeFloor(this.currentFloor);
+      this.currentType = type;
+      this.currentStatus = 'all';
+      this.toggleSpinner();
     });
   }
 
@@ -114,14 +111,14 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   changeFloor(floor) {
     this.currentFloor = floor;
-    this.dataSource.filter = floor;
+    this.dataSource.data = this.allRooms[floor / 100 - 2];
     let doneCount = 0;
-    this.dataSource.filteredData.forEach(function (room) {
+    this.dataSource.data.forEach(function (room) {
       if (room.status === 'clean') {
         doneCount++;
       }
     });
-    const total = this.dataSource.filteredData.length;
+    const total = this.dataSource.data.length;
     this.counts = [total, total - doneCount, doneCount];
     this.selection.clear();
   }

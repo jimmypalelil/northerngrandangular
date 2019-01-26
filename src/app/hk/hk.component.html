@@ -7,7 +7,9 @@
           <a mdbWavesEffect mat-list-item *ngFor="let floor of floors; let i = index"
              class="floor"
              [ngClass]="{'active': currentFloor === floor.data}"
-             (click)="changeFloor(floor.data)">{{floor.label | uppercase}}</a>
+             (click)="changeFloor(floor.data)">
+            {{floor.label | uppercase}}
+          </a>
       </mat-list>
       <hr class="my-4">
       <mat-list>
@@ -125,7 +127,7 @@
 
     <!--For Printing-->
     <div class="row">
-      <div *ngFor="let array of printData; let i = index">
+      <div *ngFor="let array of allRooms">
         <div class="column">
           <div class="row print-data" *ngFor="let room of array">
             <div class="col-sm-4">{{room.room_number}}</div>
