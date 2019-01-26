@@ -52,5 +52,9 @@ export class ListService {
   updateLostItem(item): Promise<any> {
     return this.http.post(this.lostUrl + 'updateItem', item).toPromise();
   }
+
+  updateReturnedItem(item: any): Promise<any> {
+    return this.http.post(this.lostUrl + 'updateReturnedItem', item).toPromise();
+  }
 }
 

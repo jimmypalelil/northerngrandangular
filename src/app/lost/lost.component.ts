@@ -14,6 +14,7 @@ import {LostItem} from '../models/lostitem';
 import {ReturnedItem} from '../models/returneditem';
 import {environment} from '../../environments/environment';
 import {UpdatelostComponent} from '../updatelost/updatelost.component';
+import {UpdatereturnedComponent} from '../updatereturned/updatereturned.component';
 
 @Component({
   selector: 'app-lost',
@@ -184,6 +185,12 @@ export class LostComponent implements OnInit {
     this.list.undoReturn(this.currentReturnItem).then(msg => {
       this.tabGroup.selectedIndex = 0;
       this.snackBar.open(msg['text'], '', {duration: 2000});
+    });
+  }
+
+  openUpdateReturnedSheet(item) {
+    this.updateSheet.open(UpdatereturnedComponent, {
+      data: {item: item},
     });
   }
 }

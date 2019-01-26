@@ -1,0 +1,60 @@
+<div class="container update-lost-item">
+  <!--Background-->
+  <div id="bg"></div>
+
+  <h3><i class="fa fa-refresh" aria-hidden="true"></i></h3>
+  <h3>Update Returned Item</h3>
+  <p *ngIf="!isHk()" class="text-red text-center"><i class="fa fa-expeditedssl" aria-hidden="true"></i> Only Housekeeping can update Items</p>
+  <hr class="my-4">
+  <div class="update-lost-item-content">
+    <form>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Room #" name="room_number" [disabled]="!isHk()" [(ngModel)]="item.room_number">
+        </mat-form-field>
+      </div>
+
+
+      <div>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Guest Name" name="guest_name" [disabled]="!isHk()" [(ngModel)]="item.guest_name">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <textarea matInput placeholder="Item Description" name="item_description"
+                    [disabled]="!isHk()"
+                    [(ngModel)]="item.item_description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Returned By" name="returned_by" [disabled]="!isHk()" [(ngModel)]="item.returned_by">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Return Date" name="date_found" [disabled]="!isHk()" [(ngModel)]="item.return_date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <textarea matInput placeholder="Comments" name="comments"
+                    [disabled]="!isHk()"
+                    [(ngModel)]="item.comments"></textarea>
+        </mat-form-field>
+      </div>
+
+      <button mdbBtn mdbWavesEffect color="primary" (click)="bottomSheetRef.dismiss();updateReturnedItem()" [disabled]="!isHk()">
+        Update <i class="fas fa-pen-square"></i>
+      </button>
+      <button mdbBtn mdbWavesEffect color="danger" (click)="bottomSheetRef.dismiss()">Cancel</button>
+    </form>
+  </div>
+</div>

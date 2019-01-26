@@ -59,6 +59,7 @@ import { InspectionComponent } from './inspection/inspection.component';
 import {InspectionService} from './services/inspection.service';
 import { UpdatelostComponent } from './updatelost/updatelost.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { UpdatereturnedComponent } from './updatereturned/updatereturned.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { InventoryComponent } from './inventory/inventory.component';
     HomeComponent,
     InspectionComponent,
     UpdatelostComponent,
-    InventoryComponent
+    InventoryComponent,
+    UpdatereturnedComponent
   ],
   imports: [
     ParallaxModule,
@@ -131,7 +133,8 @@ import { InventoryComponent } from './inventory/inventory.component';
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
   entryComponents: [
-    UpdatelostComponent
+    UpdatelostComponent,
+    UpdatereturnedComponent
   ]
 })
 export class AppModule { }

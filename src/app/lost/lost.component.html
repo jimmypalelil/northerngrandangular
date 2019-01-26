@@ -87,13 +87,22 @@
               </button>
             </div>
 
+            <div *ngIf="value === 'action' && tabGroup.selectedIndex === 1">
+            <button mdbWavesEffect mdbBtn
+                    matTooltip="Edit Item"
+                    matTooltipPosition ="below"
+                    class="edit-button z-depth-3"
+                    gradient="rainy-ashville"
+                    (click)="sendItemInfo(element);openUpdateReturnedSheet(element)"><i class="far fa-edit"></i>
+            </button>
+
             <button mdbBtn gradient="morpheus-den" class="edit-button z-depth-3"
                     matTooltip="Undo Return"
                     matTooltipPosition ="below"
-                    *ngIf="i === displayedColumns.length-1 && tabGroup.selectedIndex === 1"
                     (click)="sendItemInfo(element); undoFrame.show()">
               <i class="fas fa-undo"></i>
             </button>
+            </div>
 
           </mat-cell>
         </ng-container>

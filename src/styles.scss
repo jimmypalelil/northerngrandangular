@@ -84,8 +84,7 @@ mdb-card-img > img {
 }
 
 .edit-button:hover {
-  position: relative;
-  bottom: .2em;
+  transform: translate3d(4px, 0, -135px);
   color: black;
 }
 
@@ -222,4 +221,19 @@ hr {
 .mat-tab-header-pagination-chevron,
 .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron{
   border-color: rgba(255, 255, 255, 0.87);
+}
+
+//Update SIdebar
+#bg:after, #bg:before {
+  content : "";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: url($my-base-path + 'sidebar_background.jpg');
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  opacity : .5;
+  z-index: -1;
 }
