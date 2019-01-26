@@ -98,10 +98,10 @@
         </div>
         <button *ngIf="!showSpinner" mdbBtn mdbWavesEffect (click)="submitInspection()"
                 [disabled]="showSpinner" class="teal darken-2">
-          <i class="fa fa-paper-plane-o ml-1"></i> Submit Inspection
+          <i class="far fa-paper-plane"></i> Submit Inspection
         </button>
         <button *ngIf="showSpinner" mdbBtn disabled class="teal darken-2">
-          <p class="red-text"><i class="fa fa-paper-plane-o ml-1"></i> Submitting...</p>
+          <p class="red-text"><i class="far fa-paper-plane"></i> Submitting...</p>
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </button>
 
