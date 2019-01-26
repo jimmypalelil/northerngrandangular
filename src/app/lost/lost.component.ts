@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angular/core';
 import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheet,
@@ -21,7 +21,7 @@ import {UpdatereturnedComponent} from '../updatereturned/updatereturned.componen
   templateUrl: './lost.component.html',
   styleUrls: ['./lost.component.scss']
 })
-export class LostComponent implements OnInit {
+export class LostComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<any>;
   tabList = ['Lost & Found Items', 'Returned Items'];
   displayedColumns = [];
@@ -31,18 +31,24 @@ export class LostComponent implements OnInit {
   actionHeader: string;
   showUpdateBar = false;
   imageUrl = environment.imageUrl;
+  showSpinner = false;
 
-  constructor(private list: ListService, private snackBar: MatSnackBar, private updateSheet: MatBottomSheet) {}
+  constructor(private list: ListService, private snackBar: MatSnackBar, private updateSheet: MatBottomSheet) {
+    this.currentLostItem = new LostItem();
+    this.currentReturnItem = new ReturnedItem();
+  }
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit() {
+  @Output() spinnerEvent = new EventEmitter<boolean>();
+
+  ngOnInit() {}
+
+  ngAfterViewInit() {
     setTimeout(() => {
       this.getItemList();
     }, 500);
-    this.currentLostItem = new LostItem();
-    this.currentReturnItem = new ReturnedItem();
   }
 
   isHK(): boolean {
@@ -51,6 +57,7 @@ export class LostComponent implements OnInit {
   }
 
   getItemList() {
+    this.toggleSpinner();
     this.displayedColumns = [];
     this.list.getLostList().then(data => {
       if (data.length > 0) {
@@ -64,7 +71,13 @@ export class LostComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
       }
+      this.toggleSpinner();
     });
+  }
+
+  toggleSpinner() {
+    this.showSpinner = !this.showSpinner;
+    this.spinnerEvent.emit(this.showSpinner);
   }
 
   getReturnedItemList() {

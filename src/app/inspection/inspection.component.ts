@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {InspectionService} from '../services/inspection.service';
 import {Inspection} from '../models/inspection';
 import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
@@ -30,11 +30,11 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'action'];
   inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'action'];
   scoreCategory = ['Bad', 'Needs Improvement', 'Good', 'Excellent'];
-  showSpinner = false;
   currentEmployeeIndex: number;
   totalScore: number;
   totalItems: number;
   catScores: number[] = [];
+  showSpinner = false;
 
   constructor(private insService: InspectionService, public snackBar: MatSnackBar) {
     this.panelOpened = false;
@@ -42,6 +42,8 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild(MatSort) sort: MatSort;
+
+  @Output() spinnerEvent = new EventEmitter<boolean>();
 
   ngOnInit() {}
 
@@ -52,6 +54,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   getEmployees() {
+    this.toggleSpinner();
     this.insService.getEmployees().then(data => {
       this.employees = data;
       if (this.currentEmployeeIndex === undefined) {
@@ -59,6 +62,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       }
       this.currentEmployee = data[this.currentEmployeeIndex];
       this.getEmployeeIns(this.currentEmployee, 0);
+      this.toggleSpinner();
     });
   }
 
@@ -201,13 +205,8 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   toggleSpinner() {
     this.showSpinner = !this.showSpinner;
-    if (this.showSpinner) {
-      document.getElementById('body').classList.add('inspection-overlay');
-    } else {
-      document.getElementById('body').classList.remove('inspection-overlay');
-    }
+    this.spinnerEvent.emit(this.showSpinner);
   }
-
   createInsItems() {
     this.toggleSpinner();
     this.insService.createInsItems().then(msg => {

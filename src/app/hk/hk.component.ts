@@ -1,11 +1,10 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Room} from '../models/room';
 import {Router} from '@angular/router';
 import {ListService} from '../services/list.service';
 import {MatSnackBar, MatSort, MatTabChangeEvent, MatTabGroup, MatTableDataSource} from '@angular/material';
 import {MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {SelectionModel} from '@angular/cdk/collections';
-import {stringify} from 'querystring';
 
 @Component({
   selector: 'app-hk',
@@ -14,15 +13,15 @@ import {stringify} from 'querystring';
 })
 export class HkComponent implements OnInit, AfterViewInit {
   months = [['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
-    ['jan to jun', 'jul to dec'],
-    ['jan to mar', 'apr to jun', 'july to sep', 'oct to dec']];
+            ['jan to jun', 'jul to dec'],
+            ['jan to mar', 'apr to jun', 'july to sep', 'oct to dec']];
 
   floors = [{label: '2nd Floor', data: 200}, {label: '3rd Floor', data: 300}, {label: '4th Floor', data: 400},
     {label: '5th Floor', data: 500}, {label: '6th Floor', data: 600}];
 
   types = [{label: 'Bedding', data: 'beddings', index: 0}, {label: 'Carpet Shampoo', data: 'carpets', index: 1},
-              {label: 'Bed Flips', data: 'mattress', index: 2}, {label: 'Pillows', data: 'pillows', index: 2},
-                        {label: 'Pillow Protectors', data: 'pillowss', index: 1}];
+            {label: 'Bed Flips', data: 'mattress', index: 2}, {label: 'Pillows', data: 'pillows', index: 2},
+            {label: 'Pillow Protectors', data: 'pillowss', index: 1}];
 
   years = [2018, 2019];
 
@@ -43,10 +42,11 @@ export class HkComponent implements OnInit, AfterViewInit {
   selection = new SelectionModel<Room>(true, []);
   showPrintData = false;
 
-
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort;
   @ViewChild('floorBtnGrp') floorBtnGrp: MatButtonToggleGroup;
+
+  @Output() spinnerEvent = new EventEmitter<boolean>();
 
   constructor(private router: Router, private listService: ListService, public snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<any>();
@@ -93,7 +93,7 @@ export class HkComponent implements OnInit, AfterViewInit {
         print_data[Math.floor(room.room_number / 100) - 2].push(room);
       });
       this.allRooms = print_data;
-      this.dataSource.filterPredicate = (room: Room, filter: String) =>
+      this.dataSource.filterPredicate = (room: Room, filter: any) =>
         room.status === filter || room.room_number >= Number(filter);
       this.changeFloor(this.currentFloor);
       this.currentType = type;
@@ -162,9 +162,15 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   setStatus(index) {
-    this.selection.clear();
-    this.currentStatusIndex = index;
-    this.dataSource.filter = this.statuses[index].data;
+    if (this.counts[index] !== 0) {
+      this.selection.clear();
+      this.currentStatusIndex = index;
+      this.dataSource.filter = this.statuses[index].data;
+    } else {
+      this.snackBar.open('No ' + this.statuses[index].label, '', {
+        duration: 2000, verticalPosition: 'bottom'
+      });
+    }
   }
 
   setCurrentYear(year: number) {
@@ -176,11 +182,7 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   toggleSpinner() {
     this.showSpinner = !this.showSpinner;
-    if (this.showSpinner) {
-      document.getElementById('body').classList.add('inspection-overlay');
-    } else {
-      document.getElementById('body').classList.remove('inspection-overlay');
-    }
+    this.spinnerEvent.emit(this.showSpinner);
   }
 
   changeSelectRoomStatus(status) {

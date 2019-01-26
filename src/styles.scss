@@ -176,9 +176,10 @@ app-lost {
 }
 
 mat-progress-spinner {
-  position:fixed;
+  position: fixed !important;
   top: 50%;
-  right:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 12000 !important;
 }
 
@@ -257,5 +258,14 @@ hr {
   to {
     opacity:0;
     -webkit-transform-origin: 100% 50%;
+  }
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 60px 0;
   }
 }

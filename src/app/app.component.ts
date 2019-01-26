@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   commentEmail: string;
   pages = [['Home', 'home'], ['Housekeeping', 'hk'], ['Lost & Found', 'lost'], ['Inspection', 'inspection']];
   imageUrl = environment.imageUrl;
+  showSpinner = false;
 
   changePage(page) {
     this.currentPage = page;
@@ -132,5 +133,14 @@ export class AppComponent implements OnInit {
 
   setCurrentPage(pageName: string) {
     this.currentPage = pageName;
+  }
+
+  toggleSpinner() {
+    this.showSpinner = !this.showSpinner;
+    if (this.showSpinner) {
+      document.getElementById('body').classList.add('inspection-overlay');
+    } else {
+      document.getElementById('body').classList.remove('inspection-overlay');
+    }
   }
 }

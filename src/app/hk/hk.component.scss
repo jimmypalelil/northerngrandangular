@@ -42,6 +42,7 @@ mat-cell, mat-header-cell {
   right: 0;
   bottom: 50%;
   z-index: 1000 !important;
+  animation: opendoor 1s ease-in-out 0s 1, animate-stripes 3s linear infinite;
 }
 
 @media (min-width: 70em) {

@@ -7,6 +7,7 @@
           <a mdbWavesEffect mat-list-item *ngFor="let floor of floors; let i = index"
              class="floor"
              [ngClass]="{'active': currentFloor === floor.data}"
+
              (click)="changeFloor(floor.data)">
             {{floor.label | uppercase}}
           </a>
@@ -16,6 +17,8 @@
         <h3 mat-subheader>Select Status for {{floors[(currentFloor/100) - 2].label}}</h3>
         <a mdbWavesEffect mat-list-item mdbBtn *ngFor="let status of statuses; let i = index"
            (click)="setStatus(i)"
+           [matTooltip] = "counts[i] === 0 ? 'No ' + statuses[i].label: ''"
+           matTooltipPosition ="after"
            [ngClass]="{'active-status': currentStatusIndex === i}">
           {{status.label}} <span class="badge badge-danger ml-2">{{counts[i]}}</span>
         </a>
@@ -108,7 +111,7 @@
           </mat-table>
 
           <!--Select Buttons-->
-          <div class="select-buttons animated fadeInRight" *ngIf="selection.selected.length > 0">
+          <div class="select-buttons" *ngIf="selection.selected.length > 0">
             <button mdbBtn class="select-button z-depth-1-half" type="button"
                     (click)="changeSelectRoomStatus('clean')"
                     gradient="tempting-azure" mdbWavesEffect>
@@ -143,8 +146,6 @@
       </div>
     </div>
     <!--Printing Ends-->
-
-    <mat-progress-spinner color="warn"  mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
   </div>
 
   <div class="col-md-3 one d-print-none">

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {InventoryService} from '../services/inventory.service';
 import {MatSnackBar, MatSort, MatTabChangeEvent, MatTableDataSource} from '@angular/material';
 import {InventoryItem} from '../models/InventoryItem';
@@ -11,7 +11,7 @@ import {environment} from '../../environments/environment';
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss']
 })
-export class InventoryComponent implements OnInit {
+export class InventoryComponent implements OnInit, AfterViewInit {
   inventoryItems: any[];
   inventoryTableData: MatTableDataSource<any>;
   types: string[];
@@ -21,6 +21,7 @@ export class InventoryComponent implements OnInit {
   panelOpened: boolean;
   showUpdateBar: boolean;
   currentInventoryItem: InventoryItem;
+  showSpinner = false;
 
   constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar) {
     this.newInventoryItem = new InventoryItem();
@@ -31,13 +32,23 @@ export class InventoryComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit() {
+  @Output() spinnerEvent = new EventEmitter<boolean>();
+
+  ngOnInit() {}
+
+  ngAfterViewInit() {
     setTimeout(() => {
       this.getInventoryItems();
     }, 500);
   }
 
+  toggleSpinner() {
+    this.showSpinner = !this.showSpinner;
+    this.spinnerEvent.emit(this.showSpinner);
+  }
+
   getInventoryItems() {
+    this.toggleSpinner();
     this.inventoryService.getInventoryItems().then(data => {
       this.inventoryItems = data;
       const types = [];
@@ -58,6 +69,7 @@ export class InventoryComponent implements OnInit {
       this.inventoryTableData.filterPredicate = (inventoryItem: any, filter: string) =>
         inventoryItem['item_name'] === filter || inventoryItem['cost_per_item'] === filter;
       this.inventoryTableData.sort = this.sort;
+      this.toggleSpinner();
     });
   }
 
