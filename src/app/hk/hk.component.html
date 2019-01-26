@@ -14,7 +14,9 @@
       <hr class="my-4">
       <mat-list>
         <h3 mat-subheader>Select Status for {{floors[(currentFloor/100) - 2].label}}</h3>
-        <a mdbWavesEffect mat-list-item mdbBtn *ngFor="let status of statuses; let i = index" (click)="setStatus(i)">
+        <a mdbWavesEffect mat-list-item mdbBtn *ngFor="let status of statuses; let i = index"
+           (click)="setStatus(i)"
+           [ngClass]="{'active-status': currentStatusIndex === i}">
           {{status.label}} <span class="badge badge-danger ml-2">{{counts[i]}}</span>
         </a>
       </mat-list>

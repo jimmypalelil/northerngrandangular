@@ -154,3 +154,8 @@ input[type=checkbox] {
   -o-transform: scale(2); /* Opera */
 }
 
+.active-status {
+  background: #28295b;
+  color: #a99c9c !important;
+  box-shadow: 0 8px 22px black;
+}
