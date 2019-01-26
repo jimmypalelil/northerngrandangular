@@ -65,7 +65,8 @@ textarea::placeholder {
 }
 
 .inspection-scores {
-  border: 1px solid #942f2f;
+  -ms-word-break: break-word;
+  word-break: break-word;
 }
 
 @media print {

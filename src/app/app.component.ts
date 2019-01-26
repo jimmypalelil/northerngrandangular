@@ -109,10 +109,10 @@ export class AppComponent implements OnInit {
   }
 
   logoutUser() {
+    location.reload();
     localStorage.clear();
     this.changePage('home');
     this.auth.loggedIn.next(false);
-    location.reload();
   }
 
   sendFeedback() {
