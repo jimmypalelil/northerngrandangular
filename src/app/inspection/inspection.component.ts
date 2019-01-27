@@ -53,6 +53,11 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
+  isHK(): boolean {
+    const email = localStorage.getItem('token');
+    return email === 'housekeeping@northerngrand.ca' || email === 'tester@test.com' || email === 'jimmypalelil@gmail.com';
+  }
+
   getEmployees() {
     this.toggleSpinner();
     this.insService.getEmployees().then(data => {
@@ -79,39 +84,45 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   startNewInspection() {
-    this.toggleSpinner();
-    try {
-      if (isNaN(this.currentInspection.room_number) || this.currentInspection.room_number === null) {
-        throw Error();
-      }
-      this.currentInspection.day = this.newInspectionDate.getDate();
-      this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
-      this.currentInspection.year = this.newInspectionDate.getFullYear();
-      const ids = [];
-      this.selectedEmployees.forEach(function (employee) {
-        ids.push(employee['_id']);
-      });
-      this.insService.startNewInspection(this.currentInspection, ids).then(data => {
-        this.insItems = data;
-        this.totalItems = 0;
-        this.totalScore = 0;
-        this.toggleNewInspectionPanel();
-        this.insScores = {};
-        this.insComments = {};
-        this.showInspection = false;
-        this.showInspections = false;
-        this.showInspectionForm = true;
-        this.toggleSpinner();
-      }).catch(() => {
-        this.snackBar.open('Oops!!! Something Went Wrong. Try Again!!!', '', {
+    if (this.isHK()) {
+      this.toggleSpinner();
+      try {
+        if (isNaN(this.currentInspection.room_number) || this.currentInspection.room_number === null) {
+          throw Error();
+        }
+        this.currentInspection.day = this.newInspectionDate.getDate();
+        this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
+        this.currentInspection.year = this.newInspectionDate.getFullYear();
+        const ids = [];
+        this.selectedEmployees.forEach(function (employee) {
+          ids.push(employee['_id']);
+        });
+        this.insService.startNewInspection(this.currentInspection, ids).then(data => {
+          this.insItems = data;
+          this.totalItems = 0;
+          this.totalScore = 0;
+          this.toggleNewInspectionPanel();
+          this.insScores = {};
+          this.insComments = {};
+          this.showInspection = false;
+          this.showInspections = false;
+          this.showInspectionForm = true;
+          this.toggleSpinner();
+        }).catch(() => {
+          this.snackBar.open('Oops!!! Something Went Wrong. Try Again!!!', '', {
+            duration: 2000,
+          });
+        });
+      } catch (e) {
+        this.snackBar.open('Oops!!! Looks like you forgot to add some details. Try Again!!!', '', {
           duration: 2000,
         });
-      });
-    } catch (e) {
-      this.snackBar.open('Oops!!! Looks like you forgot to add some details. Try Again!!!', '', {
+        this.toggleSpinner();
+      }
+    } else {
+      this.snackBar.open('Only Housekeeping Department can Inspect Rooms', '', {
         duration: 2000,
       });
-      this.toggleSpinner();
     }
   }
 

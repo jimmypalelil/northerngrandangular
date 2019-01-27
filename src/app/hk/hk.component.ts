@@ -133,21 +133,26 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   changeRoomStatus(room: Room) {
-    if (room.status === 'clean') {
-      room.status = 'not done';
-      this.counts[2]--;
-      this.counts[1]++;
-    } else {
-      room.status = 'clean';
-      this.counts[1]--;
-      this.counts[2]++;
-    }
-    this.listService.changeRoomStatus([room], room.status).then(msg => {
-      this.snackBar.open(msg['text'].toUpperCase(), '', {
-        duration: 2000, verticalPosition: 'bottom'
+    if (this.isHK()) {
+      if (room.status === 'clean') {
+        room.status = 'not done';
+        this.counts[2]--;
+        this.counts[1]++;
+      } else {
+        room.status = 'clean';
+        this.counts[1]--;
+        this.counts[2]++;
+      }
+      this.listService.changeRoomStatus([room], room.status).then(msg => {
+        this.snackBar.open(msg['text'].toUpperCase(), '', {
+          duration: 2000, verticalPosition: 'bottom'
+        });
       });
-    });
-
+    } else {
+      this.snackBar.open('Only Housekeeping Department can Change Status', '', {
+        duration: 2000,
+      });
+    }
   }
 
   sortData(event) {
@@ -184,30 +189,41 @@ export class HkComponent implements OnInit, AfterViewInit {
     this.spinnerEvent.emit(this.showSpinner);
   }
 
+  isHK(): boolean {
+    const email = localStorage.getItem('token');
+    return email === 'housekeeping@northerngrand.ca' || email === 'tester@test.com' || email === 'jimmypalelil@gmail.com';
+  }
+
   changeSelectRoomStatus(status) {
-    this.toggleSpinner();
-    const selectedRooms: Room[] = [];
-    for (let i = 0; i < this.selection.selected.length; i++) {
-      const room = this.selection.selected[i];
-      if (room.status !== status) {
-        selectedRooms.push(room);
-        room.status = status;
-        if (status === 'not done') {
-          this.counts[2]--;
-          this.counts[1]++;
-        } else {
-          this.counts[1]--;
-          this.counts[2]++;
+    if (this.isHK()) {
+      this.toggleSpinner();
+      const selectedRooms: Room[] = [];
+      for (let i = 0; i < this.selection.selected.length; i++) {
+        const room = this.selection.selected[i];
+        if (room.status !== status) {
+          selectedRooms.push(room);
+          room.status = status;
+          if (status === 'not done') {
+            this.counts[2]--;
+            this.counts[1]++;
+          } else {
+            this.counts[1]--;
+            this.counts[2]++;
+          }
         }
       }
-    }
 
-    this.listService.changeRoomStatus(selectedRooms, status).then(msg => {
-      this.toggleSpinner();
-      this.selection.clear();
-      this.snackBar.open(msg['text'].toUpperCase(), '', {
+      this.listService.changeRoomStatus(selectedRooms, status).then(msg => {
+        this.toggleSpinner();
+        this.selection.clear();
+        this.snackBar.open(msg['text'].toUpperCase(), '', {
+          duration: 2000,
+        });
+      });
+    } else {
+      this.snackBar.open('Only Housekeeping Department can Change Status', '', {
         duration: 2000,
       });
-    });
+    }
   }
 }

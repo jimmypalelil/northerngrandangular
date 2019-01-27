@@ -87,14 +87,25 @@ export class InventoryComponent implements OnInit, AfterViewInit {
     this.panelOpened = value;
   }
 
+  isHK(): boolean {
+    const email = localStorage.getItem('token');
+    return email === 'housekeeping@northerngrand.ca' || email === 'tester@test.com' || email === 'jimmypalelil@gmail.com';
+  }
+
   addItem() {
-    this.inventoryService.addItem(this.newInventoryItem).then(msg => {
-      this.snackBar.open(msg['text'], '', {
+    if (this.isHK()) {
+      this.inventoryService.addItem(this.newInventoryItem).then(msg => {
+        this.snackBar.open(msg['text'], '', {
+          duration: 2000,
+        });
+        this.panelOpened = false;
+        this.getInventoryItems();
+      });
+    } else {
+      this.snackBar.open('Only Housekeeping Department can Add New Items', '', {
         duration: 2000,
       });
-      this.panelOpened = false;
-      this.getInventoryItems();
-    });
+    }
   }
 
   applyFilter(filter: string): void {
@@ -112,13 +123,19 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   }
 
   deleteInventoryItem() {
-    this.inventoryService.deleteInventoryItem(this.currentInventoryItem).then(msg => {
-      this.snackBar.open(msg['text'], '', {
+    if (this.isHK()) {
+      this.inventoryService.deleteInventoryItem(this.currentInventoryItem).then(msg => {
+        this.snackBar.open(msg['text'], '', {
+          duration: 2000,
+        });
+        this.inventoryTableData.data.splice(this.inventoryTableData.data.indexOf(this.currentInventoryItem), 1);
+        this.inventoryTableData._updateChangeSubscription();
+      });
+    } else{
+      this.snackBar.open('Only Housekeeping Department can Delete Items', '', {
         duration: 2000,
       });
-      this.inventoryTableData.data.splice(this.inventoryTableData.data.indexOf(this.currentInventoryItem), 1);
-      this.inventoryTableData._updateChangeSubscription();
-    });
+    }
   }
 
   updateInventoryItem() {
