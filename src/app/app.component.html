@@ -12,7 +12,7 @@
   <!--<div class="pages-nav__item pages-nav__item&#45;&#45;small"><a class="link link&#45;&#45;page link&#45;&#45;faded" href="#page-contact">Contact</a></div>-->
   <div class="pages-nav__item pages-nav__item--social">
     <div *ngIf="loggedIn; else showLoginBtn">
-      <a class="nav-link waves-light">Welcome, {{email}}</a>
+      <a class="nav-link waves-light">Hello, {{email}}</a>
       <a class="waves-light" mdbWavesEffect (click)="logoutUser()">
         <i class="fas fa-sign-out-alt"></i> Logout
       </a>

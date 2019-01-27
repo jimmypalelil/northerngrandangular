@@ -66,17 +66,21 @@ export class InventoryComponent implements OnInit, AfterViewInit {
       this.displayedColumns = itemLabels;
       this.displayedColumns.push('action');
       this.inventoryTableData = new MatTableDataSource(this.inventoryItems[this.currentTypeIndex].items);
-      this.inventoryTableData.filterPredicate = (inventoryItem: any, filter: string) =>
-        inventoryItem['item_name'] === filter || inventoryItem['cost_per_item'] === filter;
+      this.inventoryTableData.filterPredicate = (inventoryItem: any, filter: any) =>
+        String(inventoryItem['item_name']).includes(filter);
       this.inventoryTableData.sort = this.sort;
       this.toggleSpinner();
     });
   }
 
   changeType(index: number) {
+    this.toggleSpinner();
+    this.inventoryTableData.data = null;
     this.currentTypeIndex = index;
-    this.inventoryTableData.data = this.inventoryItems[index].items;
-    this.inventoryTableData.sort = this.sort;
+    setTimeout(() => {
+      this.inventoryTableData.data = this.inventoryItems[index].items;
+      this.toggleSpinner();
+    }, 1000);
   }
 
   setPanelOpen(value) {

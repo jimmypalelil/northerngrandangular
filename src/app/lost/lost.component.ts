@@ -61,7 +61,6 @@ export class LostComponent implements OnInit, AfterViewInit {
     this.displayedColumns = [];
     this.list.getLostList().then(data => {
       if (data.length > 0) {
-        this.currentLostItem = data[0];
         for (const key in data[0]) {
           if (key !== '_id' && key !== 'cat') {
             this.displayedColumns.push(key);
