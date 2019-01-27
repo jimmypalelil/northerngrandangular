@@ -228,13 +228,11 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   toggleMenu() {
-    const floorMenu = document.getElementsByClassName('two')[0] as HTMLElement;
-    const typeMenu = document.getElementsByClassName('one')[0] as HTMLElement;
+    const menu = document.getElementsByClassName('menu')[0] as HTMLElement;
     const menuBtn = document.getElementsByClassName('bottom-menu-button')[0] as HTMLElement;
     const menuBar = document.getElementsByClassName('bottom-menu')[0] as HTMLElement;
 
-    floorMenu.classList.toggle('menu-show-two');
-    typeMenu.classList.toggle('menu-show-one');
+    menu.classList.toggle('menu-show');
     menuBtn.classList.toggle('bottom-menu-button-clicked');
     menuBar.classList.toggle('bottom-menu-clicked');
   }

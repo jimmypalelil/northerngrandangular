@@ -3,6 +3,7 @@ import {InspectionService} from '../services/inspection.service';
 import {Inspection} from '../models/inspection';
 import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {environment} from '../../environments/environment';
+import {Employee} from '../models/employee';
 
 @Component({
   selector: 'app-inspection',
@@ -11,7 +12,7 @@ import {environment} from '../../environments/environment';
 })
 export class InspectionComponent implements OnInit, AfterViewInit {
   employees: any[];
-  currentEmployee: JSON;
+  currentEmployee: any;
   selectedEmployees: any;
   currentInspection: Inspection;
   newInspectionDate: Date;
@@ -39,6 +40,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   constructor(private insService: InspectionService, public snackBar: MatSnackBar) {
     this.panelOpened = false;
     this.currentInspection = new Inspection();
+    this.currentEmployee = new Employee();
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -263,11 +265,11 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   toggleMenu() {
-    const menu = document.getElementsByClassName('one')[0] as HTMLElement;
+    const menu = document.getElementsByClassName('menu')[0] as HTMLElement;
     const menuBtn = document.getElementsByClassName('bottom-menu-button')[0] as HTMLElement;
     const menuBar = document.getElementsByClassName('bottom-menu')[0] as HTMLElement;
 
-    menu.classList.toggle('menu-show-one');
+    menu.classList.toggle('menu-show');
     menuBtn.classList.toggle('bottom-menu-button-clicked');
     menuBar.classList.toggle('bottom-menu-clicked');
   }
