@@ -230,7 +230,7 @@
       </div>
 
       <!--Inspection Scores-->
-      <div class="row" *ngIf="showInspection">
+      <div class="row animated fadeInUp" *ngIf="showInspection">
         <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index">
           <p class="h3 cat-title">{{object._id | uppercase}} (Category Score: {{catScores[i] * 100 | number:'2.1-2'}}%)</p>
           <dl class="row" *ngFor="let item of object.items">

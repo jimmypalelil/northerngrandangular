@@ -38,6 +38,5 @@ export class HomeComponent implements OnInit {
     localStorage.clear();
     this.changePage('home');
     this.auth.loggedIn.next(false);
-    location.reload();
   }
 }

@@ -79,6 +79,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.loggedIn = value;
       this.email = localStorage.getItem('token');
       this.commentEmail = this.email;
+      if (!this.loggedIn) {
+        this.snackBar.open('You Have Been Logged Out!!!', '', {
+          duration: 2000, verticalPosition: 'bottom'
+        });
+      }
     });
     this.auth.currentPage.subscribe(value => {
       this.currentPage = value;
