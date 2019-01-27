@@ -264,6 +264,11 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   toggleMenu() {
     const menu = document.getElementsByClassName('one')[0] as HTMLElement;
+    const menuBtn = document.getElementsByClassName('bottom-menu-button')[0] as HTMLElement;
+    const menuBar = document.getElementsByClassName('bottom-menu')[0] as HTMLElement;
+
     menu.classList.toggle('menu-show-one');
+    menuBtn.classList.toggle('bottom-menu-button-clicked');
+    menuBar.classList.toggle('bottom-menu-clicked');
   }
 }
