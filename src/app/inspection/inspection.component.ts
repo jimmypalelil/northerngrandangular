@@ -261,4 +261,9 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   isProduction() {
     return environment.production;
   }
+
+  toggleMenu() {
+    const menu = document.getElementsByClassName('one')[0] as HTMLElement;
+    menu.classList.toggle('menu-show-one');
+  }
 }

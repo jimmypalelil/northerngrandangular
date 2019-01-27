@@ -1,7 +1,7 @@
 <div class="row justify-content-center" style="margin: auto">
 
   <!--Left Panel-->
-  <div class="col-sm-2 d-print-none two animated fadeInLeft" style="margin-top: 3%">
+  <div class="col-sm-2 d-print-none one animated fadeInLeft" style="margin-top: 3%">
     <div class="fixed">
       <mat-list class="fixed">
         <h3 mat-subheader>Start New Inpsection</h3>
@@ -67,7 +67,7 @@
   <!--Left Panel Ends-->
 
   <!--Inspection Panel-->
-  <div class="col-sm-10 three">
+  <div class="col-sm-10 two">
     <!--Employee Details-->
     <div class="employee-details" *ngIf="currentEmployee !== undefined && employeeScores !== undefined">
       <mdb-card class="text-center">
@@ -112,7 +112,7 @@
       <!--Employee Details End-->
 
       <!--Inspection Form List Begins-->
-      <div *ngIf="showInspectionForm" class="ins-items col-md-12 one d-print-none">
+      <div *ngIf="showInspectionForm" class="ins-items col-md-12 d-print-none">
         <div *ngFor="let object of insItems">
           <p class="h3">{{object._id.cat | uppercase}}</p>
           <div class="ins-item" *ngFor="let item of object.items; let i = index">
@@ -243,6 +243,10 @@
 
     </div>
 
+  </div>
+
+  <div class="animated fadeInUp bottom-menu text-center sticky-top">
+    <i class="fas fa-bars bottom-menu-button" (click)="toggleMenu()"></i>
   </div>
 
   <div class="footer-divider"></div>

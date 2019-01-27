@@ -35,9 +35,7 @@
   }
   .two {
     order: 2;
-  }
-  .three {
-    order: 3;
+    display: block;
   }
 }
 
@@ -69,7 +67,7 @@ textarea::placeholder {
 }
 
 @media print {
-  .three {
+  .two {
     flex: 0 0 100%;
     max-width: 100%;
     margin: 0 0;

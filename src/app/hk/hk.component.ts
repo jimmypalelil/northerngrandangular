@@ -40,7 +40,7 @@ export class HkComponent implements OnInit, AfterViewInit {
   currentType: any;
   showSpinner = false;
   selection = new SelectionModel<Room>(true, []);
-  showPrintData = false;
+  showMenu = false;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort;
@@ -225,5 +225,12 @@ export class HkComponent implements OnInit, AfterViewInit {
         duration: 2000,
       });
     }
+  }
+
+  toggleMenu() {
+    const floorMenu = document.getElementsByClassName('two')[0] as HTMLElement;
+    const typeMenu = document.getElementsByClassName('one')[0] as HTMLElement;
+    floorMenu.classList.toggle('menu-show-two');
+    typeMenu.classList.toggle('menu-show-one');
   }
 }

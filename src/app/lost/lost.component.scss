@@ -28,6 +28,10 @@
   }
 }
 
+.bottom-menu {
+  display: none;
+}
+
 .lost-title-text {
   align-self: center;
   font-family:fantasy;
@@ -42,4 +46,8 @@
 
 ::ng-deep .cdk-overlay-container{
   z-index: 1200 !important;
+}
+
+.lost-container {
+  margin: 2% 5%;
 }
