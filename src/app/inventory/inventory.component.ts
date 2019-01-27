@@ -37,9 +37,10 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
+    this.toggleSpinner();
     setTimeout(() => {
       this.getInventoryItems();
-    }, 500);
+    }, 1000);
   }
 
   toggleSpinner() {
@@ -48,7 +49,6 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   }
 
   getInventoryItems() {
-    this.toggleSpinner();
     this.inventoryService.getInventoryItems().then(data => {
       this.inventoryItems = data;
       const types = [];

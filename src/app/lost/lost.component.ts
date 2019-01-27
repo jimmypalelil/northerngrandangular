@@ -130,13 +130,23 @@ export class LostComponent implements OnInit, AfterViewInit {
 
   deleteLostItem() {
     if (this.isHK()) {
-      this.list.deleteLostItem(this.currentLostItem).then(msg => {
-        this.dataSource.data.splice(this.dataSource.data.indexOf(this.currentLostItem), 1);
-        this.dataSource._updateChangeSubscription();
-        this.snackBar.open(msg['text'], '', {
-          duration: 2000,
+      if (this.tabGroup.selectedIndex === 0) {
+        this.list.deleteLostItem(this.currentLostItem).then(msg => {
+          this.dataSource.data.splice(this.dataSource.data.indexOf(this.currentLostItem), 1);
+          this.dataSource._updateChangeSubscription();
+          this.snackBar.open(msg['text'], '', {
+            duration: 2000,
+          });
         });
-      });
+      } else {
+        this.list.deleteReturnedItem(this.currentReturnItem).then(msg => {
+          this.dataSource.data.splice(this.dataSource.data.indexOf(this.currentReturnItem), 1);
+          this.dataSource._updateChangeSubscription();
+          this.snackBar.open(msg['text'], '', {
+            duration: 2000,
+          });
+        });
+      }
     } else {
       this.snackBar.open('Only Housekeeping Dept can Delete Items', '', {
         duration: 2000,

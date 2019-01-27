@@ -58,7 +58,6 @@ export class HkComponent implements OnInit, AfterViewInit {
     const month = date.getMonth();
     this.currentMonth = this.months[0][month];
     this.currentYear = date.getFullYear();
-
   }
 
   ngAfterViewInit() {
@@ -210,9 +209,5 @@ export class HkComponent implements OnInit, AfterViewInit {
         duration: 2000,
       });
     });
-  }
-
-  floorNum(value: number) {
-    return Math.floor(value);
   }
 }

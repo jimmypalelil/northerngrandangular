@@ -14,7 +14,7 @@
             </mat-expansion-panel-header>
             <form>
               <mat-form-field>
-                <input matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
+                <input type="number" matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
               </mat-form-field>
 
               <mat-form-field>
@@ -115,7 +115,7 @@
       <div *ngIf="showInspectionForm" class="ins-items col-md-12 one d-print-none">
         <div *ngFor="let object of insItems">
           <p class="h3">{{object._id.cat | uppercase}}</p>
-          <div *ngFor="let item of object.items; let i = index">
+          <div class="ins-item" *ngFor="let item of object.items; let i = index">
           <span>
             <p class="h6">{{item.item | uppercase}}</p>
             <mat-radio-group [(ngModel)]="insScores[item._id]" (change)="radioChange()">

@@ -103,3 +103,7 @@ textarea::placeholder {
     color: #d7c3c7;
   }
 }
+
+label > .mat-form-field-label {
+  color: #a8a8aa !important;
+}

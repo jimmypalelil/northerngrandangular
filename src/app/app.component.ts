@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import {AuthService} from './services/auth.service';
 import {Router} from '@angular/router';
@@ -14,7 +14,7 @@ import {environment} from '../environments/environment';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild('frame') loginModal: ModalDirective;
   @ViewChild('feedbackframe') feedBackModal: ModalDirective;
@@ -34,6 +34,8 @@ export class AppComponent implements OnInit {
   pages = [['Home', 'home'], ['Housekeeping', 'hk'], ['Lost & Found', 'lost'], ['Inspection', 'inspection']];
   imageUrl = environment.imageUrl;
   showSpinner = false;
+  menuBtn: HTMLElement;
+  homePage: HTMLElement;
 
   changePage(page) {
     this.currentPage = page;
@@ -83,37 +85,47 @@ export class AppComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.menuBtn = document.querySelector('button.menu-button') as HTMLElement;
+    this.homePage = document.getElementById('page-home') as HTMLElement;
+  }
+
   showModal() {
     this.loginModal.show();
   }
 
   loginUser() {
+    this.toggleSpinner();
     const user = new User(this.loginFormModalEmail.value, this.loginFormModalPassword.value);
     this.auth.login(user).then( data => {
       if (data['email']) {
         this.email = data['email'];
         localStorage.setItem('token', data['email']);
         this.auth.loggedIn.next(true);
-        this.router.navigateByUrl('/home');
         this.changePage('home');
+        this.homePage.click();
         this.loginModal.hide();
         this.snackBar.open('Logged In Successfully!!!', '', {
           duration: 2000, verticalPosition: 'bottom'
         });
-        location.reload();
+        // location.reload();
+        this.menuBtn.click();
       }
     }).catch(() => {
       this.snackBar.open('Login Failed!!!', '', {
         duration: 2000, verticalPosition: 'bottom'
       });
-    });
+    }).then(() => this.toggleSpinner());
   }
 
   logoutUser() {
-    location.reload();
     localStorage.clear();
-    this.changePage('home');
     this.auth.loggedIn.next(false);
+    this.menuBtn.click();
+    this.homePage.click();
+    this.snackBar.open('You Have Been Logged Out!!!', '', {
+      duration: 2000, verticalPosition: 'bottom'
+    });
   }
 
   sendFeedback() {

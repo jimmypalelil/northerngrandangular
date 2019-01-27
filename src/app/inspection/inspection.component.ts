@@ -80,25 +80,39 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   startNewInspection() {
     this.toggleSpinner();
-    this.currentInspection.day = this.newInspectionDate.getDate();
-    this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
-    this.currentInspection.year = this.newInspectionDate.getFullYear();
-    const ids = [];
-    this.selectedEmployees.forEach(function (employee) {
-      ids.push(employee['_id']);
-    });
-    this.insService.startNewInspection(this.currentInspection, ids).then(data => {
-      this.insItems = data;
-      this.totalItems = 0;
-      this.totalScore = 0;
-      this.toggleNewInspectionPanel();
-      this.insScores = {};
-      this.insComments = {};
-      this.showInspection = false;
-      this.showInspections = false;
-      this.showInspectionForm = true;
+    try {
+      if (isNaN(this.currentInspection.room_number) || this.currentInspection.room_number === null) {
+        throw Error();
+      }
+      this.currentInspection.day = this.newInspectionDate.getDate();
+      this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
+      this.currentInspection.year = this.newInspectionDate.getFullYear();
+      const ids = [];
+      this.selectedEmployees.forEach(function (employee) {
+        ids.push(employee['_id']);
+      });
+      this.insService.startNewInspection(this.currentInspection, ids).then(data => {
+        this.insItems = data;
+        this.totalItems = 0;
+        this.totalScore = 0;
+        this.toggleNewInspectionPanel();
+        this.insScores = {};
+        this.insComments = {};
+        this.showInspection = false;
+        this.showInspections = false;
+        this.showInspectionForm = true;
+        this.toggleSpinner();
+      }).catch(() => {
+        this.snackBar.open('Oops!!! Something Went Wrong. Try Again!!!', '', {
+          duration: 2000,
+        });
+      });
+    } catch (e) {
+      this.snackBar.open('Oops!!! Looks like you forgot to add some details. Try Again!!!', '', {
+        duration: 2000,
+      });
       this.toggleSpinner();
-    });
+    }
   }
 
   submitInspection() {
