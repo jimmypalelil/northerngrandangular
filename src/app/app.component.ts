@@ -69,10 +69,24 @@ export class AppComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < pages.length; i++) {
      const page = pages[i] as HTMLElement;
      page.onscroll = () => {
+       const menu = document.getElementsByClassName('bottom-menu')[0] as HTMLElement;
+       const menuBtn = document.getElementsByClassName('bottom-menu-button')[0] as HTMLElement;
        if (page.scrollTop > 20) {
          document.getElementById('myBtn').style.display = 'block';
+         if (menu !== undefined && menuBtn !== undefined) {
+           if (!menu.classList.contains('bottom-menu-clicked')) {
+             menu.style.background = '#e78212';
+             menuBtn.style.background = 'black';
+           } else {
+             document.getElementById('myBtn').style.display = 'none';
+           }
+         }
        }  else {
          document.getElementById('myBtn').style.display = 'none';
+         if (menu !== undefined && menuBtn !== undefined && !menu.classList.contains('bottom-menu-clicked')) {
+           menu.style.background = 'transparent';
+           menuBtn.style.background = 'transparent';
+         }
        }
      };
     }
