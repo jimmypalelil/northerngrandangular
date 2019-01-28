@@ -82,18 +82,21 @@ export class AppComponent implements OnInit, AfterViewInit {
          if (menu !== undefined && menuBtn !== undefined) {
            if (!menu.classList.contains('bottom-menu-clicked')) {
              menu.style.background = '#e78212';
-             menu.style.height = '2vh';
              menuBtn.style.background = 'black';
            } else {
              document.getElementById('myBtn').style.display = 'none';
+             menu.style.background = 'black';
+             menuBtn.style.background = 'black';
+             page.scrollTop = 0;
            }
          }
        }  else {
          document.getElementById('myBtn').style.display = 'none';
-         if (menu !== undefined && menuBtn !== undefined && !menu.classList.contains('bottom-menu-clicked')) {
-           menu.style.background = 'transparent';
-           menuBtn.style.background = 'transparent';
-           menu.style.height = '5vh';
+         if (menu !== undefined && menuBtn !== undefined) {
+           if (!menu.classList.contains('bottom-menu-clicked')) {
+             menu.style.background = 'transparent';
+             menuBtn.style.background = 'transparent';
+           }
          }
        }
      };
