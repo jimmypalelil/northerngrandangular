@@ -82,6 +82,7 @@ export class AppComponent implements OnInit, AfterViewInit {
          if (menu !== undefined && menuBtn !== undefined) {
            if (!menu.classList.contains('bottom-menu-clicked')) {
              menu.style.background = '#e78212';
+             menu.style.height = '2vh';
              menuBtn.style.background = 'black';
            } else {
              document.getElementById('myBtn').style.display = 'none';
@@ -92,6 +93,7 @@ export class AppComponent implements OnInit, AfterViewInit {
          if (menu !== undefined && menuBtn !== undefined && !menu.classList.contains('bottom-menu-clicked')) {
            menu.style.background = 'transparent';
            menuBtn.style.background = 'transparent';
+           menu.style.height = '5vh';
          }
        }
      };
