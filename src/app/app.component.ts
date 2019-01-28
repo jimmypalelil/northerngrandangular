@@ -192,10 +192,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   toggleSpinner() {
     this.showSpinner = !this.showSpinner;
-    if (this.showSpinner) {
-      document.getElementById('body').classList.add('inspection-overlay');
-    } else {
-      document.getElementById('body').classList.remove('inspection-overlay');
-    }
+    document.getElementById('inspection-overlay').classList.toggle('inspection-overlay');
   }
 }

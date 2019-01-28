@@ -101,8 +101,8 @@ export class HkComponent implements OnInit, AfterViewInit {
   }
 
   changeTab(event: MatTabChangeEvent) {
+    this.currentMonth = this.months[this.currentType['index']][event.index];
     setTimeout(() => {
-      this.currentMonth = this.months[this.currentType['index']][event.index];
       this.getMonthList(this.currentType, this.currentMonth, this.currentYear);
     }, 1000);
   }
@@ -227,6 +227,7 @@ export class HkComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // for mobile view
   toggleMenu() {
     const menu = document.getElementsByClassName('menu')[0] as HTMLElement;
     const menuBtn = document.getElementsByClassName('bottom-menu-button')[0] as HTMLElement;
