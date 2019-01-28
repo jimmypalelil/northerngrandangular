@@ -64,6 +64,19 @@ export class AppComponent implements OnInit, AfterViewInit {
         document.getElementsByTagName('body')[0].appendChild(node);
     }, 1500);
 
+    const pages = document.getElementsByClassName('page');
+
+    for (let i = 0; i < pages.length; i++) {
+     const page = pages[i] as HTMLElement;
+     page.onscroll = () => {
+       if (page.scrollTop > 20) {
+         document.getElementById('myBtn').style.display = 'block';
+       }  else {
+         document.getElementById('myBtn').style.display = 'none';
+       }
+     };
+    }
+
     this.ensureAuth.canActivate();
     this.ensureAuth.showLoginModal.subscribe(value => {
       if (value) {

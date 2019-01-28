@@ -280,7 +280,7 @@
 
               <mat-action-row>
                 <!--"Add" button-->
-                <button mat-mini-fab color="primary" (click)="startNewInspection()">
+                <button mat-mini-fab color="primary" (click)="startNewInspection();toggleMenu()">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </button>
               </mat-action-row>
@@ -299,7 +299,7 @@
         <h3 mat-subheader>Employees</h3>
           <mat-menu #employeeMenu="matMenu">
             <button mat-menu-item *ngFor="let employee of employees; let i = index;"
-                    (click)="getEmployeeIns(employee, i)">{{employee.name}}</button>
+                    (click)="getEmployeeIns(employee, i);toggleMenu()">{{employee.name}}</button>
           </mat-menu>
           <span>
             <div class="btn-group" mdbDropdown>
@@ -314,8 +314,9 @@
     </div>
   </div>
 
-  <div class="footer-divider"></div>
 </div>
+
+<div class="footer-divider"></div>
 
 <!--Delete Monthly Inspections Modal-->
 <div mdbModal #deleteMonthlyInspectionFrame="mdbModal" style="z-index: 12000 !important;" class="modal fade left" id="deleteMonthlyInspections" tabindex="-1" role="dialog">
