@@ -71,6 +71,12 @@ export class AppComponent implements OnInit, AfterViewInit {
      page.onscroll = () => {
        const menu = document.getElementsByClassName('bottom-menu')[0] as HTMLElement;
        const menuBtn = document.getElementsByClassName('bottom-menu-button')[0] as HTMLElement;
+       const topBtn = document.getElementById('myBtn') as HTMLElement;
+
+       topBtn.onclick = () => {
+          page.scrollTop = 0;
+       };
+
        if (page.scrollTop > 20) {
          document.getElementById('myBtn').style.display = 'block';
          if (menu !== undefined && menuBtn !== undefined) {
