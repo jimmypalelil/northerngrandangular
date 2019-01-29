@@ -232,7 +232,12 @@
       <!--Inspection Scores-->
       <div class="row animated fadeInUp" *ngIf="showInspection">
         <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index">
-          <p class="h3 cat-title">{{object._id | uppercase}} (Category Score: {{catScores[i] * 100 | number:'2.1-2'}}%)</p>
+          <p class="h3 cat-title">
+            {{object._id | uppercase}}
+            <i *ngFor="let stars of createScoreArray(floor(catScores[i] * 4))" class="fas fa-star"></i>
+            <i *ngFor="let stars of createScoreArray(4 - floor(catScores[i] * 4))" class="far fa-star"></i>
+            <small>({{catScores[i] * 100 | number:'2.1-2'}}%)</small>
+          </p>
           <div class="ins-scores-wrapper">
             <div *ngFor="let item of object.items">
               <dt [ngClass]="{'bad-score': item.item.score < .7}">{{item.inspection.item | uppercase}} <i *ngIf="item.item.score < .7" class="fas fa-star-of-life"></i></dt>

@@ -276,4 +276,8 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   toggleNewInspectionPanel() {
     this.panelOpened = !this.panelOpened;
   }
+
+  createScoreArray(number: number) {
+    return Array(number);
+  }
 }
