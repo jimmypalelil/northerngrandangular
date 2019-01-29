@@ -39,7 +39,7 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatFormFieldModule,
+  MatFormFieldModule, MatBadgeModule,
 } from '@angular/material';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -115,6 +115,7 @@ import { UpdatereturnedComponent } from './updatereturned/updatereturned.compone
     MatSnackBarModule,
     MatSortModule,
     MatTableModule,
+    MatBadgeModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,

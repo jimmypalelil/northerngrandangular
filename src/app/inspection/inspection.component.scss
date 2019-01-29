@@ -79,6 +79,15 @@ dl, dd, dt {
   text-decoration: dashed black;
 }
 
+.badge {
+  border-radius: 1rem;
+  transform: translateY(-10%);
+}
+
+.badge .badge {
+  transform: translateY(0%);
+}
+
 @media print {
   .two {
     flex: 0 0 100%;
@@ -90,6 +99,10 @@ dl, dd, dt {
     color: black;
   }
 
+  .badge {
+    border: none !important;
+  }
+
   .inspection-scores {
     font-size: 12px;
   }
@@ -97,8 +110,8 @@ dl, dd, dt {
   .cat-title {
     font-size: 15px;
     position: relative;
-    text-decoration: underline;
-    color: #625f5f;
+    //text-decoration: underline;
+    color: #3f3d3d;
   }
 
   .col-sm-4, .col-sm-3 {

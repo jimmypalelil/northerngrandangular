@@ -233,10 +233,14 @@
       <div class="row animated fadeInUp" *ngIf="showInspection">
         <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index">
           <p class="h3 cat-title">
-            {{object._id | uppercase}}
-            <i *ngFor="let stars of createScoreArray(floor(catScores[i] * 4))" class="fas fa-star"></i>
-            <i *ngFor="let stars of createScoreArray(4 - floor(catScores[i] * 4))" class="far fa-star"></i>
-            <small>({{catScores[i] * 100 | number:'2.1-2'}}%)</small>
+            <span matBadge="" matBadgeOverlap="false">
+              {{object._id | uppercase}}
+              <mdb-badge color="amber darken-2">
+              <i *ngFor="let stars of createScoreArray(floor(catScores[i] * 4))" class="fas fa-star"></i>
+              <i *ngFor="let stars of createScoreArray(4 - floor(catScores[i] * 4))" class="far fa-star"></i>
+                <mdb-badge style="margin-left:2%" color="red">{{catScores[i] * 100 | number:'2.1-2'}}%</mdb-badge>
+              </mdb-badge>
+            </span>
           </p>
           <div class="ins-scores-wrapper">
             <div *ngFor="let item of object.items">
