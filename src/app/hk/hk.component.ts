@@ -64,7 +64,7 @@ export class HkComponent implements OnInit, AfterViewInit {
     this.tabGroup.selectedIndex = new Date().getMonth();
     setTimeout(() => {
       this.getMonthList(this.currentType, this.currentMonth, this.currentYear);
-    }, 1000);
+    }, 500);
   }
 
   isAllSelected() {
@@ -86,7 +86,7 @@ export class HkComponent implements OnInit, AfterViewInit {
   getMonthList(type, month, year) {
     this.toggleSpinner();
     this.listService.getRoomList(type.data, month, year).then(data => {
-      this.dataSource = new MatTableDataSource(data);
+      this.dataSource = new MatTableDataSource();
       const print_data = [[], [], [], [], []];
       data.forEach(function(room) {
         print_data[Math.floor(room.room_number / 100) - 2].push(room);
@@ -96,15 +96,21 @@ export class HkComponent implements OnInit, AfterViewInit {
         room.status === filter || room.room_number >= Number(filter);
       this.changeFloor(this.currentFloor);
       this.currentType = type;
-      this.toggleSpinner();
-    });
+    }).catch(() => {
+      this.snackBar.open('Connection Error....Will Try Again in 5 Seconds!!!', '', {
+        duration: 2000, verticalPosition: 'bottom'
+      });
+      setTimeout(() => {
+        this.getMonthList(type, month, year);
+      }, 5000);
+    }).then(() => this.toggleSpinner());
   }
 
   changeTab(event: MatTabChangeEvent) {
     this.currentMonth = this.months[this.currentType['index']][event.index];
     setTimeout(() => {
       this.getMonthList(this.currentType, this.currentMonth, this.currentYear);
-    }, 1000);
+    }, 500);
   }
 
   changeFloor(floor) {
@@ -134,17 +140,21 @@ export class HkComponent implements OnInit, AfterViewInit {
 
   changeRoomStatus(room: Room) {
     if (this.isHK()) {
-      if (room.status === 'clean') {
-        room.status = 'not done';
-        this.counts[2]--;
-        this.counts[1]++;
-      } else {
-        room.status = 'clean';
-        this.counts[1]--;
-        this.counts[2]++;
-      }
-      this.listService.changeRoomStatus([room], room.status).then(msg => {
+      const newStatus = room.status === 'clean' ? 'not done' : 'clean';
+      this.listService.changeRoomStatus([room], newStatus).then(msg => {
         this.snackBar.open(msg['text'].toUpperCase(), '', {
+          duration: 2000, verticalPosition: 'bottom'
+        });
+        if (newStatus === 'not done') {
+          this.counts[2]--;
+          this.counts[1]++;
+        } else {
+          this.counts[1]--;
+          this.counts[2]++;
+        }
+        room.status = newStatus;
+      }).catch(() => {
+        this.snackBar.open('Connection Error....Try AGAIN!!!', '', {
           duration: 2000, verticalPosition: 'bottom'
         });
       });
@@ -202,24 +212,27 @@ export class HkComponent implements OnInit, AfterViewInit {
         const room = this.selection.selected[i];
         if (room.status !== status) {
           selectedRooms.push(room);
-          room.status = status;
-          if (status === 'not done') {
-            this.counts[2]--;
-            this.counts[1]++;
-          } else {
-            this.counts[1]--;
-            this.counts[2]++;
-          }
         }
       }
-
       this.listService.changeRoomStatus(selectedRooms, status).then(msg => {
-        this.toggleSpinner();
         this.selection.clear();
         this.snackBar.open(msg['text'].toUpperCase(), '', {
           duration: 2000,
         });
-      });
+        let doneCount = 0;
+        selectedRooms.forEach(function (room) {
+          room.status = status;
+          if (status === 'clean') {
+            doneCount++;
+          }
+        });
+        this.counts[2] = doneCount;
+        this.counts[1] = this.counts[0] - doneCount;
+      }).catch(() => {
+        this.snackBar.open('Connection Error....Try AGAIN!!!', '', {
+          duration: 2000,
+        });
+      }).then(() => this.toggleSpinner());
     } else {
       this.snackBar.open('Only Housekeeping Department can Change Status', '', {
         duration: 2000,

@@ -86,6 +86,9 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   startNewInspection() {
+    console.log(this.panelOpened);
+    this.toggleNewInspectionPanel();
+    console.log('after:' + this.panelOpened);
     if (this.isHK()) {
       this.toggleSpinner();
       try {
@@ -101,17 +104,13 @@ export class InspectionComponent implements OnInit, AfterViewInit {
         });
         this.insService.startNewInspection(this.currentInspection, ids).then(data => {
           this.insItems = data;
-          this.totalItems = 0;
-          this.totalScore = 0;
-          this.toggleNewInspectionPanel();
-          this.insScores = {};
-          this.insComments = {};
-          this.showInspection = false;
-          this.showInspections = false;
+          this.totalItems = this.totalScore = 0;
+          this.showInspection = this.showInspections = false;
+          this.insScores = this.insComments = {};
           this.showInspectionForm = true;
           this.toggleSpinner();
         }).catch(() => {
-          this.snackBar.open('Oops!!! Something Went Wrong. Try Again!!!', '', {
+          this.snackBar.open('Connection Error...Try AGAIN!!!', '', {
             duration: 2000,
           });
         });
@@ -137,12 +136,11 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       this.getEmployees();
       this.insItems = undefined;
       this.showInspectionForm = false;
-      this.toggleSpinner();
-    });
-  }
-
-  toggleNewInspectionPanel() {
-    this.panelOpened = !this.panelOpened;
+    }).catch(() => {
+      this.snackBar.open('Connection Error....Try AGAIN!!!', '', {
+        duration: 2000,
+      });
+    }).then(() => this.toggleSpinner());
   }
 
   isAdmin(): boolean {
@@ -272,5 +270,9 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     menu.classList.toggle('menu-show');
     menuBtn.classList.toggle('bottom-menu-button-clicked');
     menuBar.classList.toggle('bottom-menu-clicked');
+  }
+
+  toggleNewInspectionPanel() {
+    this.panelOpened = !this.panelOpened;
   }
 }
