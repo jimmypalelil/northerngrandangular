@@ -232,6 +232,7 @@
       <!--Inspection Scores-->
       <div class="row animated fadeInUp" *ngIf="showInspection">
         <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index">
+          <br>
           <p class="h3 cat-title">
             <span matBadge="" matBadgeOverlap="false">
               {{object._id | uppercase}}

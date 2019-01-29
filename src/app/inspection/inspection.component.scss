@@ -96,7 +96,7 @@ dl, dd, dt {
   }
 
   .bad-score {
-    color: black;
+    color: #3f3d3d;
   }
 
   .badge {
@@ -110,8 +110,7 @@ dl, dd, dt {
   .cat-title {
     font-size: 15px;
     position: relative;
-    //text-decoration: underline;
-    color: #3f3d3d;
+    color: black;
   }
 
   .col-sm-4, .col-sm-3 {
@@ -145,7 +144,7 @@ label > .mat-form-field-label {
 
 .ins-scores-wrapper {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
-  grid-auto-rows: minmax(50px, auto);;
+  grid-auto-rows: minmax(10px, auto);;
 }
