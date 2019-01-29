@@ -4,7 +4,7 @@
   <div class="col-sm-2 d-print-none one animated fadeInLeft" style="margin-top: 3%">
     <div class="fixed">
       <mat-list class="fixed">
-        <h3 mat-subheader>Start New Inpsection</h3>
+        <h3 mat-subheader>Start New Inspection</h3>
         <mat-accordion>
           <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
             <mat-expansion-panel-header>
@@ -233,11 +233,13 @@
       <div class="row animated fadeInUp" *ngIf="showInspection">
         <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index">
           <p class="h3 cat-title">{{object._id | uppercase}} (Category Score: {{catScores[i] * 100 | number:'2.1-2'}}%)</p>
-          <dl class="row" *ngFor="let item of object.items">
-              <dt class="col-sm-3">{{item.inspection.item | uppercase}}</dt>
-              <dd class="col-sm-3">{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
-            <dd class="col-sm-6"><i>{{item.item.comment}}</i></dd>
-          </dl>
+          <div class="ins-scores-wrapper">
+            <div *ngFor="let item of object.items">
+              <dt [ngClass]="{'bad-score': item.item.score < .7}">{{item.inspection.item | uppercase}} <i *ngIf="item.item.score < .7" class="fas fa-star-of-life"></i></dt>
+              <dd>{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
+              <dd><i>{{item.item.comment !== '' ? '(' + item.item.comment + ')' : ''}}</i></dd>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -252,9 +254,9 @@
 
     <div class="menu animated fadeInDown">
       <mat-list>
-        <h3 mat-subheader>Start New Inpsection</h3>
+        <h3 mat-subheader>Start New Inspection</h3>
         <mat-accordion>
-          <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
+          <mat-expansion-panel  [expanded]="panelOpened">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <p><i class="fas fa-plus-circle"></i> New Inspection</p>

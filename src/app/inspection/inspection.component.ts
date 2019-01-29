@@ -87,7 +87,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   startNewInspection() {
     console.log(this.panelOpened);
-    this.toggleNewInspectionPanel();
+    this.panelOpened = false;
     console.log('after:' + this.panelOpened);
     if (this.isHK()) {
       this.toggleSpinner();
@@ -106,7 +106,8 @@ export class InspectionComponent implements OnInit, AfterViewInit {
           this.insItems = data;
           this.totalItems = this.totalScore = 0;
           this.showInspection = this.showInspections = false;
-          this.insScores = this.insComments = {};
+          this.insScores = {};
+          this.insComments = {};
           this.showInspectionForm = true;
           this.toggleSpinner();
         }).catch(() => {
