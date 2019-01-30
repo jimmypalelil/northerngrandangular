@@ -51,16 +51,16 @@
       </div>
       <mat-list class="fixed">
         <h3 mat-subheader>Employees</h3>
-        <a mdbWavesEffect mat-list-item *ngFor="let employee of employees; let i = index"
-           class="employee-name"
-           (click)="getEmployeeIns(employee, i)"
-           [ngClass]="{'active': currentEmployee === employee}">
-          {{employee.name}}
-          <!--Badge for Employees-->
-          <span class="badge badge-danger ml-2">
-            {{employee['num_inspections'] != 0 ? (employee['total_score'] / employee['num_inspections'] * 100| number:'1.1-2'): '0.0'}}%
-          </span>
-        </a>
+        <mat-list-item *ngFor="let employee of employees; let i = index">
+          <a mdbWavesEffect mat-list-item class="employee-name" (click)="getEmployeeIns(employee, i)"
+             [ngClass]="{'active': currentEmployee === employee}">
+            {{employee.name}}
+            <!--Badge for Employees-->
+            <span class="badge badge-danger ml-2">
+              {{employee['num_inspections'] != 0 ? (employee['total_score'] / employee['num_inspections'] * 100| number:'1.1-2'): '0.0'}}%
+            </span>
+          </a>
+        </mat-list-item>
       </mat-list>
     </div>
   </div>

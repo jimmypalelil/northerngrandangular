@@ -40,7 +40,13 @@
 }
 
 .active {
-  border-left: 2px solid !important;
+  box-shadow: 1px 1px 10px 0 #2505058a;
+  border-radius: 25px;
+  transform: translate(5%, -10%);
+}
+
+.employee-name {
+  color: white !important;
 }
 
 .employee-name:hover {
@@ -64,8 +70,9 @@ textarea::placeholder {
 
 .inspection-scores {
   word-break: break-word;
-  border-right: 1px solid #625d5b;
 }
+
+
 
 dl, dd, dt {
   margin-bottom: 0;
