@@ -64,7 +64,6 @@ textarea::placeholder {
 
 .inspection-scores {
   word-break: break-word;
-  //border-bottom: 1px solid darkred;
   border-right: 1px solid #625d5b;
 }
 
@@ -86,6 +85,12 @@ dl, dd, dt {
 
 .badge .badge {
   transform: translateY(0%);
+}
+
+.cat-title {
+  margin: 10px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid white;
 }
 
 @media print {
@@ -111,6 +116,7 @@ dl, dd, dt {
     font-size: 15px;
     position: relative;
     color: black;
+    border-bottom-color: black;
   }
 
   .col-sm-4, .col-sm-3 {

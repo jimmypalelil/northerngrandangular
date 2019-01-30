@@ -67,22 +67,23 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       if (this.currentEmployeeIndex === undefined) {
         this.currentEmployeeIndex = 0;
       }
-      this.currentEmployee = data[this.currentEmployeeIndex];
-      this.getEmployeeIns(this.currentEmployee, 0);
+      this.getEmployeeIns(data[this.currentEmployeeIndex], 0);
       this.toggleSpinner();
     });
   }
 
   getEmployeeIns(employee, index) {
-    this.showInspections = false;
-    this.showInspection = false;
-    this.showInspectionForm = false;
-    this.currentEmployee = employee;
-    this.currentEmployeeIndex = index;
-    this.insService.getEmployeeIns(employee['_id']).then(data => {
-      this.employeeScores = new MatTableDataSource(data[0]['Monthly Scores']);
-      this.employeeScores.sort = this.sort;
-    });
+    if (employee !== this.currentEmployee) {
+      this.showInspections = false;
+      this.showInspection = false;
+      this.showInspectionForm = false;
+      this.currentEmployee = employee;
+      this.currentEmployeeIndex = index;
+      this.insService.getEmployeeIns(employee['_id']).then(data => {
+        this.employeeScores = new MatTableDataSource(data[0]['Monthly Scores']);
+        this.employeeScores.sort = this.sort;
+      });
+    }
   }
 
   startNewInspection() {

@@ -126,7 +126,7 @@ export class HkComponent implements OnInit, AfterViewInit {
     this.counts = [total, total - doneCount, doneCount];
     this.selection.clear();
     this.currentStatusIndex = 0;
-    this.dataSource.filter = this.statuses[this.currentStatusIndex].data;
+    this.dataSource.filter = floor;
   }
 
   setType(type) {
