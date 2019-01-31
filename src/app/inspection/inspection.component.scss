@@ -40,13 +40,15 @@
 }
 
 .active {
-  box-shadow: 1px 1px 10px 0 #2505058a;
+  box-shadow: 2px 2px 20px 10px #2505058a;
   border-radius: 25px;
-  transform: translate(5%, -10%);
+  transform: translate(5%,-10%);
+  background-color: darkorange;
 }
 
 .employee-name {
   color: white !important;
+  transition: transform .3s cubic-bezier(0, 0.04, 0.09, 2.98);
 }
 
 .employee-name:hover {
