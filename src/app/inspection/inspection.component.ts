@@ -29,13 +29,14 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   showInspection = false;
   showInspectionForm = false;
   MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'action'];
-  inspectionsDisplayedColumns = ['room_number', 'day', 'month', 'year', 'score', 'action'];
+  dailyInspectionsDisplayedColumns = ['room_number', 'day', 'score', 'action'];
   scoreCategory = ['Bad', 'Needs Improvement', 'Good', 'Excellent'];
   currentEmployeeIndex: number;
   totalScore: number;
   totalItems: number;
   catScores: number[] = [];
   showSpinner = false;
+  tableExpanded = true;
 
   constructor(private insService: InspectionService, public snackBar: MatSnackBar) {
     this.panelOpened = false;
@@ -83,12 +84,10 @@ export class InspectionComponent implements OnInit, AfterViewInit {
         this.employeeScores = new MatTableDataSource(data[0]['Monthly Scores']);
         this.employeeScores.sort = this.sort;
 
-        let monthTable = document.getElementById('ins-monthly') as HTMLElement;
+        const monthTable = document.getElementById('ins-monthly') as HTMLElement;
         const insTable = document.getElementById('ins-tables') as HTMLElement;
         if (monthTable !== null) {
           monthTable.classList.remove('ins-monthly-slide');
-          monthTable = monthTable as HTMLElement;
-          monthTable.style.animation = 'table-slide .7s ease-in-out 0s 1';
           insTable.classList.remove('ins-table-slide');
         }
         const scoresColumn = document.querySelectorAll('#ins-monthly .mat-column-score');
@@ -191,14 +190,17 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     monthTable.classList.add('ins-monthly-slide');
     const scoresColumn = document.querySelectorAll('#ins-monthly .mat-column-score');
     const numInspectionColumn = document.querySelectorAll('#ins-monthly .mat-column-num_inspections');
+    let scoreColumn;
     const nodeArray = [];
     for (let i = 0; i < scoresColumn.length; i++) {
       nodeArray.push(scoresColumn[i]);
       nodeArray.push(numInspectionColumn[i]);
     }
     nodeArray.forEach((column) => {
-      const scoreColumn = column as HTMLElement;
-      scoreColumn.style.display = 'none';
+      scoreColumn = column as HTMLElement;
+      if (scoreColumn !== undefined) {
+        scoreColumn.style.display = 'none';
+      }
     });
 
     this.currentEmployeeScore = monthInspection;
@@ -221,25 +223,10 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   viewInspection(inspection) {
     // adding 3d effect
-    // const monthTable = document.getElementById('ins-monthly') as HTMLElement;
-    // monthTable.classList.remove('ins-monthly-slide');
     const dailyTable = document.getElementById('ins-daily') as HTMLElement;
     dailyTable.classList.add('ins-daily-slide');
     const insTable = document.getElementById('ins-tables') as HTMLElement;
     insTable.classList.add('ins-table-slide');
-    const scoresColumn = document.querySelectorAll('#ins-daily .mat-column-score');
-    const monthColumn = document.querySelectorAll('#ins-daily .mat-column-month');
-    const yearColumn = document.querySelectorAll('#ins-daily .mat-column-year');
-    const nodeArray = [];
-    for (let i = 0; i < scoresColumn.length; i++) {
-      nodeArray.push(scoresColumn[i]);
-      nodeArray.push(monthColumn[i]);
-      nodeArray.push(yearColumn[i]);
-    }
-    nodeArray.forEach((column) => {
-      const scoreColumn = column as HTMLElement;
-      scoreColumn.style.display = 'none';
-    });
 
     this.currentInspection = inspection;
     this.insService.getInspection(inspection['_id'], this.currentEmployee['_id']).then(data => {

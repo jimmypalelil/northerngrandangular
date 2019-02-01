@@ -39,17 +39,15 @@
             </form>
           </mat-expansion-panel>
         </mat-accordion>
-      </mat-list>
-      <hr class="my-4">
-      <div *ngIf="isAdmin()">
-        <mat-list >
+
+        <hr class="my-4">
+        <div *ngIf="isAdmin()">
           <h3 mat-subheader>Admin Controls</h3>
           <button *ngIf="!isProduction()" mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
           <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
-        </mat-list>
-        <hr class="my-4">
-      </div>
-      <mat-list class="fixed">
+          <hr class="my-4">
+        </div>
+
         <h3 mat-subheader>Employees</h3>
         <mat-list-item *ngFor="let employee of employees; let i = index">
           <a mdbWavesEffect mat-list-item class="employee-name" (click)="getEmployeeIns(employee, i)"
@@ -57,8 +55,8 @@
             {{employee.name}}
             <!--Badge for Employees-->
             <span class="badge badge-danger ml-2">
-              {{employee['num_inspections'] != 0 ? (employee['total_score'] / employee['num_inspections'] * 100| number:'1.1-2'): '0.0'}}%
-            </span>
+            {{employee['num_inspections'] != 0 ? (employee['total_score'] / employee['num_inspections'] * 100| number:'1.1-2'): '0.0'}}%
+          </span>
           </a>
         </mat-list-item>
       </mat-list>
@@ -92,9 +90,9 @@
         <mdb-card-body>
           <mdb-card-title class="d-print-none">
             <h3 *ngIf="showInspectionsForMonth">Inspection List for {{currentEmployeeScore['month'] | uppercase}} {{currentEmployeeScore['year']}}</h3>
-            <h3 *ngIf="showInspection">Inspection Details</h3>
+            <h3 *ngIf="showInspection" class="animated fadeInDown">Inspection Details</h3>
           </mdb-card-title>
-          <mdb-card-text *ngIf="showInspection">
+          <mdb-card-text *ngIf="showInspection" class="animated fadeInDown">
             <h5>
               Room #: {{currentInspection['room_number']}} |
               Date: {{currentInspection['day']}} {{currentInspection['month'] | uppercase}} {{currentInspection['year']}} |
@@ -166,8 +164,10 @@
                 <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header>
                   {{value === 'score' ? (value + '(%)' | uppercase) : value | uppercase}}</mat-header-cell>
 
-                <mat-cell *matCellDef="let element" class="animated fadeInUp">
-
+                <mat-cell *matCellDef="let element" class="animated fadeInUp"
+                          style="cursor: pointer;"
+                          (click)="viewInspections(element)"
+                          [ngClass]="{'active-inspection': element === currentEmployeeScore}">
                   <ng-template #showData>
                     {{value === 'month' ? (element[value] | uppercase) : ''}}
                     {{value === 'score' ? (element['score'] / element['num_inspections'] * 100 | number:'2.1-2') + '%' : ''}}
@@ -202,11 +202,14 @@
 
             <mat-table [dataSource]="employeeInspections" matSort (matSortChange)="sortData(employeeInspections, $event)"
                        class="mat-elevation-z8 animated fadeInUp">
-              <ng-container *ngFor="let value of inspectionsDisplayedColumns"
+              <ng-container *ngFor="let value of dailyInspectionsDisplayedColumns"
                             matColumnDef="{{value}}">
-                <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header>
-                  {{value === 'action' ? 'View/Delete Inspection' : value | uppercase}}</mat-header-cell>
-                <mat-cell *matCellDef="let element" class="animated fadeInUp">
+                <mat-header-cell mdbWavesEffect mat-sort-header *matHeaderCellDef>
+                  {{value | uppercase}}</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="animated fadeInUp"
+                          (click)="viewInspection(element['inspections'])"
+                          style="cursor: pointer;"
+                          [ngClass]="{'active-inspection': element['inspections'] === currentInspection}">
                   {{value === 'month' ? (element['inspections'][value] | uppercase) : ''}}
                   {{value === 'score' ? (element['inspections'][value] * 100 | number:'2.1-2') + '%' : ''}}
                   {{value !== 'month' && value !== 'score' ? element['inspections'][value] : ''}}
@@ -215,7 +218,7 @@
                     <button mdbBtn mdbWavesEffect color="primary" class="edit-button z-depth-3"
                             matTooltip="View"
                             matTooltipPosition ="below"
-                            (click)="viewInspection(element['inspections'])">
+                            (click)="viewInspection(element['inspections']); tableExpanded = false;">
                       <i class="far fa-eye"></i>
                     </button>
 
@@ -228,8 +231,8 @@
                   </div>
                 </mat-cell>
               </ng-container>
-              <mat-header-row *matHeaderRowDef="inspectionsDisplayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: inspectionsDisplayedColumns;"></mat-row>
+              <mat-header-row *matHeaderRowDef="dailyInspectionsDisplayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: dailyInspectionsDisplayedColumns;"></mat-row>
             </mat-table>
           </div>
         </div>
