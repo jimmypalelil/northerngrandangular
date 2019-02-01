@@ -25,7 +25,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   employeeScores: MatTableDataSource<any>;
   employeeInspections: MatTableDataSource<any>;
   inspectionItems: any;
-  showInspections = false;
+  showInspectionsForMonth = false;
   showInspection = false;
   showInspectionForm = false;
   MonthInspectionsDisplayedColumns = ['month', 'year', 'num_inspections', 'score', 'action'];
@@ -74,7 +74,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   getEmployeeIns(employee, index) {
     if (employee !== this.currentEmployee) {
-      this.showInspections = false;
+      this.showInspectionsForMonth = false;
       this.showInspection = false;
       this.showInspectionForm = false;
       this.currentEmployee = employee;
@@ -82,6 +82,30 @@ export class InspectionComponent implements OnInit, AfterViewInit {
       this.insService.getEmployeeIns(employee['_id']).then(data => {
         this.employeeScores = new MatTableDataSource(data[0]['Monthly Scores']);
         this.employeeScores.sort = this.sort;
+
+        let monthTable = document.getElementById('ins-monthly') as HTMLElement;
+        const insTable = document.getElementById('ins-tables') as HTMLElement;
+        if (monthTable !== null) {
+          monthTable.classList.remove('ins-monthly-slide');
+          monthTable = monthTable as HTMLElement;
+          monthTable.style.animation = 'table-slide .7s ease-in-out 0s 1';
+          insTable.classList.remove('ins-table-slide');
+        }
+        const scoresColumn = document.querySelectorAll('#ins-monthly .mat-column-score');
+        const numInspectionColumn = document.querySelectorAll('#ins-monthly .mat-column-num_inspections');
+        if (scoresColumn !== null) {
+          const nodeArray = [];
+          for (let i = 0; i < scoresColumn.length; i++) {
+            nodeArray.push(scoresColumn[i]);
+            nodeArray.push(numInspectionColumn[i]);
+          }
+          nodeArray.forEach((column) => {
+            if (column !== undefined) {
+              const scoreColumn = column as HTMLElement;
+              scoreColumn.style.display = 'flex';
+            }
+          });
+        }
       });
     }
   }
@@ -106,7 +130,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
         this.insService.startNewInspection(this.currentInspection, ids).then(data => {
           this.insItems = data;
           this.totalItems = this.totalScore = 0;
-          this.showInspection = this.showInspections = false;
+          this.showInspection = this.showInspectionsForMonth = false;
           this.insScores = {};
           this.insComments = {};
           this.showInspectionForm = true;
@@ -162,9 +186,24 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   viewInspections(monthInspection) {
+    // adding 3d effect
+    const monthTable = document.getElementById('ins-monthly') as HTMLElement;
+    monthTable.classList.add('ins-monthly-slide');
+    const scoresColumn = document.querySelectorAll('#ins-monthly .mat-column-score');
+    const numInspectionColumn = document.querySelectorAll('#ins-monthly .mat-column-num_inspections');
+    const nodeArray = [];
+    for (let i = 0; i < scoresColumn.length; i++) {
+      nodeArray.push(scoresColumn[i]);
+      nodeArray.push(numInspectionColumn[i]);
+    }
+    nodeArray.forEach((column) => {
+      const scoreColumn = column as HTMLElement;
+      scoreColumn.style.display = 'none';
+    });
+
     this.currentEmployeeScore = monthInspection;
     this.insService.getInspections(this.currentEmployee['_id'], monthInspection['month'], monthInspection['year']).then(data => {
-      this.showInspections = true;
+      this.showInspectionsForMonth = true;
       this.showInspection = false;
       this.showInspectionForm = false;
       this.employeeInspections = new MatTableDataSource(data);
@@ -181,10 +220,30 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   viewInspection(inspection) {
+    // adding 3d effect
+    // const monthTable = document.getElementById('ins-monthly') as HTMLElement;
+    // monthTable.classList.remove('ins-monthly-slide');
+    const dailyTable = document.getElementById('ins-daily') as HTMLElement;
+    dailyTable.classList.add('ins-daily-slide');
+    const insTable = document.getElementById('ins-tables') as HTMLElement;
+    insTable.classList.add('ins-table-slide');
+    const scoresColumn = document.querySelectorAll('#ins-daily .mat-column-score');
+    const monthColumn = document.querySelectorAll('#ins-daily .mat-column-month');
+    const yearColumn = document.querySelectorAll('#ins-daily .mat-column-year');
+    const nodeArray = [];
+    for (let i = 0; i < scoresColumn.length; i++) {
+      nodeArray.push(scoresColumn[i]);
+      nodeArray.push(monthColumn[i]);
+      nodeArray.push(yearColumn[i]);
+    }
+    nodeArray.forEach((column) => {
+      const scoreColumn = column as HTMLElement;
+      scoreColumn.style.display = 'none';
+    });
+
     this.currentInspection = inspection;
     this.insService.getInspection(inspection['_id'], this.currentEmployee['_id']).then(data => {
       this.showInspection = true;
-      this.showInspections = false;
       this.showInspectionForm = false;
       this.inspectionItems = data;
       for (let i = 0; i < data.length; i++) {
