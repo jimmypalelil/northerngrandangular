@@ -1,5 +1,6 @@
 @import "../../globalVars";
 
+@import '../../assets/css/animate-text';
 
 .lost-title {
   display:flex;
@@ -39,10 +40,12 @@
   font-size: 40px;
 }
 
-.lost-image {
+.lost-image, .lost-icon {
   height: 30px;
   align-self: center;
   margin-top: -8px;
+  transition: all 1s ease-in-out;
+  animation: lost-things 3s ease-in-out 0s infinite;
 }
 
 ::ng-deep .cdk-overlay-container{
@@ -51,4 +54,35 @@
 
 .lost-container {
   margin: 2% 5%;
+}
+
+.lost-icon {
+  animation: lost-icon 3s ease-in-out 0s infinite;
+}
+
+
+@-webkit-keyframes lost-things {
+  from {
+    height: 0;
+  }
+  50% {
+    height: 40px;
+  }
+  to {
+    height: 0;
+  }
+}
+
+@-webkit-keyframes lost-icon {
+  from {
+    height: 40px;
+    //transform: rotateY(180deg);
+  }
+  50% {
+    height: 0;
+  }
+  to {
+    height: 40px;
+    //transform: rotateY(0deg);
+  }
 }

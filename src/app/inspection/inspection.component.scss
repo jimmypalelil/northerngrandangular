@@ -187,7 +187,7 @@ label > .mat-form-field-label {
     width: 70%;
     position: absolute;
     top: 0;
-    left: 30rem;
+    right: 0;
   }
 
   #ins-monthly , #ins-daily {
@@ -222,16 +222,10 @@ label > .mat-form-field-label {
 
 @-webkit-keyframes table-slide {
   from {
-    transform: perspective(1000px) rotateY(0deg);
     width: 100%;
   }
-  50% {
-    transform: perspective(1000px) rotateY(40deg);
-    width: 30%;
-  }
-
   to {
-    transform: perspective(1000px) rotateY(0deg);
+    width: 30%;
   }
 }
 

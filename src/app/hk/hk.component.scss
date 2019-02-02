@@ -28,12 +28,12 @@ mat-cell, mat-header-cell {
   cursor: pointer;
 }
 
-.active-employee {
-  border-left: 2px solid !important;
+.active-floor {
+  border-left: 2px solid #5c5edc !important;
 }
 
 .floor:hover {
-  border-left: 2px solid rgba(7, 51, 255, 0.32);
+  border-left: 2px solid #5c5edc;
 }
 
 .select-buttons {

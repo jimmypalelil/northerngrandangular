@@ -6,7 +6,7 @@
         <h3 mat-subheader>Select Floor</h3>
           <a mdbWavesEffect mat-list-item *ngFor="let floor of floors; let i = index"
              class="floor"
-             [ngClass]="{'active': currentFloor === floor.data}"
+             [ngClass]="{'active-floor': currentFloor === floor.data}"
 
              (click)="changeFloor(floor.data)">
             {{floor.label | uppercase}}
