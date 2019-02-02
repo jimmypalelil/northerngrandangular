@@ -109,6 +109,10 @@ dl, dd, dt {
 }
 
 @media print {
+  .inspection-scores {
+    margin-top: -10px;
+  }
+
   .two {
     flex: 0 0 100%;
     max-width: 100%;
@@ -150,6 +154,10 @@ dl, dd, dt {
   .card {
     margin:0;
     padding: 0;
+  }
+
+  .card-body {
+    padding: 0 !important;
   }
 
   .ins-details {

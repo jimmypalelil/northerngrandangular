@@ -2,65 +2,63 @@
 
   <!--Left Panel-->
   <div class="col-sm-2 d-print-none one animated fadeInLeft" style="margin-top: 3%">
-    <div class="fixed">
-      <mat-list class="fixed">
-        <h3 mat-subheader>Start New Inspection</h3>
-        <mat-accordion>
-          <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <p><i class="fas fa-plus-circle"></i> New Inspection</p>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <form>
-              <mat-form-field>
-                <input type="number" matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
-              </mat-form-field>
+    <mat-list class="fixed">
+      <h3 mat-subheader>Start New Inspection</h3>
+      <mat-accordion>
+        <mat-expansion-panel  [expanded]="panelOpened" (opened)="toggleNewInspectionPanel()">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p><i class="fas fa-plus-circle"></i> New Inspection</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form>
+            <mat-form-field>
+              <input type="number" matInput placeholder="Room Number" name="roomNo" [(ngModel)]="currentInspection.room_number" required>
+            </mat-form-field>
 
-              <mat-form-field>
-                <mat-select name="emp" placeholder="Room Attendant(s)" [(ngModel)]="selectedEmployees" multiple>
-                  <mat-option *ngFor="let employee of employees"
-                              [value]="employee">{{employee.name}}</mat-option>
-                </mat-select>
-              </mat-form-field>
+            <mat-form-field>
+              <mat-select name="emp" placeholder="Room Attendant(s)" [(ngModel)]="selectedEmployees" multiple>
+                <mat-option *ngFor="let employee of employees"
+                            [value]="employee">{{employee.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <mat-form-field>
-                <input matInput placeholder="Inspection Date" name="inspectionDate" [matDatepicker]="picker"
-                       (focus)="picker.open()" readonly [(ngModel)]="newInspectionDate" required>
-              </mat-form-field>
-              <mat-datepicker #picker></mat-datepicker>
+            <mat-form-field>
+              <input matInput placeholder="Inspection Date" name="inspectionDate" [matDatepicker]="picker"
+                     (focus)="picker.open()" readonly [(ngModel)]="newInspectionDate" required>
+            </mat-form-field>
+            <mat-datepicker #picker></mat-datepicker>
 
-              <mat-action-row>
-                <!--"Add" button-->
-                <button mat-mini-fab color="primary" (click)="startNewInspection()">
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-              </mat-action-row>
-            </form>
-          </mat-expansion-panel>
-        </mat-accordion>
+            <mat-action-row>
+              <!--"Add" button-->
+              <button mat-mini-fab color="primary" (click)="startNewInspection()">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+            </mat-action-row>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
 
+      <hr class="my-4">
+      <div *ngIf="isAdmin()">
+        <h3 mat-subheader>Admin Controls</h3>
+        <button *ngIf="!isProduction()" mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
+        <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
         <hr class="my-4">
-        <div *ngIf="isAdmin()">
-          <h3 mat-subheader>Admin Controls</h3>
-          <button *ngIf="!isProduction()" mdbBtn mdbWavesEffect color="danger" mat-list-item (click)="resetInspections()">Reset Inspections</button>
-          <button mdbBtn mdbWavesEffect color="secondary" mat-list-item (click)="createInsItems()">Create Inspection Items</button>
-          <hr class="my-4">
-        </div>
+      </div>
 
-        <h3 mat-subheader>Employees</h3>
-        <mat-list-item *ngFor="let employee of employees; let i = index">
-          <a mdbWavesEffect mat-list-item class="employee-name" (click)="getEmployeeIns(employee, i)"
-             [ngClass]="{'active-employee': currentEmployee === employee}">
-            {{employee.name}}
-            <!--Badge for Employees-->
-            <span class="badge badge-danger ml-2">
+      <h3 mat-subheader>Employees</h3>
+      <mat-list-item *ngFor="let employee of employees; let i = index">
+        <a mdbWavesEffect mat-list-item class="employee-name" (click)="getEmployeeIns(employee, i)"
+           [ngClass]="{'active-employee': currentEmployee === employee}">
+          {{employee.name}}
+          <!--Badge for Employees-->
+          <span class="badge badge-danger ml-2">
             {{employee['num_inspections'] != 0 ? (employee['total_score'] / employee['num_inspections'] * 100| number:'1.1-2'): '0.0'}}%
           </span>
-          </a>
-        </mat-list-item>
-      </mat-list>
-    </div>
+        </a>
+      </mat-list-item>
+    </mat-list>
   </div>
   <!--Left Panel Ends-->
 
