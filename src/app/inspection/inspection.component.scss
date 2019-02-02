@@ -43,11 +43,13 @@
   }
 }
 
-.active {
-  box-shadow: 2px 2px 20px 10px #2505058a;
-  border-radius: 25px;
-  transform: translate(5%,-10%);
-  background-color: darkorange;
+.active-employee {
+  box-shadow: 0 3px 8px 0 #1f1e1e;
+  border-radius: 5px;
+  -webkit-transform: translate(5%, -10%);
+  -ms-transform: translate(5%, -10%);
+  transform: translate(5%, -10%);
+  background-color: #5c5edc;
 }
 
 .employee-name {
@@ -241,10 +243,10 @@ mat-cell {
 }
 
 .active-inspection {
-  background-color: #fe8b00;
+  background-color: #5c5edc;
   position: relative;
   bottom: 5px;
-  border-bottom: 5px solid red;
+  border-bottom: 5px solid darkorange;
   color: black
 }
 
