@@ -137,7 +137,9 @@ body {
   display: none;
 }
 
-mat-progress-spinner {
+
+
+mat-progress-spinner, #wave-container {
   position: fixed !important;
   top: 50%;
   left: 50%;

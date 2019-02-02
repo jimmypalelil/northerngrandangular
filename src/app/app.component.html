@@ -139,6 +139,12 @@
   </div>
 </div>
 
-<mat-progress-spinner color="warn"  mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>
+<!--<mat-progress-spinner color="warn"  mode="indeterminate" *ngIf="showSpinner"></mat-progress-spinner>-->
+
+<!--Loader-->
+<div id="wave-container" *ngIf="showSpinner">
+ <!-- This is for the rounded tales -->
+  <div class="lds-hourglass"></div>
+</div>
 
 <div id="inspection-overlay"></div>
