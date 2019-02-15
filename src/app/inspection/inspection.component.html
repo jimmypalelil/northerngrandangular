@@ -237,7 +237,8 @@
 
         <!--Inspection Scores-->
         <div class="row animated fadeInUp" *ngIf="showInspection" id="ins-scores">
-          <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index">
+          <div class="col-sm-6 inspection-scores" *ngFor="let object of inspectionItems; let i = index"
+               [ngClass]="{'not-inspected-category': catScores[i] === -1}">
             <br>
             <p class="h3 cat-title">
             <span matBadge="" matBadgeOverlap="false">
@@ -253,11 +254,16 @@
             </span>
             </p>
             <div class="ins-scores-wrapper">
-              <div *ngFor="let item of object.items">
-                <dt [ngClass]="{'bad-score': item.item.score < .7 && item.item.score > 0}">{{item.inspection.item | uppercase}}
+              <div *ngFor="let item of object.items"
+                   [ngClass]="{'bad-score': item.item.score < .7 && item.item.score > 0,
+                               'not-inspected-score': item.item.score === -1}">
+                <dt>
+                  {{item.inspection.item | uppercase}}
                   <i *ngIf="item.item.score < .7 && item.item.score > 0" class="fas fa-star-of-life"></i>
                 </dt>
-                <dd>{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
+                <dd [ngClass]="{'not-inspected-score': item.item.score === -1}">
+                  {{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}
+                </dd>
                 <dd><i>{{item.item.comment !== '' ? '(' + item.item.comment + ')' : ''}}</i></dd>
               </div>
             </div>

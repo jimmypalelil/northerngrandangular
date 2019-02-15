@@ -94,6 +94,12 @@ dl, dd, dt {
   text-decoration: dashed black;
 }
 
+.not-inspected-score, .not-inspected-category {
+  text-decoration: line-through;
+  color: #6f6c6b;
+  font-style: italic;
+}
+
 .badge {
   border-radius: 1rem;
   transform: translateY(-10%);
@@ -111,6 +117,10 @@ dl, dd, dt {
 
 //Inspection Printing Layout
 @media print {
+  .not-inspected-score, .not-inspected-category {
+    display: none;
+  }
+
   .inspection-scores {
     margin-top: -10px;
   }
