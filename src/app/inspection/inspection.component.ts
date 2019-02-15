@@ -4,6 +4,7 @@ import {Inspection} from '../models/inspection';
 import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {environment} from '../../environments/environment';
 import {Employee} from '../models/employee';
+import {InspectionScore} from '../models/inspectionScore';
 
 @Component({
   selector: 'app-inspection',
@@ -20,8 +21,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
   panelOpened: boolean;
   insItems: any[];
-  insScores: any;
-  insComments: any;
+  inspectionScores: Map<string, InspectionScore>;
   employeeScores: MatTableDataSource<any>;
   employeeInspections: MatTableDataSource<any>;
   inspectionItems: any;
@@ -110,9 +110,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   startNewInspection() {
-    console.log(this.panelOpened);
     this.panelOpened = false;
-    console.log('after:' + this.panelOpened);
     if (this.isHK()) {
       this.toggleSpinner();
       try {
@@ -128,10 +126,15 @@ export class InspectionComponent implements OnInit, AfterViewInit {
         });
         this.insService.startNewInspection(this.currentInspection, ids).then(data => {
           this.insItems = data;
+          this.inspectionScores = new Map<string, InspectionScore>();
+          for (let i = 0; i < data.length; i++) {
+            for (let j = 0; j < data[i]['items'].length; j++) {
+              this.inspectionScores[data[i]['items'][j]['_id']] = new InspectionScore(-1);
+            }
+          }
+          console.log(this.inspectionScores);
           this.totalItems = this.totalScore = 0;
           this.showInspection = this.showInspectionsForMonth = false;
-          this.insScores = {};
-          this.insComments = {};
           this.showInspectionForm = true;
           this.toggleSpinner();
         }).catch(() => {
@@ -154,7 +157,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   submitInspection() {
     this.toggleSpinner();
-    this.insService.sendInspection(this.currentInspection, this.insScores, this.insComments, this.selectedEmployees).then(msg => {
+    this.insService.sendInspection(this.currentInspection, this.inspectionScores, this.selectedEmployees).then(msg => {
       this.snackBar.open(msg['text'].toUpperCase(), '', {
         duration: 2000,
       });
@@ -237,10 +240,16 @@ export class InspectionComponent implements OnInit, AfterViewInit {
         const items = data[i].items;
         let totScore = 0, count = 0;
         items.forEach(function(item) {
-          totScore += item.item.score;
-          count++;
+          if (item.item.score !== -1) {
+            totScore += item.item.score;
+            count++;
+          }
         });
-        this.catScores[i] = totScore / count;
+        if (count === 0) {
+          this.catScores[i] = -1;
+        } else {
+          this.catScores[i] = totScore / count;
+        }
       }
     });
   }
@@ -280,6 +289,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.showSpinner = !this.showSpinner;
     this.spinnerEvent.emit(this.showSpinner);
   }
+
   createInsItems() {
     this.toggleSpinner();
     this.insService.createInsItems().then(msg => {
@@ -290,16 +300,21 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     });
   }
 
-  radioChange() {
+  insertScore(itemID, event) {
+    this.inspectionScores[itemID].score = event.value;
     this.totalItems = 0;
     this.totalScore = 0;
-    for (const key in this.insScores) {
-      const score = this.insScores[key];
-      if (score !== '-1') {
+    for (const key in this.inspectionScores) {
+      const score = this.inspectionScores[key].score;
+      if (score !== -1) {
         this.totalScore += Number(score);
         this.totalItems++;
       }
     }
+  }
+
+  insertComment(itemID, event) {
+    this.inspectionScores[itemID].comment = event.target.value;
   }
 
   floor(n: number) {
@@ -325,6 +340,8 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   }
 
   createScoreArray(number: number) {
-    return Array(number);
+    if (number > 0) {
+      return Array(number);
+    }
   }
 }

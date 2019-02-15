@@ -109,23 +109,23 @@
 
       <!--Inspection INfo Tables-->
       <div class="ins-info">
-        <!--Inspection Form List Begins-->
+        <!-- New Inspection Form List Begins-->
         <div *ngIf="showInspectionForm" class="ins-items col-md-12 d-print-none">
           <div *ngFor="let object of insItems">
             <p class="h3">{{object._id.cat | uppercase}}</p>
             <div class="ins-item" *ngFor="let item of object.items; let i = index">
           <span>
             <p class="h6">{{item.item | uppercase}}</p>
-            <mat-radio-group [(ngModel)]="insScores[item._id]" (change)="radioChange()">
+            <mat-radio-group (change)="insertScore(item._id, $event)">
               <mat-radio-button color="primary" value="1">Excellent</mat-radio-button>
               <mat-radio-button color="primary" value=".80">Good</mat-radio-button>
               <mat-radio-button color="primary" value=".5">Needs Improvement</mat-radio-button>
               <mat-radio-button color="primary" value="0">Bad</mat-radio-button>
-              <mat-radio-button color="primary" value="-1" [checked]="insScores[item._id] === ''">None</mat-radio-button>
+              <mat-radio-button color="primary" value="-1">None</mat-radio-button>
             </mat-radio-group>
           </span>
               <mat-form-field>
-                <textarea matInput placeholder="Comments" [(ngModel)]="insComments[item._id]"></textarea>
+                <textarea matInput placeholder="Comments" (change)="insertComment(item._id, $event)"></textarea>
               </mat-form-field>
               <hr class="my-3">
             </div>
@@ -147,7 +147,7 @@
             {{totalScore / totalItems *  100 | number:'1.1-2'}} %
           </div>
         </div>
-        <!--Inspection Form list Ends-->
+        <!--New Inspection Form list Ends-->
 
         {{employeeScores.data.length === 0 && !showInspectionForm ? 'No Inspections recorded for ' + currentEmployee['name'] + ' yet' : ''}}
 
@@ -243,15 +243,20 @@
             <span matBadge="" matBadgeOverlap="false">
               {{object._id | uppercase}}
               <mdb-badge color="amber darken-2">
-              <i *ngFor="let stars of createScoreArray(floor(catScores[i] * 4))" class="fas fa-star"></i>
-              <i *ngFor="let stars of createScoreArray(4 - floor(catScores[i] * 4))" class="far fa-star"></i>
-                <mdb-badge style="margin-left:2%" color="red">{{catScores[i] * 100 | number:'2.1-2'}}%</mdb-badge>
+                <span *ngIf="catScores[i] !== -1; else notInspected">
+                  <i *ngFor="let stars of createScoreArray(floor(catScores[i] * 4))" class="fas fa-star"></i>
+                  <i *ngFor="let stars of createScoreArray(4 - floor(catScores[i] * 4))" class="far fa-star"></i>
+                  <mdb-badge style="margin-left:2%" color="red">{{catScores[i] * 100 | number:'2.1-2'}}%</mdb-badge>
+                </span>
+                <ng-template #notInspected><i>Not Inspected</i></ng-template>
               </mdb-badge>
             </span>
             </p>
             <div class="ins-scores-wrapper">
               <div *ngFor="let item of object.items">
-                <dt [ngClass]="{'bad-score': item.item.score < .7}">{{item.inspection.item | uppercase}} <i *ngIf="item.item.score < .7" class="fas fa-star-of-life"></i></dt>
+                <dt [ngClass]="{'bad-score': item.item.score < .7 && item.item.score > 0}">{{item.inspection.item | uppercase}}
+                  <i *ngIf="item.item.score < .7 && item.item.score > 0" class="fas fa-star-of-life"></i>
+                </dt>
                 <dd>{{item.item.score != -1 ? scoreCategory[floor(item.item.score * 3)] : 'Not Inspected'}}</dd>
                 <dd><i>{{item.item.comment !== '' ? '(' + item.item.comment + ')' : ''}}</i></dd>
               </div>
@@ -332,10 +337,10 @@
       </mat-list>
     </div>
   </div>
-
 </div>
 
 <div class="footer-divider"></div>
+
 
 <!--Delete Monthly Inspections Modal-->
 <div mdbModal #deleteMonthlyInspectionFrame="mdbModal" style="z-index: 12000 !important;" class="modal fade left" id="deleteMonthlyInspections" tabindex="-1" role="dialog">

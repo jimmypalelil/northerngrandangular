@@ -20,8 +20,8 @@ export class InspectionService {
     return this.http.post(this.url + 'newInspection', [inspection, empIDs]).toPromise();
   }
 
-  sendInspection(ins: any, insScores: any, insComments: any, emps): Promise<any> {
-    return this.http.post(this.url + 'inspectionResult', [ins, insScores, insComments, emps]).toPromise();
+  sendInspection(ins: any, inspectionScores: any, emps): Promise<any> {
+    return this.http.post(this.url + 'inspectionResult', [ins, inspectionScores, emps]).toPromise();
 
   }
 

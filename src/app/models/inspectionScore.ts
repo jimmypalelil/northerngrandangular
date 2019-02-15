@@ -1,6 +1,8 @@
 export class InspectionScore {
-  item_id: {
-    score: number,
-    comment: string
+  score: number;
+  comment: string;
+
+  constructor(score: number) {
+    this.score = score;
   }
 }

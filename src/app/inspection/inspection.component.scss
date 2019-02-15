@@ -78,6 +78,7 @@ textarea::placeholder {
 
 .inspection-scores {
   word-break: break-word;
+  font-size: 12px;
 }
 
 
@@ -108,6 +109,7 @@ dl, dd, dt {
   border-bottom: 1px solid white;
 }
 
+//Inspection Printing Layout
 @media print {
   .inspection-scores {
     margin-top: -10px;
@@ -125,10 +127,6 @@ dl, dd, dt {
 
   .badge {
     border: none !important;
-  }
-
-  .inspection-scores {
-    font-size: 12px;
   }
 
   .cat-title {
@@ -173,7 +171,7 @@ label > .mat-form-field-label {
 
 .ins-scores-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
   grid-auto-rows: minmax(10px, auto);;
 }
@@ -226,17 +224,6 @@ label > .mat-form-field-label {
   }
   to {
     width: 30%;
-  }
-}
-
-@-webkit-keyframes monthly-table-slide {
-  from {
-    transform: perspective(1000px) rotateY(40deg);
-    width: 30%;
-  }
-  to {
-    transform: perspective(1000px) rotateY(0deg);
-    width: 100%
   }
 }
 
