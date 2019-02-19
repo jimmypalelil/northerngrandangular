@@ -21,7 +21,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
   panelOpened: boolean;
   insItems: any[];
-  inspectionScores: Map<string, InspectionScore>;
+  inspectionScores: {};
   employeeScores: MatTableDataSource<any>;
   employeeInspections: MatTableDataSource<any>;
   inspectionItems: any;
@@ -126,13 +126,12 @@ export class InspectionComponent implements OnInit, AfterViewInit {
         });
         this.insService.startNewInspection(this.currentInspection, ids).then(data => {
           this.insItems = data;
-          this.inspectionScores = new Map<string, InspectionScore>();
+          this.inspectionScores = {};
           for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < data[i]['items'].length; j++) {
               this.inspectionScores[data[i]['items'][j]['_id']] = new InspectionScore(-1);
             }
           }
-          console.log(this.inspectionScores);
           this.totalItems = this.totalScore = 0;
           this.showInspection = this.showInspectionsForMonth = false;
           this.showInspectionForm = true;

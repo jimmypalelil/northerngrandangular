@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import {AuthService} from './services/auth.service';
 import {Router} from '@angular/router';
@@ -7,6 +7,7 @@ import {EnsureAuthenticatedService} from './services/ensure-authenticated.servic
 import {ModalDirective} from 'angular-bootstrap-md';
 import {MatSnackBar} from '@angular/material';
 import {environment} from '../environments/environment';
+import {Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   showSpinner = false;
   menuBtn: HTMLElement;
   homePage: HTMLElement;
+  scrollEventSubscription: Subscription;
 
   changePage(page) {
     this.currentPage = page;
@@ -63,44 +65,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         node['type'] = 'text/javascript';
         document.getElementsByTagName('body')[0].appendChild(node);
     }, 1500);
-
-    const pages = document.getElementsByClassName('page');
-
-    for (let i = 0; i < pages.length; i++) {
-     const page = pages[i] as HTMLElement;
-     page.onscroll = () => {
-       const menu = document.getElementsByClassName('bottom-menu')[0] as HTMLElement;
-       const menuBtn = document.getElementsByClassName('bottom-menu-button')[0] as HTMLElement;
-       const topBtn = document.getElementById('myBtn') as HTMLElement;
-
-       topBtn.onclick = () => {
-          page.scrollTop = 0;
-       };
-
-       if (page.scrollTop > 20) {
-         document.getElementById('myBtn').style.display = 'block';
-         if (menu !== undefined && menuBtn !== undefined) {
-           if (!menu.classList.contains('bottom-menu-clicked')) {
-             menu.style.background = '#e78212';
-             menuBtn.style.background = 'black';
-           } else {
-             document.getElementById('myBtn').style.display = 'none';
-             menu.style.background = 'black';
-             menuBtn.style.background = 'black';
-             page.scrollTop = 0;
-           }
-         }
-       }  else {
-         document.getElementById('myBtn').style.display = 'none';
-         if (menu !== undefined && menuBtn !== undefined) {
-           if (!menu.classList.contains('bottom-menu-clicked')) {
-             menu.style.background = 'transparent';
-             menuBtn.style.background = 'transparent';
-           }
-         }
-       }
-     };
-    }
 
     this.ensureAuth.canActivate();
     this.ensureAuth.showLoginModal.subscribe(value => {
@@ -131,6 +95,45 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.menuBtn = document.querySelector('button.menu-button') as HTMLElement;
     this.homePage = document.getElementById('page-home') as HTMLElement;
+
+    // Adding dynamic menu for Mobile View
+    const pages = document.getElementsByClassName('page');
+
+    for (let i = 0; i < pages.length; i++) {
+      const page = pages[i] as HTMLElement;
+      page.onscroll = () => {
+        const menu = document.getElementsByClassName('bottom-menu')[0] as HTMLElement;
+        const menuBtn = document.getElementsByClassName('bottom-menu-button')[0] as HTMLElement;
+        const topBtn = document.getElementById('myBtn') as HTMLElement;
+
+        topBtn.onclick = () => {
+          page.scrollTop = 0;
+        };
+
+        if (page.scrollTop > 20) {
+          document.getElementById('myBtn').style.display = 'block';
+          if (menu !== undefined && menuBtn !== undefined) {
+            if (!menu.classList.contains('bottom-menu-clicked')) {
+              menu.style.background = '#e78212';
+              menuBtn.style.background = 'black';
+            } else {
+              document.getElementById('myBtn').style.display = 'none';
+              menu.style.background = 'black';
+              menuBtn.style.background = 'black';
+              page.scrollTop = 0;
+            }
+          }
+        }  else {
+          document.getElementById('myBtn').style.display = 'none';
+          if (menu !== undefined && menuBtn !== undefined) {
+            if (!menu.classList.contains('bottom-menu-clicked')) {
+              menu.style.background = 'transparent';
+              menuBtn.style.background = 'transparent';
+            }
+          }
+        }
+      };
+    } // End for dynamic menu for Mobile View
   }
 
   showModal() {
