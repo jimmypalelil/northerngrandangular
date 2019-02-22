@@ -160,18 +160,20 @@
               <ng-container *ngFor="let value of MonthInspectionsDisplayedColumns" matColumnDef="{{value}}">
 
                 <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header>
-                  {{value === 'score' ? (value + '(%)' | uppercase) : value | uppercase}}</mat-header-cell>
+                  {{value | uppercase}}
+                </mat-header-cell>
 
                 <mat-cell *matCellDef="let element" class="animated fadeInUp"
                           style="cursor: pointer;"
                           (click)="viewInspections(element)"
                           [ngClass]="{'active-inspection': element === currentEmployeeScore}">
+                  <!--Inspection Data-->
                   <ng-template #showData>
                     {{value === 'month' ? (element[value] | uppercase) : ''}}
                     {{value === 'score' ? (element['score'] / element['num_inspections'] * 100 | number:'2.1-2') + '%' : ''}}
                     {{value === 'year' || value === 'num_inspections' ? element[value] : ''}}
                   </ng-template>
-
+                  <!--Action buttons-->
                   <div *ngIf="value === 'action'; else showData">
                     <button mdbBtn mdbWavesEffect color="primary" class="edit-button z-depth-3"
                             matTooltip="View"

@@ -64,7 +64,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         node['src'] = dynamicScripts;
         node['type'] = 'text/javascript';
         document.getElementsByTagName('body')[0].appendChild(node);
-    }, 1500);
+    }, 2000);
 
     this.ensureAuth.canActivate();
     this.ensureAuth.showLoginModal.subscribe(value => {

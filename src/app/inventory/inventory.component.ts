@@ -94,6 +94,7 @@ export class InventoryComponent implements OnInit, AfterViewInit {
 
   addItem() {
     if (this.isHK()) {
+      this.toggleSpinner();
       this.inventoryService.addItem(this.newInventoryItem).then(msg => {
         this.snackBar.open(msg['text'], '', {
           duration: 2000,

@@ -195,7 +195,7 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     let scoreColumn;
     const nodeArray = [];
     for (let i = 0; i < scoresColumn.length; i++) {
-      nodeArray.push(scoresColumn[i]);
+      // nodeArray.push(scoresColumn[i]);
       nodeArray.push(numInspectionColumn[i]);
     }
     nodeArray.forEach((column) => {
