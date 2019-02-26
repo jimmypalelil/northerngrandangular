@@ -14,7 +14,7 @@ import {environment} from '../../environments/environment';
 export class InventoryComponent implements OnInit, AfterViewInit {
   inventoryItems: any[];
   inventoryTableData: MatTableDataSource<any>;
-  types: string[];
+  types: string[] = [];
   displayedColumns: string[];
   currentTypeIndex = 0;
   newInventoryItem: InventoryItem;
@@ -22,6 +22,10 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   showUpdateBar: boolean;
   currentInventoryItem: InventoryItem;
   showSpinner = false;
+  totalCountOfType = 0;
+  totalCostOfType = 0;
+  totalItems = 0;
+
 
   constructor(private inventoryService: InventoryService, private snackBar: MatSnackBar) {
     this.newInventoryItem = new InventoryItem();
@@ -75,10 +79,14 @@ export class InventoryComponent implements OnInit, AfterViewInit {
 
   changeType(index: number) {
     this.toggleSpinner();
-    this.inventoryTableData.data = null;
     this.currentTypeIndex = index;
     setTimeout(() => {
       this.inventoryTableData.data = this.inventoryItems[index].items;
+      this.inventoryTableData.data.forEach((item: InventoryItem) => {
+        this.totalCountOfType += item['total_count'];
+        this.totalCostOfType += item['total_cost'];
+      });
+      this.totalItems = this.inventoryTableData.data.length;
       this.toggleSpinner();
     }, 1000);
   }
@@ -132,7 +140,7 @@ export class InventoryComponent implements OnInit, AfterViewInit {
         this.inventoryTableData.data.splice(this.inventoryTableData.data.indexOf(this.currentInventoryItem), 1);
         this.inventoryTableData._updateChangeSubscription();
       });
-    } else{
+    } else {
       this.snackBar.open('Only Housekeeping Department can Delete Items', '', {
         duration: 2000,
       });

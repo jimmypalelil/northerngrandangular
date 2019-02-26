@@ -47,3 +47,32 @@
 .inventory-container {
   margin: 2% 5%;
 }
+
+.total-info {
+  border-radius: 500px;
+  color: #e98413;
+  margin: 1em auto;
+  width: 80%;
+  box-shadow: 5px 5px 10px 1px #00000099;
+}
+
+.total-info .row {
+  width: 100%;
+  text-align: center;
+}
+
+.total-info dd {
+  border-bottom: 2px solid #0a846e;
+}
+
+.count-text {
+  color: #ff6f00 !important;
+}
+
+.cost-text {
+  color: yellow !important;
+}
+
+.cost-text, .count-text {
+  border-bottom: .1px solid #57becc;
+}

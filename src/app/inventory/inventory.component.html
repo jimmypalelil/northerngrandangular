@@ -30,7 +30,7 @@
         <span *ngFor="let formItem of displayedColumns">
           <mat-form-field  *ngIf="formItem !== 'action' && formItem !== 'item_name' && formItem !== 'total_count'
               && formItem !== 'total_cost'">
-            <input type="number" matInput placeholder="{{formItem | uppercase}}"
+            <input type="number" min="0" matInput placeholder="{{formItem | uppercase}}"
                    name="{{formItem}}" [(ngModel)]="newInventoryItem[formItem]" required>
           </mat-form-field>
         </span>
@@ -57,14 +57,25 @@
 
   <mat-tab-group (selectedTabChange)="changeType($event.index)" class="animated fadeInUp">
     <mat-tab color="primary" *ngFor="let type of types" label="{{type | uppercase}}">
-      <hr class="my-4">
+      <!--<hr class="my-4">-->
+      <div *ngIf="types.length > 0" class="total-info">
+        <dl class="row">
+          <dt class="col-sm-2"><i class="fas fa-hashtag"></i> Number of Items:</dt>
+          <dd class="col-sm-2">{{totalItems}}</dd>
+          <dt class="col-sm-2"><i class="fas fa-sitemap"></i> Total Count:</dt>
+          <dd class="col-sm-2">{{totalCountOfType}}</dd>
+          <dt class="col-sm-2"><i class="fas fa-dollar-sign"></i> Total Cost:</dt>
+          <dd class="col-sm-2">$ {{totalCostOfType | number:'.0-2'}}</dd>
+        </dl>
+      </div>
       <mat-table [dataSource]="inventoryTableData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8 lost-table">
         <ng-container *ngFor="let value of displayedColumns; let i = index" cdkColumnDef="{{value}}">
           <mat-header-cell mdbWavesEffect *matHeaderCellDef mat-sort-header class="text-center">
-            {{value | uppercase}}
+            {{value.includes('cost')? (value | uppercase) + '($)' : value | uppercase}}
           </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="animated fadeInUp">
-            {{value === 'item_name'? (element[value] | uppercase) : value.includes('cost') ? (element[value] | number:'.2') : (element[value] | number:'.0-2')}}
+          <mat-cell *matCellDef="let element" class="animated fadeInUp"
+                  [ngClass]="{'count-text': value === 'total_count', 'cost-text': value.includes('cost')}">
+            {{value === 'item_name'? (element[value] | uppercase) : value.includes('cost') ? '$ ' + (element[value] | number:'.2') : (element[value] | number:'.0-2')}}
 
             <div *ngIf="value === 'action'">
               <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3"
@@ -132,80 +143,58 @@
       </div>
       <div class="modal-body mx-3">
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Item Name
-          </mat-placeholder>
-          <input matInput type="text" name="itemName" [value]="currentInventoryItem.item_name" autofocus [(ngModel)]="currentInventoryItem.item_name" required>
+          <mat-placeholder>            Item Name </mat-placeholder>
+          <input matInput type="text" name="itemName" autofocus [(ngModel)]="currentInventoryItem.item_name" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Laundry
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.laundry" [(ngModel)]="currentInventoryItem.laundry" required>
+          <mat-placeholder>     Laundry </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.laundry" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Lockup
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.lock_up" [(ngModel)]="currentInventoryItem.lock_up" required>
+          <mat-placeholder>            Lockup </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.lock_up" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Second Floor
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.second" [(ngModel)]="currentInventoryItem.second" required>
+          <mat-placeholder>            Second Floor          </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.second" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Third Floor
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.third" [(ngModel)]="currentInventoryItem.third" required>
+          <mat-placeholder>            Third Floor          </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.third" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Fourth Floor
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.fourth" [(ngModel)]="currentInventoryItem.fourth" required>
+          <mat-placeholder>            Fourth Floor          </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.fourth" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Fifth Floor
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.fifth" [(ngModel)]="currentInventoryItem.fifth" required>
+          <mat-placeholder>             Fifth Floor          </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.fifth" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Sixth Floor
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.sixth" [(ngModel)]="currentInventoryItem.sixth" required>
+          <mat-placeholder>             Sixth Floor          </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.sixth" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Par Stock
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.par_stock" [(ngModel)]="currentInventoryItem.par_stock" required>
+          <mat-placeholder>            Par Stock  </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.par_stock" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Par 2.5
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.par_25" [(ngModel)]="currentInventoryItem.par_25" required>
+          <mat-placeholder>            Par 2.5 </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.par_25" required>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-placeholder>
-            <i class="fa fa-user prefix grey-text"></i> Cost Per Item
-          </mat-placeholder>
-          <input matInput type="number" name="room_no" [value]="currentInventoryItem.cost_per_item" [(ngModel)]="currentInventoryItem.cost_per_item" required>
+          <mat-placeholder>            Cost Per Item </mat-placeholder>
+          <input matInput type="number" min="0" name="room_no" [(ngModel)]="currentInventoryItem.cost_per_item" required>
         </mat-form-field>
 
         <mat-form-field>
