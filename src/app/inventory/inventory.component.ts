@@ -80,6 +80,7 @@ export class InventoryComponent implements OnInit, AfterViewInit {
   changeType(index: number) {
     this.toggleSpinner();
     this.currentTypeIndex = index;
+    this.totalCostOfType = this.totalCountOfType = 0;
     setTimeout(() => {
       this.inventoryTableData.data = this.inventoryItems[index].items;
       this.inventoryTableData.data.forEach((item: InventoryItem) => {

@@ -78,7 +78,7 @@
             {{value === 'item_name'? (element[value] | uppercase) : value.includes('cost') ? '$ ' + (element[value] | number:'.2') : (element[value] | number:'.0-2')}}
 
             <div *ngIf="value === 'action'">
-              <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3"
+              <button mdbBtn gradient="warm-flame" class="edit-button z-depth-1-half"
                       matTooltip="Delete Item"
                       matTooltipPosition ="below"
                       (click)="sendItemInfo(element); deleteFrame.show()">
