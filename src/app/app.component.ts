@@ -39,9 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   homePage: HTMLElement;
   scrollEventSubscription: Subscription;
 
-  changePage(page) {
-    this.currentPage = page;
-  }
+  changePage(page) {this.currentPage = page;}
 
   ngOnInit() {
     let url;

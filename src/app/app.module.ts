@@ -1,6 +1,6 @@
 import {CdkTableModule} from '@angular/cdk/table';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { CanActivate, RouterModule } from '@angular/router';
+import {  RouterModule } from '@angular/router';
 import {HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {ParallaxModule} from 'ngx-parallax';

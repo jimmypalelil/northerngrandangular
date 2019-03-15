@@ -13,15 +13,15 @@ import {SelectionModel} from '@angular/cdk/collections';
 })
 export class HkComponent implements OnInit, AfterViewInit {
   months = [['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
-            ['jan to jun', 'jul to dec'],
-            ['jan to mar', 'apr to jun', 'july to sep', 'oct to dec']];
+    ['jan to jun', 'jul to dec'],
+    ['jan to mar', 'apr to jun', 'july to sep', 'oct to dec']];
 
   floors = [{label: '2nd Floor', data: 200}, {label: '3rd Floor', data: 300}, {label: '4th Floor', data: 400},
     {label: '5th Floor', data: 500}, {label: '6th Floor', data: 600}];
 
   types = [{label: 'Bedding', data: 'beddings', index: 0}, {label: 'Carpet Shampoo', data: 'carpets', index: 1},
-            {label: 'Bed Flips', data: 'mattress', index: 2}, {label: 'Pillows', data: 'pillows', index: 2},
-            {label: 'Pillow Protectors', data: 'pillowss', index: 1}];
+    {label: 'Bed Flips', data: 'mattress', index: 2}, {label: 'Pillows', data: 'pillows', index: 2},
+    {label: 'Pillow Protectors', data: 'pillowss', index: 1}];
 
   years = [2018, 2019];
 

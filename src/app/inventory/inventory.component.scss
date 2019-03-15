@@ -21,13 +21,6 @@
   z-index: 1050;
 }
 
-
-@media (max-width: 37.5em)  {
-  .lost-title {
-    margin-top:20%;
-  }
-}
-
 .inventory-title-text {
   align-self: center;
   font-family:fantasy;
@@ -75,4 +68,21 @@
 
 .cost-text, .count-text {
   border-bottom: .1px solid #57becc;
+}
+
+@media (max-width: 37.5em)  {
+  .lost-title {
+    margin-top:20%;
+  }
+
+  .total-info {
+    color: #e98413;
+    margin: 1em auto;
+    width: 100%;
+  }
+
+  .total-info .row {
+    width: 100%;
+    text-align: center;
+  }
 }

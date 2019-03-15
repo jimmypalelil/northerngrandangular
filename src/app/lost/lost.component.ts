@@ -28,8 +28,6 @@ export class LostComponent implements OnInit, AfterViewInit {
   currentLostItem: LostItem;
   currentReturnItem: ReturnedItem;
   panelOpened: boolean;
-  actionHeader: string;
-  showUpdateBar = false;
   imageUrl = environment.imageUrl;
   showSpinner = false;
 
