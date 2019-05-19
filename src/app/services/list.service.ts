@@ -54,8 +54,8 @@ export class ListService {
     return this.http.post(this.lostUrl + 'undoReturn', returnItem).toPromise();
   }
 
-  updateLostItem(item): Promise<any> {
-    return this.http.post(this.lostUrl + 'updateItem', item).toPromise();
+  updateLostItem(item, userEmail) {
+    this.socket.emit('updateLostItem', [item, userEmail]);
   }
 
   updateReturnedItem(item: any): Promise<any> {

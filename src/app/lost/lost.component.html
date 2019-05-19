@@ -52,7 +52,9 @@
             {{value | uppercase}}
           </mat-header-cell>
           <mat-cell *matCellDef="let element" class="animated fadeInUp">
-            {{value === 'date'|| value === 'return_date' || value === 'date_found' ? (element[value] | date) : (element[value] | uppercase)}}
+            {{value === 'date'|| value === 'return_date' || value === 'date_found'
+            ? (element[value] | date) : value === 'item_description' ? (element[value] | uppercase)
+            : element[value]}}
 
             <div *ngIf="value === 'action' && tabGroup.selectedIndex === 0">
               <button mdbBtn gradient="warm-flame" class="edit-button z-depth-3" matTooltip="Delete Item"

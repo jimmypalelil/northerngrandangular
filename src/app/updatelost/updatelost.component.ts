@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ListService} from '../services/list.service';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatSnackBar} from '@angular/material';
 
@@ -7,13 +7,17 @@ import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatSnackBar} from '@angular/ma
   templateUrl: './updatelost.component.html',
   styleUrls: ['./updatelost.component.scss']
 })
+
 export class UpdatelostComponent implements OnInit {
   item: any;
+  userEmail: string;
+
   constructor(private listService: ListService,
               public bottomSheetRef: MatBottomSheetRef<UpdatelostComponent>,
               @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
               private snackbar: MatSnackBar) {
     this.item = data.item;
+    this.userEmail = data.userEmail;
   }
 
   ngOnInit() {
@@ -25,8 +29,6 @@ export class UpdatelostComponent implements OnInit {
   }
 
   updateItem() {
-    this.listService.updateLostItem(this.item).then(msg => {
-      this.snackbar.open(msg['text'], '', {duration: 2000});
-    });
+    this.listService.updateLostItem(this.item, this.userEmail);
   }
 }

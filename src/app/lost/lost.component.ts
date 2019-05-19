@@ -20,6 +20,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {jsonpFactory} from '@angular/http/src/http_module';
 import {Socket} from 'ngx-socket-io';
+import {deleteElementFromJsonArray} from '../lib/Utils';
 
 @Component({
   selector: 'app-lost',
@@ -36,6 +37,7 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
   imageUrl = environment.imageUrl;
   showSpinner = false;
   updatedList: Observable<any>;
+  userEmail = this.ensureAuth.getUserEmail();
 
   constructor(private list: ListService, private snackBar: MatSnackBar, private updateSheet: MatBottomSheet,
               private ensureAuth: EnsureAuthenticatedService, private socket: Socket) {
@@ -67,14 +69,8 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   deleteItemFromList(data) {
-    let indexToDel;
-    this.dataSource.data.forEach((row, index) => {
-      if (row['_id'] === data[0]) {
-        indexToDel = index;
-      }
-    });
-    if (indexToDel) {
-      this.dataSource.data.splice(indexToDel, 1);
+    const id = data[0];
+    if (deleteElementFromJsonArray(id, this.dataSource.data)) {
       this.snackBarMsg('An Item was deleted by ' + data[1]);
       this.dataSource._updateChangeSubscription();
     }
@@ -88,15 +84,21 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateList(data) {
+    const itemData = data[0];
     this.dataSource.data.forEach(row => {
-      if (row['_id'] === data['_id']) {
+      if (row['_id'] === itemData['_id']) {
         for (const key in row) {
           if (row.hasOwnProperty(key)) {
-            row[key] = data[key];
+            row[key] = itemData[key];
           }
         }
       }
     });
+    if (data[1] === this.userEmail) {
+      this.snackBarMsg('Item was updated successfully!!!');
+    } else {
+      this.snackBarMsg('An Item was updated by ' + data[1]);
+    }
   }
 
   ngAfterViewInit() {
@@ -129,15 +131,10 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getReturnedItemList() {
-    this.displayedColumns = [];
+    this.displayedColumns = ['room_number', 'guest_name', 'item_description', 'returned by', 'returned_date',
+                                    'date_found', 'comments', 'action'];
     this.list.getReturnedItemList().then(data => {
       if (data.length > 0) {
-        for (const key in data[0]) {
-          if (key !== '_id' && key !== 'cat') {
-            this.displayedColumns.push(key);
-          }
-        }
-        this.displayedColumns.push('action');
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
       }
@@ -172,14 +169,17 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openUpdateSheet(item): void {
     this.updateSheet.open(UpdatelostComponent, {
-      data: {item: item},
+      data: {
+        item: item,
+        userEmail: this.userEmail,
+      },
     });
   }
 
   deleteLostItem() {
     if (this.isHK()) {
       if (this.tabGroup.selectedIndex === 0) {
-        this.list.deleteLostItem(this.currentLostItem, this.ensureAuth.getUserEmail());
+        this.list.deleteLostItem(this.currentLostItem, this.userEmail);
       } else {
         this.list.deleteReturnedItem(this.currentReturnItem).then(msg => {
           this.dataSource.data.splice(this.dataSource.data.indexOf(this.currentReturnItem), 1);
@@ -199,7 +199,7 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
         this.snackBarMsg('Looks like you forgot to add Some Details');
       } else {
         this.panelOpened = false;
-        this.list.addNewLostItem(this.currentLostItem, this.ensureAuth.getUserEmail()).then(msg => {
+        this.list.addNewLostItem(this.currentLostItem, this.userEmail).then(msg => {
           this.tabGroup.selectedIndexChange.emit(0);
           this.snackBarMsg('Item Added Successfully');
         });
