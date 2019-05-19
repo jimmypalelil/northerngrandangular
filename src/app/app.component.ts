@@ -29,17 +29,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   loggedIn: boolean;
   email: string;
   loginMessage = '';
-  showLoginmodal: boolean;
   commentFormControl = new FormControl('', [Validators.required]);
   commentEmail: string;
-  pages = [['Home', 'home'], ['Housekeeping', 'hk'], ['Lost & Found', 'lost'], ['Inspection', 'inspection']];
-  imageUrl = environment.imageUrl;
   showSpinner = false;
   menuBtn: HTMLElement;
   homePage: HTMLElement;
-  scrollEventSubscription: Subscription;
-
-  changePage(page) {this.currentPage = page;}
+  changePage(page) {this.currentPage = page; }
 
   ngOnInit() {
     let url;
@@ -48,12 +43,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     } else {
       url = '/assets/js/';
     }
+    const bodyEl = document.getElementsByTagName('body')[0];
     setTimeout(() => {
       const dynamicScripts = url + 'classie.js';
       const node = document.createElement('script');
       node['src'] = dynamicScripts;
       node['type'] = 'text/javascript';
-      document.getElementsByTagName('body')[0].appendChild(node);
+      bodyEl.appendChild(node);
     }, 1000);
 
     setTimeout(() => {
@@ -61,7 +57,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         const node = document.createElement('script');
         node['src'] = dynamicScripts;
         node['type'] = 'text/javascript';
-        document.getElementsByTagName('body')[0].appendChild(node);
+        bodyEl.appendChild(node);
     }, 2000);
 
     this.ensureAuth.canActivate();
@@ -194,5 +190,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   toggleSpinner() {
     this.showSpinner = !this.showSpinner;
     document.getElementById('inspection-overlay').classList.toggle('inspection-overlay');
+  }
+
+  changeToHomePage() {
+    this.currentPage = 'home';
   }
 }

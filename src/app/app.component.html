@@ -26,35 +26,43 @@
   </div>
 </nav>
 <div class="pages-stack">
-  <!-- page -->
+
   <div class="page" id="page-home" (click)="currentPage = 'home'">
     <app-home class="page-overflow"></app-home>
   </div>
-  <!-- /page -->
+
   <div class="page" id="page-hk" (click)="currentPage = 'hk'">
-    <app-hk (spinnerEvent)="toggleSpinner()" *ngIf="currentPage === 'hk'; else showHkTitle" class="page-overflow"></app-hk>
+    <app-hk (spinnerEvent)="toggleSpinner()" *ngIf="currentPage === 'hk'; else showHkTitle"
+            class="page-overflow"></app-hk>
     <ng-template #showHkTitle>
       <h1 class="text-center"><i class="fas fa-building"></i> Housekeeping</h1>
     </ng-template>
   </div>
+
   <div class="page" id="page-lost" (click)="currentPage = 'lost'">
-    <app-lost (spinnerEvent)="toggleSpinner()" *ngIf="currentPage === 'lost'; else showLostTitle" class="page-overflow"></app-lost>
+    <app-lost (spinnerEvent)="toggleSpinner()"
+              *ngIf="currentPage === 'lost'; else showLostTitle" class="page-overflow"></app-lost>
     <ng-template #showLostTitle>
       <h1 class="text-center"><i class="fas fa-search-dollar"></i> Lost & Found</h1>
     </ng-template>
   </div>
+
   <div class="page" id="page-inspection" (click)="currentPage = 'inspection'">
-    <app-inspection (spinnerEvent)="toggleSpinner()" *ngIf="currentPage === 'inspection'; else showInsTitle" class="page-overflow"></app-inspection>
+    <app-inspection (spinnerEvent)="toggleSpinner()" *ngIf="currentPage === 'inspection'; else showInsTitle"
+                    class="page-overflow"></app-inspection>
     <ng-template #showInsTitle>
       <h1 class="text-center"><i class="fas fa-clipboard-list"></i> Inspections</h1>
     </ng-template>
   </div>
+
   <div class="page" id="page-inventory" (click)="currentPage = 'inventory'">
-    <app-inventory (spinnerEvent)="toggleSpinner()" *ngIf="currentPage === 'inventory'; else showInvTitle" class="page-overflow"></app-inventory>
+    <app-inventory (spinnerEvent)="toggleSpinner()" *ngIf="currentPage === 'inventory'; else showInvTitle"
+                   class="page-overflow"></app-inventory>
     <ng-template #showInvTitle>
       <h1 class="text-center"><i class="fas fa-warehouse"></i> Inventory</h1>
     </ng-template>
   </div>
+
 </div>
 <!-- /pages-stack -->
 <button class="menu-button"><span>Menu</span></button>

@@ -60,6 +60,9 @@ import {InspectionService} from './services/inspection.service';
 import { UpdatelostComponent } from './updatelost/updatelost.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { UpdatereturnedComponent } from './updatereturned/updatereturned.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import {environment} from '../environments/environment';
+const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
 
 @NgModule({
   declarations: [
@@ -121,6 +124,7 @@ import { UpdatereturnedComponent } from './updatereturned/updatereturned.compone
     MatTooltipModule,
     MatNativeDateModule,
     MDBBootstrapModule.forRoot(),
+    SocketIoModule.forRoot(config),
     RouterModule.forRoot([
       { path: 'hk', component: HkComponent, canActivate: [EnsureAuthenticatedService]},
       { path: '', component: HomeComponent},

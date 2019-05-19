@@ -23,4 +23,15 @@ export class EnsureAuthenticatedService implements CanActivate {
     }
   }
 
+  isUser() {
+    return localStorage.getItem('token') !== null;
+  }
+
+  getUserEmail() {
+    if (this.isUser()) {
+      return localStorage.getItem('token');
+    } else {
+      return 'NO USER FOUND';
+    }
+  }
 }

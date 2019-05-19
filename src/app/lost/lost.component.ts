@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheet,
@@ -15,14 +15,19 @@ import {ReturnedItem} from '../models/returneditem';
 import {environment} from '../../environments/environment';
 import {UpdatelostComponent} from '../updatelost/updatelost.component';
 import {UpdatereturnedComponent} from '../updatereturned/updatereturned.component';
+import {EnsureAuthenticatedService} from '../services/ensure-authenticated.service';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {jsonpFactory} from '@angular/http/src/http_module';
+import {Socket} from 'ngx-socket-io';
 
 @Component({
   selector: 'app-lost',
   templateUrl: './lost.component.html',
   styleUrls: ['./lost.component.scss']
 })
-export class LostComponent implements OnInit, AfterViewInit {
-  dataSource: MatTableDataSource<any>;
+export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
+  dataSource = new MatTableDataSource();
   tabList = ['Lost & Found Items', 'Returned Items'];
   displayedColumns = [];
   currentLostItem: LostItem;
@@ -30,10 +35,13 @@ export class LostComponent implements OnInit, AfterViewInit {
   panelOpened: boolean;
   imageUrl = environment.imageUrl;
   showSpinner = false;
+  updatedList: Observable<any>;
 
-  constructor(private list: ListService, private snackBar: MatSnackBar, private updateSheet: MatBottomSheet) {
+  constructor(private list: ListService, private snackBar: MatSnackBar, private updateSheet: MatBottomSheet,
+              private ensureAuth: EnsureAuthenticatedService, private socket: Socket) {
     this.currentLostItem = new LostItem();
     this.currentReturnItem = new ReturnedItem();
+
   }
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
@@ -41,7 +49,55 @@ export class LostComponent implements OnInit, AfterViewInit {
 
   @Output() spinnerEvent = new EventEmitter<boolean>();
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.socket.connect();
+    this.socket.on('updatedList', data => {
+      this.updateList(data);
+    });
+    this.socket.on('newItemAdded', data => {
+      this.addItemToList(data);
+    });
+    this.socket.on('deletedLostItem', data => {
+      this.deleteItemFromList(data);
+    });
+  }
+
+  ngOnDestroy() {
+    this.socket.disconnect();
+  }
+
+  deleteItemFromList(data) {
+    let indexToDel;
+    this.dataSource.data.forEach((row, index) => {
+      if (row['_id'] === data[0]) {
+        indexToDel = index;
+      }
+    });
+    if (indexToDel) {
+      this.dataSource.data.splice(indexToDel, 1);
+      this.snackBarMsg('An Item was deleted by ' + data[1]);
+      this.dataSource._updateChangeSubscription();
+    }
+  }
+
+  addItemToList(data) {
+    const itemData = JSON.parse(data[0]);
+    this.dataSource.data.push(itemData);
+    this.dataSource._updateChangeSubscription();
+    this.snackBar.open('New Item was added by ' + data[1], '', {duration: 5000});
+  }
+
+  updateList(data) {
+    this.dataSource.data.forEach(row => {
+      if (row['_id'] === data['_id']) {
+        for (const key in row) {
+          if (row.hasOwnProperty(key)) {
+            row[key] = data[key];
+          }
+        }
+      }
+    });
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -56,15 +112,10 @@ export class LostComponent implements OnInit, AfterViewInit {
 
   getItemList() {
     this.toggleSpinner();
-    this.displayedColumns = [];
+    this.displayedColumns = ['room_number', 'item_description', 'date', 'action'];
+
     this.list.getLostList().then(data => {
       if (data.length > 0) {
-        for (const key in data[0]) {
-          if (key !== '_id' && key !== 'cat') {
-            this.displayedColumns.push(key);
-          }
-        }
-        this.displayedColumns.push('action');
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
       }
@@ -128,50 +179,33 @@ export class LostComponent implements OnInit, AfterViewInit {
   deleteLostItem() {
     if (this.isHK()) {
       if (this.tabGroup.selectedIndex === 0) {
-        this.list.deleteLostItem(this.currentLostItem).then(msg => {
-          this.dataSource.data.splice(this.dataSource.data.indexOf(this.currentLostItem), 1);
-          this.dataSource._updateChangeSubscription();
-          this.snackBar.open(msg['text'], '', {
-            duration: 2000,
-          });
-        });
+        this.list.deleteLostItem(this.currentLostItem, this.ensureAuth.getUserEmail());
       } else {
         this.list.deleteReturnedItem(this.currentReturnItem).then(msg => {
           this.dataSource.data.splice(this.dataSource.data.indexOf(this.currentReturnItem), 1);
           this.dataSource._updateChangeSubscription();
-          this.snackBar.open(msg['text'], '', {
-            duration: 2000,
-          });
+          this.snackBarMsg(msg['text']);
         });
       }
     } else {
-      this.snackBar.open('Only Housekeeping Dept can Delete Items', '', {
-        duration: 2000,
-      });
+      this.snackBarMsg('Only Housekeeping Dept can Delete Items');
     }
   }
 
   addItem() {
-    if (this.isHK()) {
+    if (this.ensureAuth.isUser()) {
       if (isNaN(this.currentLostItem.room_number) ||
-          this.currentLostItem.item_description === '' || this.currentLostItem.date === undefined) {
-        this.snackBar.open('Looks like you forgot to add Some Details', '', {
-          duration: 3000,
-        });
+        this.currentLostItem.item_description === '' || this.currentLostItem.date === undefined) {
+        this.snackBarMsg('Looks like you forgot to add Some Details');
       } else {
-          this.panelOpened = false;
-          this.list.addNewLostItem(this.currentLostItem).then(msg => {
-            this.tabGroup.selectedIndexChange.emit(0);
-            this.getItemList();
-            this.snackBar.open('Item Added Successfully', '', {
-              duration: 2000
-            });
+        this.panelOpened = false;
+        this.list.addNewLostItem(this.currentLostItem, this.ensureAuth.getUserEmail()).then(msg => {
+          this.tabGroup.selectedIndexChange.emit(0);
+          this.snackBarMsg('Item Added Successfully');
         });
       }
     } else {
-      this.snackBar.open('Only Housekeeping Dept can Add New Items', '', {
-        duration: 2000
-      });
+      this.snackBarMsg('Only Housekeeping Dept can Add New Items');
     }
   }
 
@@ -181,9 +215,7 @@ export class LostComponent implements OnInit, AfterViewInit {
 
   sendEmail() {
     this.list.sendItemEmail(this.currentLostItem).then(msg => {
-      this.snackBar.open(msg['text'], '', {
-        duration: 2000
-      });
+      this.snackBarMsg(msg['text']);
     });
   }
 
@@ -196,15 +228,14 @@ export class LostComponent implements OnInit, AfterViewInit {
       this.tabGroup.selectedIndex = 1; // switch to retrun items view
       this.snackBar.open(msg['text'], '', {duration: 2000});
     }).catch(err => {
-      this.snackBar.open('Oops! Looks like its missing some information', '',
-        {duration: 2000});
+      this.snackBarMsg('Oops! Looks like its missing some information');
     });
   }
 
   undoReturn() {
     this.list.undoReturn(this.currentReturnItem).then(msg => {
       this.tabGroup.selectedIndex = 0;
-      this.snackBar.open(msg['text'], '', {duration: 2000});
+      this.snackBarMsg(msg['text']);
     });
   }
 
@@ -212,6 +243,10 @@ export class LostComponent implements OnInit, AfterViewInit {
     this.updateSheet.open(UpdatereturnedComponent, {
       data: {item: item},
     });
+  }
+
+  snackBarMsg(msg) {
+    this.snackBar.open(msg, '', {duration: 2000});
   }
 }
 

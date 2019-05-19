@@ -1,19 +1,24 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Room} from '../models/room';
 import {LostItem} from '../models/lostitem';
 import {ReturnedItem} from '../models/returneditem';
 import {environment} from '../../environments/environment';
+import { Socket } from 'ngx-socket-io';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ListService {
   private lostUrl = environment.lostUrl;
   private Url = environment.Url;
+  updatedList =  this.socket.fromEvent('updatedList');
 
-  constructor(private http: HttpClient) { }
 
-  getRoomList(type, month, year):Promise<Room[]> {
+  constructor(private http: HttpClient, private socket: Socket) { }
+
+  getRoomList(type, month, year): Promise<Room[]> {
     return this.http.get<Room[]>(this.Url + type + '/' + year + '/' + month).toPromise();
   }
 
@@ -29,12 +34,12 @@ export class ListService {
     return this.http.post(this.Url + 'roomStatusChange', [rooms, status]).toPromise();
   }
 
-  deleteLostItem(currentItem: LostItem): Promise<any> {
-    return this.http.get(this.lostUrl + 'deleteLostItem/' + currentItem._id).toPromise();
+  deleteLostItem(currentItem: LostItem, userEmail): Promise<any> {
+    return this.http.post(this.lostUrl + 'deleteLostItem', [currentItem._id, userEmail]).toPromise();
   }
 
-  addNewLostItem(lostItem: LostItem): Promise<any> {
-    return this.http.post(this.lostUrl + 'new', lostItem).toPromise();
+  addNewLostItem(lostItem: LostItem, userEmail: string): Promise<any> {
+    return this.http.post(this.lostUrl + 'new', [lostItem, userEmail]).toPromise();
   }
 
   sendItemEmail(lostItem: LostItem): Promise<any> {
