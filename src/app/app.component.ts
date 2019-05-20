@@ -8,6 +8,7 @@ import {ModalDirective} from 'angular-bootstrap-md';
 import {MatSnackBar} from '@angular/material';
 import {environment} from '../environments/environment';
 import {Observable, Subscription} from 'rxjs';
+import {isHK} from './lib/Utils';
 
 @Component({
   selector: 'app-root',
@@ -201,5 +202,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   toggleChat() {
     this.showChatWindow = !this.showChatWindow;
     this.showChatBtn = !this.showChatBtn;
+  }
+
+  isHk() {
+    return isHK();
   }
 }
