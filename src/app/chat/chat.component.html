@@ -1,0 +1,36 @@
+<div class="container">
+  <p class="chat-title">
+    Hello, {{email}}
+    <a class="chat-close" (click)="closeChat.emit(true)"><i class="fas fa-times"></i></a>
+  </p>
+
+  <mat-divider></mat-divider>
+
+  <div class="chat-msgs">
+    <div *ngIf="msgs.length !== 0; else showMsg">
+      <div *ngFor="let msg of msgs">
+        <span class="chat-email" [ngClass]="{'chat-my-email': msg['from_email'] === email}">
+          {{msg['from_email'] === email ? 'You' : msg['from_email']}}</span>
+        <span class="chat-date">{{msg['date'] | date}}</span>
+        <p class="chat-msg">{{msg['msg']}}</p>
+      </div>
+    </div>
+    <ng-template #showMsg>
+      <mat-placeholder>
+        Your messages will appear here
+      </mat-placeholder>
+    </ng-template>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <form class="chat-form">
+    <mat-form-field class="chat-txt">
+      <textarea matInput placeholder="Type your message here" name="chat-msg" (keyup)="handleKeyPress($event)"  [(ngModel)]="msg"></textarea>
+    </mat-form-field>
+
+    <button class="chat-send-btn" type="button" (click)="handleSendMsg()" color="secondary" mdbBtn mdbWavesEffect>
+      <i class="fas fa-paper-plane"></i>
+    </button>
+  </form>
+</div>

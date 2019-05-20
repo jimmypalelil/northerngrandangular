@@ -62,9 +62,21 @@
       <h1 class="text-center"><i class="fas fa-warehouse"></i> Inventory</h1>
     </ng-template>
   </div>
-
 </div>
-<!-- /pages-stack -->
+
+<!-- /pages-stack ends -->
+
+<!--Chat Button-->
+<button *ngIf="showChatBtn" (click)="toggleChat()" mdbBtn mdbWavesEffect gradient="blue" class="chat-btn">
+  <i class="fas fa-comment-alt chat-icon"></i>
+</button>
+
+<!--Chat Window-->
+<div *ngIf="showChatWindow">
+  <app-chat (closeChat)="toggleChat()" [email]="email" class="chat-window animated fadeInUp"></app-chat>
+</div>
+
+<!--Menu Button-->
 <button class="menu-button"><span>Menu</span></button>
 
 

@@ -5,5 +5,6 @@ export const environment = {
   lostUrl: '/lostAndFound/',
   insUrl: '/inspection/',
   invUrl: '/inventory/',
-  imageUrl: '/static/assets/images/'
+  imageUrl: '/static/assets/images/',
+  chatUrl: '/chat/'
 };

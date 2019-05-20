@@ -7,13 +7,11 @@ import {ReturnedItem} from '../models/returneditem';
 import {environment} from '../../environments/environment';
 import { Socket } from 'ngx-socket-io';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
+
 export class ListService {
   private lostUrl = environment.lostUrl;
   private Url = environment.Url;
-  updatedList =  this.socket.fromEvent('updatedList');
 
 
   constructor(private http: HttpClient, private socket: Socket) { }
@@ -46,8 +44,8 @@ export class ListService {
     return this.http.post(this.lostUrl + 'email', lostItem).toPromise();
   }
 
-  returnItem(returnItem: ReturnedItem | (() => void)): Promise<any> {
-    return this.http.post(this.lostUrl + 'returnItem', returnItem).toPromise();
+  returnItem(returnItem: ReturnedItem, userEmail): Promise<any> {
+    return this.http.post(this.lostUrl + 'returnItem', [returnItem, userEmail]).toPromise();
   }
 
   undoReturn(returnItem: ReturnedItem): Promise<any> {

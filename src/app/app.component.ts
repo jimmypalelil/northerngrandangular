@@ -34,6 +34,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   showSpinner = false;
   menuBtn: HTMLElement;
   homePage: HTMLElement;
+  showChatBtn = true;
+  showChatWindow = false;
   changePage(page) {this.currentPage = page; }
 
   ngOnInit() {
@@ -194,5 +196,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   changeToHomePage() {
     this.currentPage = 'home';
+  }
+
+  toggleChat() {
+    this.showChatWindow = !this.showChatWindow;
+    this.showChatBtn = !this.showChatBtn;
   }
 }

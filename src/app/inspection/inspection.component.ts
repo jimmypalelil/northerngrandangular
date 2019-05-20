@@ -5,6 +5,8 @@ import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {environment} from '../../environments/environment';
 import {Employee} from '../models/employee';
 import {InspectionScore} from '../models/inspectionScore';
+import {Socket} from 'ngx-socket-io';
+import {isHK} from '../lib/Utils';
 
 @Component({
   selector: 'app-inspection',
@@ -12,6 +14,12 @@ import {InspectionScore} from '../models/inspectionScore';
   styleUrls: ['./inspection.component.scss']
 })
 export class InspectionComponent implements OnInit, AfterViewInit {
+
+  constructor(private insService: InspectionService, public snackBar: MatSnackBar, private socket: Socket) {
+    this.panelOpened = false;
+    this.currentInspection = new Inspection();
+    this.currentEmployee = new Employee();
+  }
   employees: any[];
   currentEmployee: any;
   selectedEmployees: any;
@@ -38,12 +46,6 @@ export class InspectionComponent implements OnInit, AfterViewInit {
   showSpinner = false;
   tableExpanded = true;
 
-  constructor(private insService: InspectionService, public snackBar: MatSnackBar) {
-    this.panelOpened = false;
-    this.currentInspection = new Inspection();
-    this.currentEmployee = new Employee();
-  }
-
   @ViewChild(MatSort) sort: MatSort;
 
   @Output() spinnerEvent = new EventEmitter<boolean>();
@@ -54,11 +56,6 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.getEmployees();
     }, 1000);
-  }
-
-  isHK(): boolean {
-    const email = localStorage.getItem('token');
-    return email === 'housekeeping@northerngrand.ca' || email === 'tester@test.com' || email === 'jimmypalelil@gmail.com';
   }
 
   getEmployees() {
@@ -111,42 +108,39 @@ export class InspectionComponent implements OnInit, AfterViewInit {
 
   startNewInspection() {
     this.panelOpened = false;
-    if (this.isHK()) {
+    if (isHK()) {
       this.toggleSpinner();
-      try {
-        if (isNaN(this.currentInspection.room_number) || this.currentInspection.room_number === null) {
-          throw Error();
-        }
-        this.currentInspection.day = this.newInspectionDate.getDate();
-        this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
-        this.currentInspection.year = this.newInspectionDate.getFullYear();
-        const ids = [];
-        this.selectedEmployees.forEach(function (employee) {
-          ids.push(employee['_id']);
-        });
-        this.insService.startNewInspection(this.currentInspection, ids).then(data => {
-          this.insItems = data;
-          this.inspectionScores = {};
-          for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[i]['items'].length; j++) {
-              this.inspectionScores[data[i]['items'][j]['_id']] = new InspectionScore(-1);
-            }
-          }
-          this.totalItems = this.totalScore = 0;
-          this.showInspection = this.showInspectionsForMonth = false;
-          this.showInspectionForm = true;
-          this.toggleSpinner();
-        }).catch(() => {
-          this.snackBar.open('Connection Error...Try AGAIN!!!', '', {
-            duration: 2000,
-          });
-        });
-      } catch (e) {
+      if (isNaN(this.currentInspection.room_number) || this.currentInspection.room_number === null) {
         this.snackBar.open('Oops!!! Looks like you forgot to add some details. Try Again!!!', '', {
           duration: 2000,
         });
         this.toggleSpinner();
+        return;
       }
+      this.currentInspection.day = this.newInspectionDate.getDate();
+      this.currentInspection.month = this.months[this.newInspectionDate.getMonth()];
+      this.currentInspection.year = this.newInspectionDate.getFullYear();
+      const ids = [];
+      this.selectedEmployees.forEach(function (employee) {
+        ids.push(employee['_id']);
+      });
+      this.insService.startNewInspection(this.currentInspection, ids).then(data => {
+        this.insItems = data;
+        this.inspectionScores = {};
+        for (let i = 0; i < data.length; i++) {
+          for (let j = 0; j < data[i]['items'].length; j++) {
+            this.inspectionScores[data[i]['items'][j]['_id']] = new InspectionScore(-1);
+          }
+        }
+        this.totalItems = this.totalScore = 0;
+        this.showInspection = this.showInspectionsForMonth = false;
+        this.showInspectionForm = true;
+        this.toggleSpinner();
+      }).catch(() => {
+        this.snackBar.open('Connection Error...Try AGAIN!!!', '', {
+          duration: 2000,
+        });
+      });
     } else {
       this.snackBar.open('Only Housekeeping Department can Inspect Rooms', '', {
         duration: 2000,
@@ -304,16 +298,28 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     this.totalItems = 0;
     this.totalScore = 0;
     for (const key in this.inspectionScores) {
-      const score = this.inspectionScores[key].score;
-      if (score !== -1) {
-        this.totalScore += Number(score);
-        this.totalItems++;
+      if (this.inspectionScores.hasOwnProperty(key)) {
+        const score = this.inspectionScores[key].score;
+        if (score !== -1) {
+          this.totalScore += Number(score);
+          this.totalItems++;
+        }
       }
     }
   }
 
   insertComment(itemID, event) {
     this.inspectionScores[itemID].comment = event.target.value;
+  }
+
+  toggleNewInspectionPanel() {
+    this.panelOpened = !this.panelOpened;
+  }
+
+  createScoreArray(number: number) {
+    if (number > 0) {
+      return Array(number);
+    }
   }
 
   floor(n: number) {
@@ -332,15 +338,5 @@ export class InspectionComponent implements OnInit, AfterViewInit {
     menu.classList.toggle('menu-show');
     menuBtn.classList.toggle('bottom-menu-button-clicked');
     menuBar.classList.toggle('bottom-menu-clicked');
-  }
-
-  toggleNewInspectionPanel() {
-    this.panelOpened = !this.panelOpened;
-  }
-
-  createScoreArray(number: number) {
-    if (number > 0) {
-      return Array(number);
-    }
   }
 }

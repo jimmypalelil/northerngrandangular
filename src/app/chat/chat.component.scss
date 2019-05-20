@@ -1,0 +1,49 @@
+.chat-msgs {
+  width: 100%;
+  height: 20rem;
+  overflow-y: auto;
+}
+
+.chat-txt {
+  width: 70%;
+}
+
+.chat-form {
+  position: relative;
+  width: 100%;
+  bottom: 0;
+}
+.chat-msg {
+  overflow-wrap: break-word;
+}
+
+.chat-email {
+  color: black;
+  font-style: italic;
+}
+
+.chat-my-email {
+  color: #5c5edc;
+  font-weight: bold;
+}
+
+.chat-date {
+  position: relative;
+  left: 1rem;
+  font-size: .8rem;
+  color: whitesmoke;
+  font-style: oblique;
+}
+
+.chat-send-btn {
+  position: relative;
+  left: 20px;
+  border-radius: 50%;
+}
+
+.chat-close {
+  position: relative;
+  left: 2rem;
+  font-size: 20px;
+
+}

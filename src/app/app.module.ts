@@ -62,6 +62,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { UpdatereturnedComponent } from './updatereturned/updatereturned.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {environment} from '../environments/environment';
+import { ChatComponent } from './chat/chat.component';
 const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
 
 @NgModule({
@@ -74,7 +75,8 @@ const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
     InspectionComponent,
     UpdatelostComponent,
     InventoryComponent,
-    UpdatereturnedComponent
+    UpdatereturnedComponent,
+    ChatComponent
   ],
   imports: [
     ParallaxModule,

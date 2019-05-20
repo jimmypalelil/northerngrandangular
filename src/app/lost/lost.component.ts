@@ -1,8 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {
-  MAT_BOTTOM_SHEET_DATA,
   MatBottomSheet,
-  MatBottomSheetRef,
   MatSnackBar,
   MatSort,
   MatTabChangeEvent,
@@ -16,9 +14,7 @@ import {environment} from '../../environments/environment';
 import {UpdatelostComponent} from '../updatelost/updatelost.component';
 import {UpdatereturnedComponent} from '../updatereturned/updatereturned.component';
 import {EnsureAuthenticatedService} from '../services/ensure-authenticated.service';
-import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {jsonpFactory} from '@angular/http/src/http_module';
 import {Socket} from 'ngx-socket-io';
 import {deleteElementFromJsonArray} from '../lib/Utils';
 
@@ -62,16 +58,35 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socket.on('deletedLostItem', data => {
       this.deleteItemFromList(data);
     });
+    this.socket.on('returnedItem', data => {
+      this.placeItemInRetunredList(data);
+    });
   }
 
   ngOnDestroy() {
     this.socket.disconnect();
   }
 
+  placeItemInRetunredList(data) {
+    const id = data[0];
+    if (deleteElementFromJsonArray(id, this.dataSource.data)) {
+      if (data[1] === this.userEmail) {
+        this.snackBarMsg('Item was Was Placed in Returned items successfully!!!');
+      } else {
+        this.snackBarMsg('An Item was Placed in Returned items by ' + data[1], 5000);
+      }
+      this.dataSource._updateChangeSubscription();
+    }
+  }
+
   deleteItemFromList(data) {
     const id = data[0];
     if (deleteElementFromJsonArray(id, this.dataSource.data)) {
-      this.snackBarMsg('An Item was deleted by ' + data[1]);
+      if (data[1] === this.userEmail) {
+        this.snackBarMsg('Item was deleted successfully!!!');
+      } else {
+        this.snackBarMsg('An Item was deleted by ' + data[1], 5000);
+      }
       this.dataSource._updateChangeSubscription();
     }
   }
@@ -97,7 +112,7 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
     if (data[1] === this.userEmail) {
       this.snackBarMsg('Item was updated successfully!!!');
     } else {
-      this.snackBarMsg('An Item was updated by ' + data[1]);
+      this.snackBarMsg('An Item was updated by ' + data[1], 5000);
     }
   }
 
@@ -184,7 +199,7 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
         this.list.deleteReturnedItem(this.currentReturnItem).then(msg => {
           this.dataSource.data.splice(this.dataSource.data.indexOf(this.currentReturnItem), 1);
           this.dataSource._updateChangeSubscription();
-          this.snackBarMsg(msg['text']);
+          this.snackBarMsg(msg['text'], 5000);
         });
       }
     } else {
@@ -215,7 +230,7 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sendEmail() {
     this.list.sendItemEmail(this.currentLostItem).then(msg => {
-      this.snackBarMsg(msg['text']);
+      this.snackBarMsg(msg['text'], 5000);
     });
   }
 
@@ -224,7 +239,7 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.currentReturnItem.comments === undefined) {
       this.currentReturnItem.comments = '';
     }
-    this.list.returnItem(this.currentReturnItem).then(msg => {
+    this.list.returnItem(this.currentReturnItem, this.userEmail).then(msg => {
       this.tabGroup.selectedIndex = 1; // switch to retrun items view
       this.snackBar.open(msg['text'], '', {duration: 2000});
     }).catch(err => {
@@ -235,7 +250,7 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
   undoReturn() {
     this.list.undoReturn(this.currentReturnItem).then(msg => {
       this.tabGroup.selectedIndex = 0;
-      this.snackBarMsg(msg['text']);
+      this.snackBarMsg(msg['text'], 5000);
     });
   }
 
@@ -245,8 +260,8 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  snackBarMsg(msg) {
-    this.snackBar.open(msg, '', {duration: 2000});
+  snackBarMsg(msg, duration?: number) {
+    this.snackBar.open(msg, '', {duration: duration ? duration : 2000});
   }
 }
 
