@@ -56,17 +56,18 @@
 }
 
 .chat-close {
-  position: relative;
-  left: 2rem;
+  position: absolute;
+  right: 2em;
+  top: 0;
 }
 
 .chat-header {
   background-color: #c6720b;
   width: 100%;
   padding: 0 1em;
-  margin-top: 0;
-  border-radius: 0 0 50px 50px;
   font-size: 18px;
+  display: -ms-flexbox;
+  text-align: center;
 }
 
 .chat-title {
@@ -84,12 +85,14 @@
   }
 
   .chat-msgs {
-    height: 300px;
+    height: 70vh;
   }
 
   .chat-close[_ngcontent-c6] {
-    position: relative;
-    left: 1em;
-    bottom: 1em;
+    right: .4em;
+  }
+
+  .chat-txt {
+    width: 50vw;
   }
 }

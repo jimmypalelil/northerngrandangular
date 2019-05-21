@@ -1,13 +1,13 @@
+
+<div class="chat-header">
+  <p class="chat-title">
+    Hello, {{email}}
+  </p>
+  <a class="chat-close" (click)="closeChat.emit(true)"><i class="fas fa-times"></i></a>
+</div>
+
+<mat-divider></mat-divider>
 <div class="container">
-  <div class="chat-header">
-    <p class="chat-title">
-      Hello, {{email}}
-      <a class="chat-close" (click)="closeChat.emit(true)"><i class="fas fa-times"></i></a>
-    </p>
-  </div>
-
-  <mat-divider></mat-divider>
-
   <div *ngIf="isLoggedIn(); else showLoginButton">
     <div class="chat-msgs">
       <div *ngIf="msgs.length !== 0; else showMsg">
