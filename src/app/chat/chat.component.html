@@ -8,33 +8,40 @@
 
   <mat-divider></mat-divider>
 
-  <div class="chat-msgs">
-    <div *ngIf="msgs.length !== 0; else showMsg">
-      <div *ngFor="let msg of msgs">
-        <div [ngClass]="{'chat-my-msg': msg['from_email'] === email}">
+  <div *ngIf="isLoggedIn(); else showLoginButton">
+    <div class="chat-msgs">
+      <div *ngIf="msgs.length !== 0; else showMsg">
+        <div *ngFor="let msg of msgs">
+          <div [ngClass]="{'chat-my-msg': msg['from_email'] === email}">
           <span class="chat-email" [ngClass]="{'chat-my-email': msg['from_email'] === email}">
             {{msg['from_email'] === email ? 'You' : msg['from_email']}}</span>
-          <span class="chat-date">{{msg['date'] | date}}</span>
-          <p class="chat-msg">{{msg['msg']}}</p>
+            <span class="chat-date">{{msg['date'] | date}}</span>
+            <p class="chat-msg">{{msg['msg']}}</p>
+          </div>
         </div>
       </div>
+      <ng-template #showMsg>
+        <mat-placeholder>
+          Your messages will appear here
+        </mat-placeholder>
+      </ng-template>
     </div>
-    <ng-template #showMsg>
-      <mat-placeholder>
-        Your messages will appear here
-      </mat-placeholder>
-    </ng-template>
+
+    <mat-divider></mat-divider>
+
+    <form class="chat-form">
+      <mat-divider></mat-divider>
+      <mat-form-field class="chat-txt">
+        <textarea matInput placeholder="Type your message here" name="chat-msg" (keyup)="handleKeyPress($event)"  [(ngModel)]="msg"></textarea>
+      </mat-form-field>
+
+      <button class="chat-send-btn" type="button" (click)="handleSendMsg()" color="secondary" mdbBtn mdbWavesEffect>
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
   </div>
 
-  <mat-divider></mat-divider>
-
-  <form class="chat-form">
-    <mat-form-field class="chat-txt">
-      <textarea matInput placeholder="Type your message here" name="chat-msg" (keyup)="handleKeyPress($event)"  [(ngModel)]="msg"></textarea>
-    </mat-form-field>
-
-    <button class="chat-send-btn" type="button" (click)="handleSendMsg()" color="secondary" mdbBtn mdbWavesEffect>
-      <i class="fas fa-paper-plane"></i>
-    </button>
-  </form>
+  <ng-template #showLoginButton>
+    <button mdbBtn mdbWavesEffect class="login-btn" (click)="handleLoginClick()" gradient="blue">Login</button>
+  </ng-template>
 </div>

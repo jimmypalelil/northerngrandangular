@@ -1,8 +1,10 @@
 import {AfterContentChecked, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {getFrontDeskEmail, getHKEmail, isHK} from '../lib/Utils';
+import {getFrontDeskEmail, getHKEmail, isHK, isloggedIn} from '../lib/Utils';
 import {ChatService} from '../chat.service';
 import {Socket} from 'ngx-socket-io';
 import {Chat} from '../models/chat';
+import {AuthService} from '../services/auth.service';
+import {EnsureAuthenticatedService} from '../services/ensure-authenticated.service';
 
 @Component({
   selector: 'app-chat',
@@ -16,7 +18,7 @@ export class ChatComponent implements OnInit, AfterContentChecked {
 
   @Output() closeChat: EventEmitter<boolean>;
 
-  constructor(private chatService: ChatService, private socket: Socket) {
+  constructor(private chatService: ChatService, private socket: Socket, private ensureAuth: EnsureAuthenticatedService) {
     this.msgs = [];
     this.closeChat = new EventEmitter();
   }
@@ -30,7 +32,9 @@ export class ChatComponent implements OnInit, AfterContentChecked {
 
   ngAfterContentChecked() {
     const el = document.getElementsByClassName('chat-msgs')[0];
-    el.scrollTo(0, el.scrollHeight);
+    if (el) {
+      el.scrollTo(0, el.scrollHeight);
+    }
   }
 
   getInitialMsgs() {
@@ -56,5 +60,14 @@ export class ChatComponent implements OnInit, AfterContentChecked {
     if (e.key === 'Enter') {
       this.handleSendMsg();
     }
+  }
+
+  handleLoginClick() {
+    this.ensureAuth.showLoginModal.next(true);
+    this.closeChat.emit(true);
+  }
+
+  isLoggedIn() {
+    return isloggedIn();
   }
 }

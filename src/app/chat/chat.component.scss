@@ -10,19 +10,24 @@
 }
 
 .chat-form {
-  position: fixed;
-  width: 100%;
   bottom: 0;
+  background-color: white;
+  width: 80%;
+  position: fixed;
+  margin: auto;
+  border-radius: 50px;
+  padding: .2em 2em;
+  text-align: center;
+  color: black;
 }
 .chat-msg {
   overflow-wrap: break-word;
-  background-color: #151414;
   border-radius: 50px;
   padding: .2em 1.5em;
 }
 
 .chat-email {
-  color: black;
+  color: #00d2ed;
   font-style: italic;
 }
 
@@ -53,17 +58,38 @@
 .chat-close {
   position: relative;
   left: 2rem;
-  font-size: 20px;
 }
 
 .chat-header {
   background-color: #c6720b;
   width: 100%;
-  border-radius: 50px;
   padding: 0 1em;
-  margin-top: .2em;
+  margin-top: 0;
+  border-radius: 0 0 50px 50px;
+  font-size: 18px;
 }
 
 .chat-title {
   font-family: monospace;
+  text-decoration: underline;
+  text-align: center;
+}
+
+@media (max-width: 37.5em) {
+  .chat-form {
+    height: 100px;
+    width: 100%;
+    left: 0;
+    border-radius: 0;
+  }
+
+  .chat-msgs {
+    height: 300px;
+  }
+
+  .chat-close[_ngcontent-c6] {
+    position: relative;
+    left: 1em;
+    bottom: 1em;
+  }
 }

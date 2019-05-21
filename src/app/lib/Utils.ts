@@ -38,3 +38,7 @@ export function getFrontDeskEmail() {
 export function getHKEmail() {
   return hkEmail;
 }
+
+export function isloggedIn() {
+  return localStorage.getItem('token') !== null;
+}

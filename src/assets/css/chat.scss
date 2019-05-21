@@ -9,6 +9,7 @@
   align-items: center;
   width: 5em;
   z-index: 2050;
+  border-radius: 100%;
   transition: width 200ms ease-in-out;
 }
 
@@ -29,7 +30,8 @@
   right: 2em;
   bottom: 0;
   width: 30%;
-  background-color: #2d4380;
+  background-color: #29292f;
+  color: white;
   z-index: 2050;
 }
 
@@ -37,5 +39,6 @@
   .chat-window {
     width: 100%;
     right: 0;
+    height: 100%;
   }
 }
