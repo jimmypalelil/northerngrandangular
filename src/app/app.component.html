@@ -69,10 +69,10 @@
 <!--Chat Button-->
 <button *ngIf="showChatBtn" (click)="toggleChat()" mdbBtn mdbWavesEffect gradient="blue"
         class="chat-btn animated fadeInRight"
-        [matTooltip]="isHk() ? 'Chat With Front Desk' : 'Chat with Housekeeping'" matTooltipPosition ="left"
->
+        [matTooltip]="isHk() ? 'Chat With Front Desk' : 'Chat with Housekeeping'" matTooltipPosition ="left">
   <i class="fas fa-comment-alt chat-icon"></i>
 </button>
+
 
 <!--Chat Window-->
 <div *ngIf="showChatWindow">

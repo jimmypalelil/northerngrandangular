@@ -1,4 +1,4 @@
-import {AfterContentChecked, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {getFrontDeskEmail, getHKEmail, isHK, isloggedIn} from '../lib/Utils';
 import {ChatService} from '../chat.service';
 import {Socket} from 'ngx-socket-io';
@@ -11,7 +11,7 @@ import {EnsureAuthenticatedService} from '../services/ensure-authenticated.servi
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, AfterContentChecked {
+export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit {
   @Input() email: string;
   msg: string;
   msgs: Array<Chat>;
@@ -23,7 +23,9 @@ export class ChatComponent implements OnInit, AfterContentChecked {
     this.closeChat = new EventEmitter();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngAfterViewInit() {
     this.getInitialMsgs();
     this.socket.on('newMsg', data => {
       this.msgs.push(data);
