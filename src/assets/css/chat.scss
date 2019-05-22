@@ -15,12 +15,33 @@
 
 .chat-btn:hover {
   width: 6em;
+  animation: bouncing 1s ease-in-out 0s infinite;
 }
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes bouncing {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
 
 .chat-icon {
   font-size: 2em;
   position: absolute;
-  left: 30%
+  left: 30%;
+  animation:  rotating .3s ease-in-out 0s infinite;
 }
 
 //Chat Window Styles

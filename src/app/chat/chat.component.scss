@@ -22,8 +22,6 @@
 }
 .chat-msg {
   overflow-wrap: break-word;
-  border-radius: 50px;
-  padding: .2em 1.5em;
 }
 
 .chat-email {
@@ -43,7 +41,7 @@
 
 .chat-date {
   position: relative;
-  left: 1rem;
+  left: .5rem;
   font-size: .8rem;
   color: whitesmoke;
   font-style: oblique;
