@@ -34,7 +34,7 @@
       <mat-divider></mat-divider>
       <mat-form-field class="chat-txt">
         <textarea matInput placeholder="Type your message here" name="chat-msg"
-                  rows="1" maxlength="140" (keyup)="handleKeyPress($event)"  [(ngModel)]="msg"></textarea>
+                  rows="2" maxlength="140" (keyup)="handleKeyPress($event)"  [(ngModel)]="msg"></textarea>
       </mat-form-field>
 
       <button class="chat-send-btn" type="button" (click)="handleSendMsg()" color="secondary" mdbBtn mdbWavesEffect>
