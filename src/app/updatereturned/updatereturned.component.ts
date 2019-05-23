@@ -16,9 +16,7 @@ export class UpdatereturnedComponent implements OnInit {
     this.item = data.item;
   }
 
-  ngOnInit() {
-    console.log(this.item);
-  }
+  ngOnInit() {}
 
   isHk(): boolean {
     const email = localStorage.getItem('token');
