@@ -37,7 +37,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   homePage: HTMLElement;
   showChatBtn = true;
   showChatWindow = false;
+  showChatBubble = false
+  imageUrl = environment.imageUrl;
+
   changePage(page) {this.currentPage = page; }
+
 
   ngOnInit() {
     let url;
@@ -87,6 +91,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.auth.currentPage.subscribe(value => {
       this.currentPage = value;
     });
+
+    let temp = localStorage.getItem('showBubble')
+    if (temp === null) {
+      localStorage.setItem('showBubble', 'true');
+      this.showChatBubble = true;
+    } else if (temp === 'true') {
+      this.showChatBubble = true;
+    }
   }
 
   ngAfterViewInit() {
@@ -200,6 +212,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   toggleChat() {
+    if (localStorage.getItem('showBubble') === 'true') {
+      localStorage.setItem('showBubble', 'false');
+      this.showChatBubble = false;
+    }
     this.showChatWindow = !this.showChatWindow;
     this.showChatBtn = !this.showChatBtn;
   }

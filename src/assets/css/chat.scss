@@ -2,15 +2,26 @@
 //Chat Btn Styles
 .chat-btn {
   height: 4rem;
+
+  width: 5em;
+  z-index: 2050;
+  border-radius: 100%;
+  transition: width 200ms ease-in-out;
+}
+
+.chat-btn-container {
   position: absolute;
   bottom: 5rem;
   right: 0;
   display: flex;
   align-items: center;
-  width: 5em;
-  z-index: 2050;
-  border-radius: 100%;
-  transition: width 200ms ease-in-out;
+}
+
+.chat-bubble {
+  position: relative;
+  bottom: 3em;
+  left: 5em;
+  animation: sliding .5s ease-in-out 0s infinite;
 }
 
 .chat-help {
@@ -19,7 +30,6 @@
 }
 
 .chat-btn:hover {
-  width: 6em;
   animation: bouncing 1s ease-in-out 0s infinite;
 }
 
@@ -41,11 +51,21 @@
   }
 }
 
+@keyframes sliding {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
 
 .chat-icon {
   font-size: 2em;
   position: absolute;
   left: 30%;
+  bottom: .7em;
   animation:  rotating .3s ease-in-out 0s infinite;
 }
 
