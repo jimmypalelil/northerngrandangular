@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {
   MatBottomSheet,
   MatSnackBar,
@@ -14,7 +14,7 @@ import {environment} from '../../environments/environment';
 import {UpdatelostComponent} from '../updatelost/updatelost.component';
 import {UpdatereturnedComponent} from '../updatereturned/updatereturned.component';
 import {EnsureAuthenticatedService} from '../services/ensure-authenticated.service';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Socket} from 'ngx-socket-io';
 import {deleteElementFromJsonArray} from '../lib/Utils';
 
@@ -34,6 +34,7 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
   showSpinner = false;
   updatedList: Observable<any>;
   userEmail = this.ensureAuth.getUserEmail();
+  subscriptions: Subscription[] = [];
 
   constructor(private list: ListService, private snackBar: MatSnackBar, private updateSheet: MatBottomSheet,
               private ensureAuth: EnsureAuthenticatedService, private socket: Socket) {
@@ -48,23 +49,22 @@ export class LostComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() spinnerEvent = new EventEmitter<boolean>();
 
   ngOnInit() {
-    this.socket.connect();
-    this.socket.on('updatedList', data => {
+    this.subscriptions.push(this.socket.fromEvent('updatedList').subscribe(data => {
       this.updateList(data);
-    });
-    this.socket.on('newItemAdded', data => {
+    }));
+    this.subscriptions.push(this.socket.fromEvent('newItemAdded').subscribe(data => {
       this.addItemToList(data);
-    });
-    this.socket.on('deletedLostItem', data => {
+    }));
+    this.subscriptions.push(this.socket.fromEvent('deletedLostItem').subscribe(data => {
       this.deleteItemFromList(data);
-    });
-    this.socket.on('returnedItem', data => {
+    }));
+    this.subscriptions.push(this.socket.fromEvent('returnedItem').subscribe(data => {
       this.placeItemInRetunredList(data);
-    });
+    }));
   }
 
   ngOnDestroy() {
-    this.socket.disconnect();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   placeItemInRetunredList(data) {

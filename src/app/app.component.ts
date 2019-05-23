@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   homePage: HTMLElement;
   showChatBtn = true;
   showChatWindow = false;
-  showChatBubble = false
+  showChatBubble = false;
   imageUrl = environment.imageUrl;
 
   changePage(page) {this.currentPage = page; }
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.currentPage = value;
     });
 
-    let temp = localStorage.getItem('showBubble')
+    const temp = localStorage.getItem('showBubble')
     if (temp === null) {
       localStorage.setItem('showBubble', 'true');
       this.showChatBubble = true;

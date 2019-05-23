@@ -1,11 +1,11 @@
-import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {deleteElementFromJsonArray, getFrontDeskEmail, getHKEmail, isHK, isloggedIn} from '../lib/Utils';
 import {ChatService} from '../chat.service';
 import {Socket} from 'ngx-socket-io';
 import {Chat} from '../models/chat';
-import {AuthService} from '../services/auth.service';
 import {EnsureAuthenticatedService} from '../services/ensure-authenticated.service';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +15,8 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from '@angular/ma
 export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit, OnDestroy {
   @Input() email: string;
   msg: string;
-  msgs: Array<Chat>;
+  msgs: Array<any>;
+  subscriptions: Subscription[] = [];
 
   @Output() closeChat: EventEmitter<boolean>;
 
@@ -30,17 +31,18 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
 
   ngAfterViewInit() {
     this.getInitialMsgs();
-    this.socket.on('newMsg', data => {
-      this.msgs.push(data);
-    });
 
-    this.socket.on('deletedMsg', data => {
+    this.subscriptions.push(this.socket.fromEvent('newMsg').subscribe(data => {
+      this.msgs.push(data);
+    }));
+
+    this.subscriptions.push(this.socket.fromEvent('deletedMsg').subscribe(data => {
       const id = data['_id'];
       const email = data['email'];
       this.deleteMessage(id);
       this.snackBar.open('A message was deleted by ' + email, '',
         {duration: 3000});
-    });
+    }));
   }
 
   ngAfterContentChecked() {
@@ -51,7 +53,7 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
   }
 
   ngOnDestroy() {
-    this.socket.disconnect();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   getInitialMsgs() {
