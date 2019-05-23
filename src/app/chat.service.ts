@@ -18,4 +18,8 @@ export class ChatService {
   getInitialMsgs(): Promise<any> {
     return this.http.get(this.chatUrl + 'getInitialMsgs').toPromise();
   }
+
+  deleteMessage(data: any) {
+    this.socket.emit('deleteMsg', data);
+  }
 }

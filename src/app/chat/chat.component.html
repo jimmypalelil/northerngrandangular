@@ -16,6 +16,10 @@
           <span class="chat-email" [ngClass]="{'chat-my-email': msg['from_email'] === email}">
             {{msg['from_email'] === email ? 'You' : msg['from_email']}}</span>
             <span class="chat-date">{{msg['date'] | date}}</span>
+            <a role="button"  (click)="openDialog(msg['_id'])" matTooltip="Delete Message" matTooltipPosition ="above"
+               class="chat-delete" *ngIf="msg['from_email'] === email">
+              <i class="fas fa-trash chat-delete-icon"></i>
+            </a>
             <p class="chat-msg">{{msg['msg']}}</p>
           </div>
         </div>
