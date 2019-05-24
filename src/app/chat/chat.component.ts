@@ -1,4 +1,15 @@
-import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {deleteElementFromJsonArray, getFrontDeskEmail, getHKEmail, isHK, isloggedIn} from '../lib/Utils';
 import {ChatService} from '../chat.service';
 import {Socket} from 'ngx-socket-io';
@@ -14,12 +25,13 @@ import {Subscription} from 'rxjs';
 })
 export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit, OnDestroy {
   @Input() email: string;
-  msg: string;
+  msg = '';
   msgs: Array<any>;
   subscriptions: Subscription[] = [];
 
   @Output() closeChat: EventEmitter<boolean>;
 
+  @ViewChild('chatMsg') chatMsg: ElementRef;
 
   constructor(private chatService: ChatService, private socket: Socket, private ensureAuth: EnsureAuthenticatedService,
               private dialog: MatDialog, private snackBar: MatSnackBar) {
@@ -48,7 +60,7 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
   ngAfterContentChecked() {
     const el = document.getElementsByClassName('chat-msgs')[0];
     if (el) {
-      el.scrollTo(0, el.scrollHeight);
+      el.scrollTo(0, el.scrollHeight + 100);
     }
   }
 
@@ -58,25 +70,29 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
 
   getInitialMsgs() {
     this.chatService.getInitialMsgs().then(data => {
+      data = Array.from(data);
+      data.reverse();
       this.msgs = data;
     });
   }
 
   handleSendMsg() {
-    if (this.msg !== '') {
-      const chat = {
+    const msg = this.chatMsg.nativeElement.value.trim();
+    if (msg !== '') {
+      const chatData = {
         from_email: this.email,
         to_email: isHK() ? getFrontDeskEmail() : getHKEmail(),
-        msg: this.msg,
+        msg: msg,
         date: new Date()
       };
-      this.chatService.sendMsg(chat);
+      this.chatService.sendMsg(chatData);
     }
-    this.msg = '';
+    this.chatMsg.nativeElement.value = '';
   }
 
   handleKeyPress(e) {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && this.chatMsg.nativeElement.value.trim() !== '') {
+      console.log(this.chatMsg.nativeElement.value.length);
       this.handleSendMsg();
     }
   }

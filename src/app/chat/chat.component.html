@@ -15,7 +15,7 @@
           <div [ngClass]="{'chat-my-msg': msg['from_email'] === email}">
           <span class="chat-email" [ngClass]="{'chat-my-email': msg['from_email'] === email}">
             {{msg['from_email'] === email ? 'You' : msg['from_email']}}</span>
-            <span class="chat-date">{{msg['date'] | date}}</span>
+            <span class="chat-date">{{msg['date'] | date: 'medium'}}</span>
             <a role="button"  (click)="openDialog(msg['_id'])" matTooltip="Delete Message" matTooltipPosition ="above"
                class="chat-delete" *ngIf="msg['from_email'] === email">
               <i class="fas fa-trash chat-delete-icon"></i>
@@ -37,8 +37,8 @@
     <form class="chat-form">
       <mat-divider></mat-divider>
       <mat-form-field class="chat-txt">
-        <textarea matInput placeholder="Type your message here" name="chat-msg"
-                  rows="2" maxlength="140" (keyup)="handleKeyPress($event)"  [(ngModel)]="msg"></textarea>
+        <textarea matInput placeholder="Type your message here" #chatMsg
+                  rows="2" maxlength="140" (keyup)="handleKeyPress($event)"></textarea>
       </mat-form-field>
 
       <button class="chat-send-btn" type="button" (click)="handleSendMsg()" color="secondary" mdbBtn mdbWavesEffect>
