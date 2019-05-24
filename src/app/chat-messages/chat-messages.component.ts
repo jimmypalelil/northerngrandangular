@@ -10,8 +10,8 @@ export class ChatMessagesComponent implements OnInit {
 
   constructor(private dialog: MatDialog) { }
 
-  @Input() private msg: String;
-  @Input() private email: String;
+  @Input() msg: String;
+  @Input() email: String;
 
   @Output() deleteMessage = new EventEmitter<string>();
 
