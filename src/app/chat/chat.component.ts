@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -13,9 +12,8 @@ import {
 import {deleteElementFromJsonArray, getFrontDeskEmail, getHKEmail, isHK, isloggedIn} from '../lib/Utils';
 import {ChatService} from '../chat.service';
 import {Socket} from 'ngx-socket-io';
-import {Chat} from '../models/chat';
 import {EnsureAuthenticatedService} from '../services/ensure-authenticated.service';
-import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -23,21 +21,26 @@ import {Subscription} from 'rxjs';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit, OnDestroy {
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  constructor(private chatService: ChatService, private socket: Socket, private ensureAuth: EnsureAuthenticatedService,
+              private snackBar: MatSnackBar) {
+    this.msgs = [];
+    this.closeChat = new EventEmitter();
+  }
   @Input() email: string;
   msg = '';
   msgs: Array<any>;
   subscriptions: Subscription[] = [];
+  showChatAlert = false;
+  messageScrollCount = 0;
+  chatAlertId: number;
 
   @Output() closeChat: EventEmitter<boolean>;
 
   @ViewChild('chatMsg') chatMsg: ElementRef;
+  @ViewChild('chatMsgs') chatMsgs: ElementRef;
 
-  constructor(private chatService: ChatService, private socket: Socket, private ensureAuth: EnsureAuthenticatedService,
-              private dialog: MatDialog, private snackBar: MatSnackBar) {
-    this.msgs = [];
-    this.closeChat = new EventEmitter();
-  }
 
   ngOnInit() {}
 
@@ -46,6 +49,7 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
 
     this.subscriptions.push(this.socket.fromEvent('newMsg').subscribe(data => {
       this.msgs.push(data);
+      this.handleNewIncomingMsg();
     }));
 
     this.subscriptions.push(this.socket.fromEvent('deletedMsg').subscribe(data => {
@@ -55,13 +59,24 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
       this.snackBar.open('A message was deleted by ' + email, '',
         {duration: 3000});
     }));
-  }
 
-  ngAfterContentChecked() {
-    const el = document.getElementsByClassName('chat-msgs')[0];
-    if (el) {
-      el.scrollTo(0, el.scrollHeight + 100);
-    }
+    // let shouldGetMsgs = true;
+    //
+    // this.chatMsgs.nativeElement.addEventListener('scroll', () => {
+    //   if (this.chatMsgs.nativeElement.scrollTop > 400) {
+    //     shouldGetMsgs = true;
+    //   }
+    //   if (this.chatMsgs.nativeElement.scrollTop <= 400 && shouldGetMsgs) {
+    //     this.messageScrollCount++;
+    //     shouldGetMsgs = false;
+    //     this.chatService.getMoreMessages(this.messageScrollCount).then(data => {
+    //       const newMsgs = Array.from(data);
+    //       newMsgs.reverse();
+    //       this.msgs = newMsgs;
+    //       console.log(this.msgs);
+    //     });
+    //   }
+    // });
   }
 
   ngOnDestroy() {
@@ -73,6 +88,7 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
       data = Array.from(data);
       data.reverse();
       this.msgs = data;
+      this.scrollToEnd();
     });
   }
 
@@ -85,14 +101,17 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
         msg: msg,
         date: new Date()
       };
-      this.chatService.sendMsg(chatData);
+      this.socket.emit('newMsg', chatData, id => {
+        chatData['_id'] = id;
+        this.msgs.push(chatData);
+        this.scrollToEnd();
+      });
     }
     this.chatMsg.nativeElement.value = '';
   }
 
   handleKeyPress(e) {
-    if (e.key === 'Enter' && this.chatMsg.nativeElement.value.trim() !== '') {
-      console.log(this.chatMsg.nativeElement.value.length);
+    if (e.key === 'Enter') {
       this.handleSendMsg();
     }
   }
@@ -115,29 +134,24 @@ export class ChatComponent implements OnInit, AfterContentChecked, AfterViewInit
     deleteElementFromJsonArray(id, this.msgs);
   }
 
-  openDialog(id) {
-    const dialogRef = this.dialog.open(ChatDeleteComponent, {
-      width: '250px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.handleDeleteMessage(id);
+  scrollToEnd() {
+    window.setTimeout(() => {
+      const el = document.getElementsByClassName('chat-msgs')[0];
+      if (el) {
+        el.scrollTo(0, el.scrollHeight);
       }
-    });
+    }, 300);
   }
-}
 
-@Component({
-  selector: 'app-chat-delete-dialog',
-  templateUrl: 'app-chat-delete.html',
-})
-export class ChatDeleteComponent {
+  private handleNewIncomingMsg() {
+    window.clearTimeout(this.chatAlertId);
+    this.showChatAlert = true;
+    this.chatAlertId = window.setTimeout(() => {
+      this.showChatAlert = false;
+    }, 5000);
 
-  constructor(
-    public dialogRef: MatDialogRef<ChatDeleteComponent>) {}
-
-  onCancelClick(): void {
-    this.dialogRef.close();
+    if (this.chatMsgs.nativeElement.scrollTop >= this.chatMsgs.nativeElement.scrollHeight - 500) {
+      this.scrollToEnd();
+    }
   }
 }

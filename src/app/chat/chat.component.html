@@ -8,20 +8,16 @@
 
 <mat-divider></mat-divider>
 <div class="container">
+
+  <div role="button" class="animated fadeInUp chat-alert" *ngIf="showChatAlert" (click)="showChatAlert = false;scrollToEnd()">
+    You have new message(s)
+  </div>
+
   <div *ngIf="isLoggedIn(); else showLoginButton">
-    <div class="chat-msgs">
+    <div class="chat-msgs" #chatMsgs>
       <div *ngIf="msgs.length !== 0; else showMsg">
         <div *ngFor="let msg of msgs">
-          <div [ngClass]="{'chat-my-msg': msg['from_email'] === email}">
-          <span class="chat-email" [ngClass]="{'chat-my-email': msg['from_email'] === email}">
-            {{msg['from_email'] === email ? 'You' : msg['from_email']}}</span>
-            <span class="chat-date">{{msg['date'] | date: 'medium'}}</span>
-            <a role="button"  (click)="openDialog(msg['_id'])" matTooltip="Delete Message" matTooltipPosition ="above"
-               class="chat-delete" *ngIf="msg['from_email'] === email">
-              <i class="fas fa-trash chat-delete-icon"></i>
-            </a>
-            <p class="chat-msg">{{msg['msg']}}</p>
-          </div>
+          <app-chat-messages [email]="email" [msg]="msg" (deleteMessage)="handleDeleteMessage($event)"></app-chat-messages>
         </div>
       </div>
       <ng-template #showMsg>

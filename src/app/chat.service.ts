@@ -11,15 +11,15 @@ export class ChatService {
 
   constructor(private http: HttpClient, private socket: Socket) { }
 
-  sendMsg(chat) {
-    this.socket.emit('newMsg', chat);
-  }
-
   getInitialMsgs(): Promise<any> {
     return this.http.get(this.chatUrl + 'getInitialMsgs').toPromise();
   }
 
   deleteMessage(data: any) {
     this.socket.emit('deleteMsg', data);
+  }
+
+  getMoreMessages(messageScrollCount: number): Promise<any> {
+    return this.http.get(this.chatUrl + 'getMoreMsgs/' + messageScrollCount).toPromise();
   }
 }

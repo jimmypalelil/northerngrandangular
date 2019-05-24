@@ -3,6 +3,7 @@
   height: 25rem;
   overflow-y: auto;
   position: relative;
+  //animation: glowing 1s ease-in-out 0s 3;
 }
 
 .chat-txt {
@@ -19,24 +20,6 @@
   padding: .2em 2em;
   text-align: center;
   color: black;
-}
-.chat-msg {
-  overflow-wrap: break-word;
-}
-
-.chat-email {
-  color: #00d2ed;
-  font-style: italic;
-}
-
-.chat-my-email {
-  color: #5c5edc;
-  font-weight: bold;
-}
-
-.chat-my-msg {
-  text-align: right;
-  padding-right: 2em;
 }
 
 .chat-date {
@@ -73,14 +56,30 @@
   text-align: center;
 }
 
-.chat-delete {
-  position: relative;
-  left: .5em;
+.chat-alert {
+  position: fixed;
+  left: 35%;
+  transform: translateX(-50%);
+  width: fit-content;
+  font-size: 14px;
+  border-radius: 50px;
+  background-color: #575794;
+  padding: .5em;
+  z-index: 2050;
+  cursor: pointer;
 }
 
-.chat-delete-icon {
-  color: red;
-  font-size: .9em;
+.chat-msgs-animated {
+  animation: glowing 1s ease-in-out 0s 3;
+}
+
+@keyframes glowing {
+  0%{
+    border: 5px solid red;
+  }
+  100%{
+    border: none;
+  }
 }
 
 @media (max-width: 37.5em) {
@@ -89,6 +88,10 @@
     width: 100%;
     left: 0;
     border-radius: 0;
+  }
+
+  .chat-alert {
+    left: 30%;
   }
 
   .chat-msgs {

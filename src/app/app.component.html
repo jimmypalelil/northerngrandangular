@@ -68,7 +68,7 @@
 
 <!--Chat Button-->
 <div class="chat-btn-container">
-  <div class="chat-bubble" *ngIf="showChatBubble">
+  <div class="chat-bubble" *ngIf="showChatBubble && currentPage === 'home'">
     <img [src]="imageUrl + 'speech-bubble.gif'" />
   </div>
   <button *ngIf="showChatBtn" (click)="toggleChat()" mdbBtn mdbWavesEffect gradient="blue"

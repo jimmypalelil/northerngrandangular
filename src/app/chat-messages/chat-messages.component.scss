@@ -1,0 +1,28 @@
+.chat-msg {
+  overflow-wrap: break-word;
+}
+
+.chat-email {
+  color: #00d2ed;
+  font-style: italic;
+}
+
+.chat-my-email {
+  color: #5c5edc;
+  font-weight: bold;
+}
+
+.chat-my-msg {
+  text-align: right;
+  padding-right: 2em;
+}
+
+.chat-delete {
+  position: relative;
+  left: .5em;
+}
+
+.chat-delete-icon {
+  color: red;
+  font-size: .9em;
+}
