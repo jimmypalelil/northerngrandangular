@@ -67,7 +67,7 @@
 <!-- /pages-stack ends -->
 
 <!--Chat Button-->
-<div class="chat-btn-container">
+<div class="chat-btn-container d-print-none">
   <div class="chat-bubble" *ngIf="showChatBubble && currentPage === 'home'">
     <img [src]="imageUrl + 'speech-bubble.gif'" />
   </div>
@@ -81,7 +81,7 @@
 
 
 <!--Chat Window-->
-<div *ngIf="showChatWindow">
+<div *ngIf="showChatWindow" class="d-print-none">
   <app-chat (closeChat)="toggleChat()" [email]="email" class="chat-window animated fadeInUp"></app-chat>
 </div>
 

@@ -24,7 +24,6 @@ export class ChatMessagesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(id);
         this.handleDeleteMessage(id);
       }
     });
@@ -38,7 +37,7 @@ export class ChatMessagesComponent implements OnInit {
 
 @Component({
   selector: 'app-chat-delete-dialog',
-  templateUrl: 'app-chat-delete.html',
+  templateUrl: 'chat-delete.html',
 })
 export class ChatDeleteComponent {
 

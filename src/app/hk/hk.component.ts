@@ -141,22 +141,32 @@ export class HkComponent implements OnInit, AfterViewInit {
   changeRoomStatus(room: Room) {
     if (this.isHK()) {
       const newStatus = room.status === 'clean' ? 'not done' : 'clean';
+      if (newStatus === 'not done') {
+        this.counts[2]--;
+        this.counts[1]++;
+      } else {
+        this.counts[1]--;
+        this.counts[2]++;
+      }
+      room.status = newStatus;
+
       this.listService.changeRoomStatus([room], newStatus).then(msg => {
         this.snackBar.open(msg['text'].toUpperCase(), '', {
           duration: 2000, verticalPosition: 'bottom'
         });
-        if (newStatus === 'not done') {
-          this.counts[2]--;
-          this.counts[1]++;
-        } else {
-          this.counts[1]--;
-          this.counts[2]++;
-        }
-        room.status = newStatus;
       }).catch(() => {
         this.snackBar.open('Connection Error....Try AGAIN!!!', '', {
           duration: 2000, verticalPosition: 'bottom'
         });
+        if (newStatus === 'not done') {
+          this.counts[2]++;
+          this.counts[1]--;
+          room.status = 'clean';
+        } else {
+          this.counts[1]++;
+          this.counts[2]--;
+          room.status = 'not done';
+        }
       });
     } else {
       this.snackBar.open('Only Housekeeping Department can Change Status', '', {

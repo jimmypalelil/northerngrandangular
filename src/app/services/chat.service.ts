@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {environment} from '../environments/environment';
+import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Socket} from 'ngx-socket-io';
 
@@ -15,11 +15,7 @@ export class ChatService {
     return this.http.get(this.chatUrl + 'getInitialMsgs').toPromise();
   }
 
-  deleteMessage(data: any) {
-    this.socket.emit('deleteMsg', data);
-  }
-
-  getMoreMessages(messageScrollCount: number): Promise<any> {
-    return this.http.get(this.chatUrl + 'getMoreMsgs/' + messageScrollCount).toPromise();
+  getMoreMessages(count: number): Promise<any> {
+    return this.http.get(this.chatUrl + 'getMoreMsgs/' + count).toPromise();
   }
 }
