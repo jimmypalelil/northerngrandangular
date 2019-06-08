@@ -44,15 +44,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    let url;
+    let scriptUrl;
     if (environment.production) {
-      url = '/static/assets/js/';
+      scriptUrl = '/static/assets/js/';
     } else {
-      url = '/assets/js/';
+      scriptUrl = '/assets/js/';
     }
     const bodyEl = document.getElementsByTagName('body')[0];
     setTimeout(() => {
-      const dynamicScripts = url + 'classie.js';
+      const dynamicScripts = scriptUrl + 'classie.js';
       const node = document.createElement('script');
       node['src'] = dynamicScripts;
       node['type'] = 'text/javascript';
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }, 1000);
 
     setTimeout(() => {
-      const dynamicScripts = url + 'main.js';
+      const dynamicScripts = scriptUrl + 'main.js';
         const node = document.createElement('script');
         node['src'] = dynamicScripts;
         node['type'] = 'text/javascript';
