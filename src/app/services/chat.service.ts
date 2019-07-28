@@ -9,7 +9,7 @@ import {Socket} from 'ngx-socket-io';
 export class ChatService {
   private chatUrl = environment.chatUrl;
 
-  constructor(private http: HttpClient, private socket: Socket) { }
+  constructor(private http: HttpClient) { }
 
   getInitialMsgs(): Promise<any> {
     return this.http.get(this.chatUrl + 'getInitialMsgs').toPromise();
