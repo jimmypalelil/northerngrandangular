@@ -64,6 +64,10 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {environment} from '../environments/environment';
 import {ChatComponent} from './chat/chat.component';
 import {ChatDeleteComponent, ChatMessagesComponent} from './chat-messages/chat-messages.component';
+import {HkListService} from './services/hk-list.service';
+import {AddPublicAreaComponent} from './components/dialogs/add-public-area/add-public-area.component';
+import {AddTaskComponent} from './components/dialogs/add-list-type/add-task.component';
+import {HkListComponent} from './components/hk-list/hk-list.component';
 const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
 
 @NgModule({
@@ -79,7 +83,10 @@ const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
     UpdatereturnedComponent,
     ChatComponent,
     ChatDeleteComponent,
-    ChatMessagesComponent
+    ChatMessagesComponent,
+    HkListComponent,
+    AddTaskComponent,
+    AddPublicAreaComponent,
   ],
   imports: [
     ParallaxModule,
@@ -139,13 +146,14 @@ const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
       { path: '**', redirectTo: ''}
     ], {useHash: true})
   ],
-  providers: [ListService, AuthService, EnsureAuthenticatedService, LoginRedirectService, InspectionService],
+  providers: [ListService, AuthService, EnsureAuthenticatedService, LoginRedirectService, InspectionService, HkListService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ],
   entryComponents: [
     UpdatelostComponent,
     UpdatereturnedComponent,
-    ChatDeleteComponent
+    ChatDeleteComponent,
+    AddTaskComponent, AddPublicAreaComponent
   ]
 })
 export class AppModule { }

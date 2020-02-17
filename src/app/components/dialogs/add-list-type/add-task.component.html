@@ -1,0 +1,36 @@
+<form class="form-container" [formGroup]="form" (ngSubmit)="handleSubmitForm()">
+  <div class="form-title">Add a Task</div>
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Task Name</mat-label>
+      <mat-placeholder>e.g.: Bedding</mat-placeholder>
+      <input matInput formControlName="task" required>
+      <mat-icon matSuffix>ballot</mat-icon>
+      <mat-hint>This will the name of the Task</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Operation Frequency</mat-label>
+      <mat-select formControlName="frequency" required>
+        <mat-option *ngFor="let item of operationList" [value]="item">{{item | uppercase}}</mat-option>
+      </mat-select>
+      <mat-icon matSuffix>calendar_today</mat-icon>
+      <mat-hint>How often should this task be performed</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Type of Areas</mat-label>
+      <mat-select formControlName="hkAreas" multiple required>
+        <mat-option *ngFor="let item of areaGroups" [value]="item">{{item | uppercase}}</mat-option>
+      </mat-select>
+      <i class="fas fa-clone" matSuffix></i>
+      <mat-hint>What Areas does this task include</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <button mat-button type="submit"><i class="fas fa-plus"></i> Add</button>
+  </div>
+</form>

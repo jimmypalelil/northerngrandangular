@@ -5,6 +5,7 @@ import {ListService} from '../services/list.service';
 import {MatSnackBar, MatSort, MatTabChangeEvent, MatTabGroup, MatTableDataSource} from '@angular/material';
 import {MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {SelectionModel} from '@angular/cdk/collections';
+import {stringify} from 'querystring';
 
 @Component({
   selector: 'app-hk',
@@ -192,7 +193,7 @@ export class HkComponent implements OnInit, AfterViewInit {
     if (this.counts[index] !== 0) {
       this.selection.clear();
       this.currentStatusIndex = index;
-      this.dataSource.filter = this.statuses[index].data;
+      this.dataSource.filter = stringify(this.statuses[index].data);
     } else {
       this.snackBar.open('No ' + this.statuses[index].label, '', {
         duration: 2000, verticalPosition: 'bottom'

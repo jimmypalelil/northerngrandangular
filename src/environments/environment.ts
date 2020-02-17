@@ -11,7 +11,9 @@ export const environment = {
   insUrl: 'http://127.0.0.1:5000/inspection/',
   invUrl: 'http://127.0.0.1:5000/inventory/',
   imageUrl: '/assets/images/',
-  chatUrl: 'http://127.0.0.1:5000/chat/'
+  chatUrl: 'http://127.0.0.1:5000/chat/',
+  // hkListUrl: 'http://10.0.0.249:3000/',
+  hkListUrl: 'https://nghdailysheet.appspot.com/',
 };
 
 /*

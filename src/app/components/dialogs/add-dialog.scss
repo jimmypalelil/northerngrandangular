@@ -1,0 +1,30 @@
+.form-container {
+  height: 75vh;
+  width: 75vw;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+
+  & > div {
+    padding: 15px 10px;
+  }
+
+  .form-title {
+    font-size: 24px;
+    width: 50%;
+    line-height: 30px;
+    border-bottom: 2px solid #d4d0d0;
+    align-self: center;
+    margin-bottom: 2em;
+  }
+
+  mat-form-field {
+    width: 75%;
+  }
+
+  button {
+    margin-top: 2em;
+  }
+}

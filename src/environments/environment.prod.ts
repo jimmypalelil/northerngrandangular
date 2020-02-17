@@ -6,5 +6,6 @@ export const environment = {
   insUrl: '/inspection/',
   invUrl: '/inventory/',
   imageUrl: '/static/assets/images/',
-  chatUrl: '/chat/'
+  chatUrl: '/chat/',
+  hkListUrl: 'https://nghdailysheet.appspot.com/',
 };

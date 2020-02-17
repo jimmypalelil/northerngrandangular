@@ -1,0 +1,34 @@
+<form class="form-container" [formGroup]="form" (ngSubmit)="handleSubmitForm()">
+  <div class="form-title">Add a Public Area</div>
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Area Group</mat-label>
+      <mat-select formControlName="group" required>
+        <mat-option *ngFor="let item of areaGroups" [value]="item">{{item | uppercase}}</mat-option>
+        <mat-option value="new" (click)="handleAddNew()"><i class="fas fa-plus"></i> Add a New Group</mat-option>
+      </mat-select>
+      <i matSuffix class="fas fa-object-group"></i>
+      <mat-hint>Which Group is this area a part of</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Public Area Name</mat-label>
+      <input matInput placeholder="e.g.: Bathroom, Hallway, etc" formControlName="area" required>
+      <i matSuffix class="fas fa-signature"></i>
+      <mat-hint>What is this Area called</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="standard">
+      <mat-label>Comments</mat-label>
+      <textarea matInput placeholder="e.g.: This is the first bathroom on the right" formControlName="comments"></textarea>
+      <i matSuffix class="fas fa-comment" matSuffix></i>
+      <mat-hint>Provide more info if needed</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <button mat-button type="submit"><i class="fas fa-plus"></i> Add</button>
+  </div>
+</form>

@@ -1,0 +1,112 @@
+
+@mixin flexDisplay {
+  display: flex;
+  align-items: center;
+}
+
+.main-container{
+  height: 100vh;
+  width: 100vw;
+}
+
+.header-container {
+  @include flexDisplay;
+  height: 14vh;
+  padding: 1vh 4vw;
+  justify-content: space-between;
+  .info-container {
+    @include flexDisplay;
+  }
+
+  .task-name-title, .settings {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 56px;
+  }
+  .task-title-container {
+    padding-right: 20px;
+    border-right: 1px solid #B7B7B7;
+  }
+  .task-frequency {
+    text-transform: uppercase;
+    color: #a39f9f;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .date-container {
+    @include flexDisplay;
+    padding-left: 20px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 33px;
+    color: #A39F9F;
+    i {
+      padding-right: 10px;
+    }
+  }
+
+  .task-title-container, .settings, .date-display {
+    cursor: pointer;
+    transition: all ease-in-out 300ms;
+    &:hover {
+      color: darkorange !important;
+    }
+  }
+}
+
+.display-panel {
+  height: 78vh;
+  padding: 3vh 4vw;
+  mat-card {
+    height: 100%;
+    padding: 0;
+    border-radius: 12px;
+    mat-card-content {
+      height: 100%;
+    }
+    .content-container {
+      display: flex;
+      padding: 30px;
+      height: calc(100% - 60px);
+      .display-table {
+        width: 75%;
+        padding: 25px;
+        border-right: 1px solid #B7B7B7;
+      }
+      .filter-container {
+        display: flex;
+        flex-direction: column;
+        padding-left: 25px;
+        > div {
+          height: 50%;
+          overflow: auto;
+          .filter-title {
+            font-weight: 500;
+            font-size: 22px;
+            line-height: 26px;
+            color: #A39F9F;
+          }
+          .filter {
+            cursor: pointer;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 16px;
+            margin: 14px 0;
+            text-transform: uppercase;
+            &:hover {
+              color: #e589339e;
+            }
+          }
+          .filter-selected {
+            color: #E58933;
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 17px;
+          }
+        }
+      }
+    }
+  }
+}

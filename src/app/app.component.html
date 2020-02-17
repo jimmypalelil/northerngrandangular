@@ -3,6 +3,7 @@
 <nav class="pages-nav">
   <div class="pages-nav__item"><a class="link link--page" (click)="setCurrentPage('home')" href="#page-home"><i class="fas fa-home"></i> Home</a></div>
   <div class="pages-nav__item"><a class="link link--page" (click)="setCurrentPage('hk')" href="#page-hk"><i class="fas fa-building"></i> Housekeeping</a></div>
+  <div class="pages-nav__item"><a class="link link--page" (click)="setCurrentPage('hk-new')" href="#page-hk-new"><i class="fas fa-building"></i> Housekeeping (NEW)</a></div>
   <div class="pages-nav__item"><a class="link" target="_blank" href="http://www.nghdailysheet.appspot.com/"><i class="fas fa-clipboard-list"></i> HK Daily Sheet</a></div>
   <div class="pages-nav__item"><a class="link" target="_blank" href="http://www.nghscheduler.appspot.com/"><i class="fas fa-calendar-alt"></i> HK Scheduler</a></div>
   <div class="pages-nav__item"><a class="link link--page" (click)="setCurrentPage('lost')" href="#page-lost"> <i class="fas fa-search-dollar"></i> Lost & Found</a></div>
@@ -38,6 +39,14 @@
             class="page-overflow"></app-hk>
     <ng-template #showHkTitle>
       <h1 class="text-center"><i class="fas fa-building"></i> Housekeeping</h1>
+    </ng-template>
+  </div>
+
+  <div class="page" id="page-hk-new" (click)="currentPage = 'hk-new'">
+    <app-hk-list *ngIf="currentPage === 'hk-new'; else showHkNewTitle"
+            class="page-overflow"></app-hk-list>
+    <ng-template #showHkNewTitle>
+      <h1 class="text-center"><i class="fas fa-building"></i> Housekeeping (NEW)</h1>
     </ng-template>
   </div>
 

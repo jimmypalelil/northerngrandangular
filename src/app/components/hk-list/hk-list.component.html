@@ -1,0 +1,112 @@
+<div class="main-container">
+  <div class="header-container">
+    <div class="info-container">
+      <div class="task-title-container" *ngIf="currentTask" [matMenuTriggerFor]="taskMenu">
+        <div class="task-name-title">{{currentTask['task'] | titlecase}}</div>
+        <div class="task-frequency">{{currentTask['frequency']}}</div>
+      </div>
+
+      <mat-menu #taskMenu="matMenu">
+        <button *ngFor="let task of taskList" mat-menu-item (click)="handleTaskSelect(task)">{{task['task'] | titlecase}}</button>
+      </mat-menu>
+      <div class="date-container">
+        <div class="date-picker">
+          <mat-form-field style="width:1px;visibility:hidden;">
+            <input matInput (dateChange)="handleDateChange()" [formControl]="dateControl" [matDatepicker]="picker" >
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="date-display" (click)="picker.open()">
+          <i class="fas fa-calendar-alt"></i>
+          <span>{{displayDate}}</span>
+        </div>
+      </div>
+    </div>
+    <i class="fas fa-cog settings" [matMenuTriggerFor]="menu">
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="handleAddTask()">Add Task</button>
+        <button mat-menu-item (click)="handleAddPublicArea()">Add Public Area</button>
+      </mat-menu>
+    </i>
+  </div>
+
+  <div class="display-panel">
+    <mat-card>
+      <mat-card-content>
+        <div class="content-container">
+          <div class="display-table">
+            <table *ngIf="guestRooms.length > 0 && currentDisplayType==='guestRooms'">
+              <thead>
+              <tr>
+                <th>Room</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Edit</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of currentRoomList.rooms">
+                <td>{{item.room}}</td>
+                <td>{{item.type | uppercase}}</td>
+                <ng-container *ngIf="completedList && completedList[currentFloor] && completedList[currentFloor].includes(item.room); else showIncomplete">
+                  <td ><i class="fas fa-check-circle"></i></td>
+                  <td style="cursor: pointer" (click)="updateListItem(currentRoomList._id, item.room, 'incomplete')"><i class="fas fa-undo-alt"></i></td>
+                </ng-container>
+                <ng-template #showIncomplete>
+                  <td><i class="fas fa-times-circle"></i></td>
+                  <td style="cursor: pointer" (click)="updateListItem(currentRoomList._id, item.room, 'complete')"><i class="fas fa-thumbs-up"></i></td>
+                </ng-template>
+              </tr>
+              </tbody>
+            </table>
+
+            <table *ngIf="publicAreas.length > 0 && currentDisplayType==='publicAreas'">
+              <thead>
+              <tr>
+                <th>Area</th>
+                <th>Comments</th>
+                <th>Status</th>
+                <th>Edit</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of currentPublicAreaList.areas">
+                <td>{{item.area | uppercase }}</td>
+                <td>{{item.comments | uppercase}}</td>
+                <ng-container *ngIf="completedList && completedList[currentPublicArea] && completedList[currentPublicArea].includes(item.area); else showIncomplete">
+                  <td ><i class="fas fa-check-circle"></i></td>
+                  <td style="cursor: pointer" (click)="updateListItem(currentPublicAreaList._id, item.area, 'incomplete')"><i class="fas fa-undo-alt"></i></td>
+                </ng-container>
+                <ng-template #showIncomplete>
+                  <td><i class="fas fa-times-circle"></i></td>
+                  <td style="cursor: pointer" (click)="updateListItem(currentPublicAreaList._id, item.area, 'complete')"><i class="fas fa-thumbs-up"></i></td>
+                </ng-template>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="filter-container">
+            <div class="floor-names">
+              <div class="filter-title"> Floor Name</div>
+              <div class="filter"
+                   [ngClass]="{'filter-selected': floorName === currentFloor}"
+                   (click)="handleFloorNameClick(floorName)"  *ngFor="let floorName of floorNames">
+                {{floorName}}
+              </div>
+            </div>
+            <div class="area-groups">
+              <div class="filter-title"> Area Groups</div>
+              <div class="filter"
+                   [ngClass]="{'filter-selected': area === currentPublicArea}"
+                   (click)="handleAreaNameClick(area)" *ngFor="let area of publicAreaNames">
+                {{area}}
+              </div>
+            </div>
+<!--            <div class="status">Status</div>-->
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
