@@ -37,7 +37,10 @@
       <mat-card-content>
         <div class="content-container">
           <div class="list-container" >
-            <div class="item-title">{{currentDisplayType === 'guestRooms' ? 'Guest Rooms' : 'Public Areas'}}</div>
+            <div class="item-title" *ngIf="currentDisplayType === 'guestRooms'; else showPublicAreaTitle">Guest Rooms</div>
+            <ng-template #showPublicAreaTitle>
+              <div class="item-title">Public Areas</div>
+            </ng-template>
             <div class="item-list">
               <ng-container  *ngIf="guestRooms && guestRooms.length > 0 && currentDisplayType==='guestRooms'">
                 <div

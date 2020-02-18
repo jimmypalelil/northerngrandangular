@@ -4,6 +4,8 @@
   align-items: center;
 }
 
+$box-shadow: '0 5px 7px #191919';
+
 .main-container{
   height: 100vh;
   width: 100vw;
@@ -32,6 +34,7 @@
   .task-title-container {
     padding-right: 20px;
     border-right: 1px solid #B7B7B7;
+    animation: slideTo-top ease-in-out 1s;
   }
   .task-frequency {
     text-transform: uppercase;
@@ -49,6 +52,7 @@
     color: #A39F9F;
     i {
       padding-right: 10px;
+
     }
   }
 
@@ -58,6 +62,10 @@
     &:hover {
       color: darkorange !important;
     }
+  }
+
+  .settings {
+    animation: slideTo-left ease-in-out 1s;
   }
 
   .settings:hover {
@@ -74,6 +82,24 @@
   }
 }
 
+@mixin slideTo($position) {
+  @keyframes slideTo-#{$position} {
+    from {
+      z-index: -1;
+      position: relative;
+      #{$position}: 50px;
+    }
+    to {
+      z-index: 1;
+      position: relative;
+      #{$position}: 0;
+    }
+  }
+}
+
+@include slideTo(top);
+@include slideTo(left);
+
 .display-panel {
   height: 86vh;
   padding: 3vh 4vw;
@@ -81,7 +107,8 @@
     height: 100%;
     padding: 0;
     border-radius: 12px;
-    background-color: #353434;
+    background-color: transparent;
+    box-shadow: none;
     color: #FFFFFF;
     mat-card-content {
       height: 100%;
@@ -95,17 +122,19 @@
       .list-container {
         width: 80%;
         padding: 25px;
-        border-right: 1px solid #B7B7B7;
+        //border-right: 1px solid #B7B7B7;
         display: flex;
         flex-direction: column;
         align-items: center;
         .item-title {
+          font-family: Monaco, "Lucida Console", monospace;
           font-size: 24px;
           line-height: 26px;
           text-align: center;
-          padding: 0 10px 10px;
-          border-bottom: 1px solid #676767;
-          margin-bottom: 10px;
+          padding: 0 15px 10px;
+          border-bottom: 1px solid #3e3e3e;
+          margin-bottom: 15px;
+          animation: slideTo-top ease-in-out 1s;
         }
         .item-list {
           height: 100%;
@@ -121,7 +150,7 @@
             justify-content: space-between;
             padding: 10px 25px;
             margin: 15px;
-            box-shadow: 0 5px 7px #292929;
+            box-shadow: 0 5px 7px #191919;
             border-radius: 12px;
             &:hover {
               transform: scale(1.05);
@@ -171,7 +200,7 @@
           height: 50%;
           overflow: auto;
           margin: 10px;
-          box-shadow: 0 2px 5px #2b2b2b;
+          //box-shadow: 0 2px 5px #2b2b2b;
           border-radius: 10px;
           padding: 20px;
           &::-webkit-scrollbar {
