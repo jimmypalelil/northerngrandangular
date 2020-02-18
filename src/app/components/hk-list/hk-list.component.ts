@@ -5,6 +5,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {AddTaskComponent} from '../dialogs/add-list-type/add-task.component';
 import {HkListService} from '../../services/hk-list.service';
 import {AddPublicAreaComponent} from '../dialogs/add-public-area/add-public-area.component';
+import {group} from '@angular/animations';
 
 @Component({
   selector: 'app-hk-list',
@@ -158,7 +159,8 @@ export class HkListComponent implements OnInit {
     this.handleDateChange(true);
   }
 
-  updateListItem(id, item, operation) {
+  updateListItem(id, item) {
+    const operation = this.isItemComplete(id, item) ? 'incomplete' : 'complete';
     this.hkListService.updateListItem({
       task: this.currentTask.task,
       start: this.serverDate,
@@ -205,4 +207,19 @@ export class HkListComponent implements OnInit {
     this.currentPublicArea = areaGroup;
     this.currentPublicAreaList = this.filterArrayWithId(this.publicAreas, this.currentPublicArea)[0];
   }
+
+  isItemComplete(groupId, item) {
+    const list = this.completedList;
+    return list && list[groupId] &&
+      list[groupId].includes(item);
+  }
+
+  floor(x) {
+    return Math.floor(x);
+  }
+
+  ceil(x) {
+    return Math.ceil(x);
+  }
 }
+
