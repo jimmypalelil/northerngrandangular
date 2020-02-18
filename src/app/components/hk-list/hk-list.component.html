@@ -26,6 +26,8 @@
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="handleAddTask()">Add Task</button>
         <button mat-menu-item (click)="handleAddPublicArea()">Add Public Area</button>
+        <button mat-menu-item (click)="handleEditTask()">Edit Task</button>
+        <button mat-menu-item (click)="handlePrint()">Print</button>
       </mat-menu>
     </i>
   </div>
@@ -104,5 +106,8 @@
         </div>
       </mat-card-content>
     </mat-card>
+  </div>
+  <div class="print-div">
+    <app-hk-list-print [task]="currentTask" [displayDate]="displayDate" [guestRooms]="guestRooms.slice(1)" [publicAreas]="publicAreas"></app-hk-list-print>
   </div>
 </div>

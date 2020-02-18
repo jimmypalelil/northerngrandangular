@@ -59,6 +59,19 @@
       color: darkorange !important;
     }
   }
+
+  .settings:hover {
+    animation-name: rotateCog;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes rotateCog {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }
 
 .display-panel {
@@ -122,29 +135,20 @@
 
           .item-complete {
             background: radial-gradient(196.67% 196.67% at -54.22% -111.25%, #FDC04C 0%, #E47029 100%);
-            box-shadow: 1px 1px 50px rgba(230, 116, 43, 0.15);
-
-            .list-room-type {
-              color: #FFFFFF;
-            }
+            color: #FFFFFF;
           }
-
           .list-column-0 {
             grid-column-start: 1;
           }
-
           .list-column-1 {
             grid-column-start: 2;
           }
-
           .list-column-2 {
             grid-column-start: 3;
           }
-
           &::-webkit-scrollbar {
             width: 4px;
           }
-
           &::-webkit-scrollbar-thumb {
             background-color: darkgrey;
             outline: 1px solid slategrey;
@@ -157,6 +161,7 @@
         flex-direction: column;
         justify-content: center;
         width: 20%;
+        padding: 25px;
         text-align: center;
         transition: all ease-in-out 500ms;
         &:hover {
@@ -165,6 +170,10 @@
         > div {
           height: 50%;
           overflow: auto;
+          margin: 10px;
+          box-shadow: 0 2px 5px #2b2b2b;
+          border-radius: 10px;
+          padding: 20px;
           &::-webkit-scrollbar {
             width: 4px;
           }
@@ -199,5 +208,17 @@
         }
       }
     }
+  }
+}
+
+@media screen {
+  .print-div {
+    display: none;
+  }
+}
+
+@media print {
+  .header-container, .display-panel, mat-menu, .mat-menu-panel {
+    display: none;
   }
 }

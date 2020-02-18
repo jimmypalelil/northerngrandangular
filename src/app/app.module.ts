@@ -68,6 +68,8 @@ import {HkListService} from './services/hk-list.service';
 import {AddPublicAreaComponent} from './components/dialogs/add-public-area/add-public-area.component';
 import {AddTaskComponent} from './components/dialogs/add-list-type/add-task.component';
 import {HkListComponent} from './components/hk-list/hk-list.component';
+import {EditTaskComponent} from './components/dialogs/edit-task/edit-task.component';
+import {HkListPrintComponent} from './components/hk-list/hk-list-print/hk-list-print.component';
 const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
 
 @NgModule({
@@ -87,6 +89,8 @@ const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
     HkListComponent,
     AddTaskComponent,
     AddPublicAreaComponent,
+    EditTaskComponent,
+    HkListPrintComponent,
   ],
   imports: [
     ParallaxModule,
@@ -153,7 +157,9 @@ const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
     UpdatelostComponent,
     UpdatereturnedComponent,
     ChatDeleteComponent,
-    AddTaskComponent, AddPublicAreaComponent
+    AddTaskComponent,
+    AddPublicAreaComponent,
+    EditTaskComponent
   ]
 })
 export class AppModule { }

@@ -6,6 +6,7 @@ import {AddTaskComponent} from '../dialogs/add-list-type/add-task.component';
 import {HkListService} from '../../services/hk-list.service';
 import {AddPublicAreaComponent} from '../dialogs/add-public-area/add-public-area.component';
 import {group} from '@angular/animations';
+import {EditTaskComponent} from '../dialogs/edit-task/edit-task.component';
 
 @Component({
   selector: 'app-hk-list',
@@ -114,7 +115,6 @@ export class HkListComponent implements OnInit {
       if (publicAreas.length > 0) {
         this.publicAreas = publicAreas;
         this.publicAreaNames = publicAreas.map(item => item._id);
-        console.log(this.publicAreaNames);
         this.currentPublicArea = this.publicAreaNames[0];
         this.currentPublicAreaList = this.filterArrayWithId(this.publicAreas, this.currentPublicArea)[0];
       } else {
@@ -152,6 +152,17 @@ export class HkListComponent implements OnInit {
 
   handleAddPublicArea() {
     const dialogRef = this.dialog.open(AddPublicAreaComponent);
+  }
+
+  handleEditTask() {
+    const dialogRef = this.dialog.open(EditTaskComponent);
+    dialogRef.afterClosed().subscribe(taskObj => {
+      this.taskList = this.taskList.filter(task => {
+        return task.task !== taskObj.task;
+      });
+      this.taskList.push(taskObj);
+      this.handleTaskSelect(taskObj);
+    });
   }
 
   handleTaskSelect(task) {
@@ -239,6 +250,11 @@ export class HkListComponent implements OnInit {
 
   ceil(x) {
     return Math.ceil(x);
+  }
+
+
+  handlePrint() {
+    window.setTimeout(() => window.print(), 100);
   }
 }
 

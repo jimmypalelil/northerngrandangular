@@ -11,7 +11,7 @@ import {MatDialogRef, MatSnackBar} from '@angular/material';
 export class AddTaskComponent implements OnInit {
   form: FormGroup;
   areaGroups: string[] = ['guest rooms'];
-  operationList = ['monthly', 'weekly', 'bi-weekly', 'quarterly', 'bi-yearly', 'yearly'];
+  frequencyList = ['monthly', 'weekly', 'bi-weekly', 'quarterly', 'bi-yearly', 'yearly'];
 
   constructor(private hkListService: HkListService, private snackBar: MatSnackBar,
               private dialogRef: MatDialogRef<AddTaskComponent>) {
@@ -34,6 +34,7 @@ export class AddTaskComponent implements OnInit {
       }
     });
   }
+
   handleSubmitForm() {
     if (this.form.valid) {
       this.hkListService.add('task', this.form.value).then(data => {

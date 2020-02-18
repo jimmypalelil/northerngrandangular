@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+$light-color: #9c9c9c;
+
+@mixin flexColumnCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-container {
+  page-break-after: always;
+  font-size: 16px;
+  @include flexColumnCenter;
+
+  .task-info-container {
+    @include flexColumnCenter;
+
+    & > div:not(:first-child) {
+      font-size: .7em;
+      color: $light-color;
+    }
+  }
+
+  .all-list-container {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    justify-content: space-evenly;
+
+    .single-list-container {
+      text-align: center;
+    }
+
+    .list-id {
+      font-size: .8em;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: .7em;
+      color: $light-color;
+
+      & > div {
+        padding: 0 2px;
+      }
+    }
+  }
+}
+
+
