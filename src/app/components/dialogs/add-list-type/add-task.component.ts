@@ -34,7 +34,6 @@ export class AddTaskComponent implements OnInit {
       }
     });
   }
-  
   handleSubmitForm() {
     if (this.form.valid) {
       this.hkListService.add('task', this.form.value).then(data => {

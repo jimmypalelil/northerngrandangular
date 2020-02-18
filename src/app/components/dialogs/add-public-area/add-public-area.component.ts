@@ -44,9 +44,11 @@ export class AddPublicAreaComponent implements OnInit {
 
   handleAddNew() {
     const group = prompt('Whats the name of the group?');
-    this.hkListService.add('areaGroup', {group}).then(data => {
-      this.snackBar.open('New Area group has been added', null, {duration: 2000});
-      this.areaGroups.push(group);
-    });
+    if (group && group !== '') {
+      this.hkListService.add('areaGroup', {group}).then(data => {
+        this.snackBar.open('New Area group has been added', null, {duration: 2000});
+        this.areaGroups.push(group);
+      });
+    }
   }
 }

@@ -159,28 +159,47 @@ export class HkListComponent implements OnInit {
     this.handleDateChange(true);
   }
 
+  pushCompletedItem(id, item) {
+    if (this.completedList[id]) {
+      this.completedList[id].push(item);
+    } else {
+      this.completedList = {
+        [id]: [item]
+      };
+    }
+  }
+
+  pullCompletedItem(id, item) {
+    this.completedList[id] = this.completedList[id].filter(value => value !== item);
+  }
+
   updateListItem(id, item) {
     const operation = this.isItemComplete(id, item) ? 'incomplete' : 'complete';
+
+    // Update local list first
+    if (operation === 'complete') {
+      this.pushCompletedItem(id, item);
+    } else {
+      this.pullCompletedItem(id, item);
+    }
+
     this.hkListService.updateListItem({
       task: this.currentTask.task,
       start: this.serverDate,
       _id: id,
       items: [item],
       operation,
-    }).then(data => {
-      if (operation === 'complete') {
-        if (this.completedList[id]) {
-          this.completedList[id].push(item);
+    })
+      .then(data => {
+        this.snackBar.open(data.msg, null, {duration: 2000});
+      })
+      .catch(err => { // catch server error and reverse local list changes
+        if (operation === 'incomplete') {
+          this.pushCompletedItem(id, item);
         } else {
-          this.completedList = {
-            [id]: [item]
-          };
+          this.pullCompletedItem(id, item);
         }
-      } else {
-        this.completedList[id] = this.completedList[id].filter(value => value !== item);
-      }
-      this.snackBar.open(data.msg, null, {duration: 2000});
-    });
+      });
   }
 
   getCompletedList() {
