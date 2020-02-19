@@ -357,3 +357,9 @@ hr {
     font-size: 20px;
   }
 }
+
+@media print {
+  * {
+    height: max-content !important;
+  }
+}
