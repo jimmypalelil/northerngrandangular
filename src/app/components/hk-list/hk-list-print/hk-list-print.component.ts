@@ -1,11 +1,11 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-hk-list-print',
   templateUrl: './hk-list-print.component.html',
   styleUrls: ['./hk-list-print.component.scss']
 })
-export class HkListPrintComponent implements OnInit, OnChanges {
+export class HkListPrintComponent implements OnInit {
 
   @Input() guestRooms: [];
   @Input() publicAreas: [];
@@ -15,13 +15,5 @@ export class HkListPrintComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.guestRooms);
-    console.log(this.publicAreas);
   }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes.guestRooms && changes.guestRooms.currentValue);
-    console.log(changes.publicAreas && changes.publicAreas.currentValue);
-  }
-
 }

@@ -50,6 +50,7 @@ $box-shadow: '0 5px 7px #191919';
     font-size: 32px;
     line-height: 33px;
     color: #A39F9F;
+    animation: slideTo-bottom ease-in-out 1s;
     i {
       padding-right: 10px;
 
@@ -62,10 +63,6 @@ $box-shadow: '0 5px 7px #191919';
     &:hover {
       color: darkorange !important;
     }
-  }
-
-  .settings {
-    animation: slideTo-left ease-in-out 1s;
   }
 
   .settings:hover {
@@ -99,6 +96,8 @@ $box-shadow: '0 5px 7px #191919';
 
 @include slideTo(top);
 @include slideTo(left);
+@include slideTo(bottom);
+@include slideTo(right);
 
 .display-panel {
   height: 86vh;
@@ -126,6 +125,7 @@ $box-shadow: '0 5px 7px #191919';
         display: flex;
         flex-direction: column;
         align-items: center;
+
         .item-title {
           font-family: Monaco, "Lucida Console", monospace;
           font-size: 24px;
@@ -134,16 +134,27 @@ $box-shadow: '0 5px 7px #191919';
           padding: 0 15px 10px;
           border-bottom: 1px solid #3e3e3e;
           margin-bottom: 15px;
-          animation: slideTo-top ease-in-out 1s;
+          animation: slideTo-right ease-in-out 1s;
         }
         .item-list {
           height: 100%;
           width: 100%;
-          overflow: auto;
+          overflow-y: hidden;
           display: grid;
           grid-template-columns: 1fr 1fr 1fr;
           grid-auto-flow: row dense;
           grid-auto-rows: max-content;
+          &:hover {
+            overflow-y: scroll;
+          }
+          &::-webkit-scrollbar {
+            width: 4px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: darkgrey;
+            outline: 1px solid slategrey;
+            border-radius: 25px;
+          }
           .list-room-item {
             @include flexDisplay;
             cursor: pointer;
@@ -152,6 +163,7 @@ $box-shadow: '0 5px 7px #191919';
             margin: 15px;
             box-shadow: 0 5px 7px #191919;
             border-radius: 12px;
+            animation: slideTo-top ease-in-out 1s;
             &:hover {
               transform: scale(1.05);
             }
@@ -162,10 +174,20 @@ $box-shadow: '0 5px 7px #191919';
             }
           }
 
-          .item-complete {
-            background: radial-gradient(196.67% 196.67% at -54.22% -111.25%, #FDC04C 0%, #E47029 100%);
-            color: #FFFFFF;
+          $dayColors: #FDC04C #E47029 #a7a5a1 #362cb1 #00ff57 #1a8c34 #f57d7d #af2525 #f57d7d #af256f #7d8df5 #2560af #f5ea7d #af9425;
+
+          @mixin dayLoop() {
+            @for $i from 1 to 8 {
+              #{'.item-complete.day-' + ($i - 1)} {
+                background: radial-gradient(196.67% 196.67% at -54.22% -111.25%, #{nth($dayColors, $i * 2 - 1)} 0%, #{nth($dayColors, $i * 2)} 100%);
+                color: #FFFFFF !important;
+              }
+              $i: $i + 2;
+            }
           }
+
+          @include dayLoop();
+
           .list-column-0 {
             grid-column-start: 1;
           }
@@ -174,14 +196,6 @@ $box-shadow: '0 5px 7px #191919';
           }
           .list-column-2 {
             grid-column-start: 3;
-          }
-          &::-webkit-scrollbar {
-            width: 4px;
-          }
-          &::-webkit-scrollbar-thumb {
-            background-color: darkgrey;
-            outline: 1px solid slategrey;
-            border-radius: 25px;
           }
         }
       }
@@ -200,9 +214,9 @@ $box-shadow: '0 5px 7px #191919';
           height: 50%;
           overflow: auto;
           margin: 10px;
-          //box-shadow: 0 2px 5px #2b2b2b;
           border-radius: 10px;
           padding: 20px;
+          animation: slideTo-left ease-in-out 1s;
           &::-webkit-scrollbar {
             width: 4px;
           }

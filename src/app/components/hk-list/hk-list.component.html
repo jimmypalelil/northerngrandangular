@@ -9,7 +9,8 @@
       <mat-menu #taskMenu="matMenu">
         <button *ngFor="let task of taskList" mat-menu-item (click)="handleTaskSelect(task)">{{task['task'] | titlecase}}</button>
       </mat-menu>
-      <div class="date-container">
+
+      <div class="date-container" *ngIf="displayDate !== ''">
         <div class="date-picker">
           <mat-form-field style="width:1px;visibility:hidden;">
             <input matInput (dateChange)="handleDateChange()" [formControl]="dateControl" [matDatepicker]="picker" >
@@ -42,10 +43,10 @@
               <div class="item-title">Public Areas</div>
             </ng-template>
             <div class="item-list">
-              <ng-container  *ngIf="guestRooms && guestRooms.length > 0 && currentDisplayType==='guestRooms'">
+              <ng-container *ngIf="guestRooms && guestRooms.length > 0 && currentDisplayType==='guestRooms'">
                 <div
-                  class="list-room-item {{'list-column-' + floor(i / ceil(currentRoomList.rooms.length / 3))}}"
                   *ngFor="let item of currentRoomList.rooms; let i = index;"
+                  class="list-room-item {{'day-' + getWeekDay()}} {{'list-column-' + floor(i / ceil(currentRoomList.rooms.length / 3))}}"
                   [ngClass]="{'item-complete': isItemComplete(currentFloor, item.room)}"
                   (click)="updateListItem(currentFloor, item.room)"
                 >

@@ -15,7 +15,7 @@ import {EditTaskComponent} from '../dialogs/edit-task/edit-task.component';
 })
 export class HkListComponent implements OnInit {
   dateControl = new FormControl(moment());
-  displayDate;
+  displayDate = '';
   serverDate;
   currentTask;
   taskList = [];
@@ -40,8 +40,7 @@ export class HkListComponent implements OnInit {
     this.hkListService.get('tasks', {}).then(data => {
       this.taskList = data;
       if (!this.currentTask) {
-        this.currentTask = data[0];
-        this.handleTaskSelect(this.currentTask);
+        this.handleTaskSelect(data[0]);
       }
     });
   }
@@ -83,6 +82,7 @@ export class HkListComponent implements OnInit {
       }
       return {start, end};
     }
+    return {};
   }
 
   getDisplayDate(start, end) {
@@ -103,8 +103,10 @@ export class HkListComponent implements OnInit {
         this.guestRooms = guestRooms;
         this.floorNames = this.filterArrayWithId(this.guestRooms, 'floorNames')[0].floorNames;
         if (this.floorNames && this.floorNames.length > 0) {
-          this.currentFloor = this.floorNames[0];
-          this.currentRoomList = this.filterArrayWithId(this.guestRooms, this.currentFloor)[0];
+          if (!this.currentFloor) {
+            this.currentFloor = this.floorNames[0];
+            this.currentRoomList = this.filterArrayWithId(this.guestRooms, this.currentFloor)[0];
+          }
         }
       } else {
         this.guestRooms = [];
@@ -157,17 +159,27 @@ export class HkListComponent implements OnInit {
   handleEditTask() {
     const dialogRef = this.dialog.open(EditTaskComponent);
     dialogRef.afterClosed().subscribe(taskObj => {
-      this.taskList = this.taskList.filter(task => {
-        return task.task !== taskObj.task;
-      });
-      this.taskList.push(taskObj);
-      this.handleTaskSelect(taskObj);
+      if (taskObj) {
+        this.taskList = this.taskList.filter(task => {
+          return task.task !== taskObj.task;
+        });
+        this.taskList.push(taskObj);
+        this.handleTaskSelect(taskObj);
+      }
     });
   }
 
   handleTaskSelect(task) {
-    this.currentTask = task;
-    this.handleDateChange(true);
+    if (
+      !this.currentTask ||
+      (task.task !== this.currentTask.task ||
+        task.frequency !== this.currentTask.frequency ||
+        task.hkAreas.length !== this.currentTask.hkAreas.length
+      )
+    ) {
+      this.currentTask = task;
+      this.handleDateChange(true);
+    }
   }
 
   pushCompletedItem(id, item) {
@@ -252,9 +264,12 @@ export class HkListComponent implements OnInit {
     return Math.ceil(x);
   }
 
-
   handlePrint() {
     window.setTimeout(() => window.print(), 100);
+  }
+
+  getWeekDay() {
+    return moment().weekday();
   }
 }
 
