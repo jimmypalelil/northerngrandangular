@@ -207,23 +207,34 @@ $box-shadow: '0 5px 7px #191919';
         padding: 25px;
         text-align: center;
         transition: all ease-in-out 500ms;
+        transform: perspective(1000px) rotate3d(0, 1, 0, -40deg);
+        box-shadow: 13px 8px 20px 0 #191919;
         &:hover {
           width: 25%;
+          transform: none;
+          box-shadow: none;
         }
         > div {
           height: 50%;
-          overflow: auto;
           margin: 10px;
           border-radius: 10px;
           padding: 20px;
           animation: slideTo-left ease-in-out 1s;
-          &::-webkit-scrollbar {
-            width: 4px;
-          }
-          &::-webkit-scrollbar-thumb {
-            background-color: darkgrey;
-            outline: 1px solid slategrey;
-            border-radius: 25px;
+          .filter-list {
+            overflow: hidden;
+            height: 100%;
+            &:hover {
+              overflow-y: auto;
+            }
+            &::-webkit-scrollbar {
+              width: 4px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+              background-color: darkgrey;
+              outline: 1px solid slategrey;
+              border-radius: 25px;
+            }
           }
           .filter-title {
             font-weight: 500;

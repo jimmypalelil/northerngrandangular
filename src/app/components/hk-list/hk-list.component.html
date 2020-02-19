@@ -91,18 +91,22 @@
           <div class="filter-container">
             <div class="floor-names" *ngIf="floorNames.length > 0">
               <div class="filter-title"> Floor Name</div>
-              <div class="filter"
-                   [ngClass]="{'filter-selected': currentDisplayType === 'guestRooms' && floorName === currentFloor}"
-                   (click)="handleFloorNameClick(floorName)"  *ngFor="let floorName of floorNames">
-                {{floorName}}
+              <div class="filter-list">
+                <div class="filter"
+                     [ngClass]="{'filter-selected': currentDisplayType === 'guestRooms' && floorName === currentFloor}"
+                     (click)="handleFloorNameClick(floorName)"  *ngFor="let floorName of floorNames">
+                  {{floorName}}
+                </div>
               </div>
             </div>
             <div class="area-groups" *ngIf="publicAreaNames.length > 0">
               <div class="filter-title"> Area Groups</div>
-              <div class="filter"
-                   [ngClass]="{'filter-selected': currentDisplayType === 'publicAreas' && area === currentPublicArea}"
-                   (click)="handleAreaNameClick(area)" *ngFor="let area of publicAreaNames">
-                {{area}}
+              <div class="filter-list">
+                <div class="filter"
+                     [ngClass]="{'filter-selected': currentDisplayType === 'publicAreas' && area === currentPublicArea}"
+                     (click)="handleAreaNameClick(area)" *ngFor="let area of publicAreaNames">
+                  {{area}}
+                </div>
               </div>
             </div>
             <!--            <div class="status">Status</div>-->
