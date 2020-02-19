@@ -363,3 +363,17 @@ hr {
     height: max-content !important;
   }
 }
+
+.mat-dialog-container {
+  background-color: #1b1b21;
+  color: white;
+  mat-form-field {
+    width: 75%;
+    .mat-select-value, .mat-form-field-label, .mat-hint {
+      color: #FFFFFF;
+    }
+    .mat-form-field-underline {
+      color: #8880806b;
+    }
+  }
+}
