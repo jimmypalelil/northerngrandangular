@@ -10,42 +10,44 @@ $light-color: #9c9c9c;
   align-items: center;
 }
 
-.page-container {
-  page-break-after: always;
-  font-size: 16px;
-  @include flexColumnCenter;
-
-  .task-info-container {
+@media print {
+  .page-container {
+    page-break-after: always;
+    font-size: 30px !important;
     @include flexColumnCenter;
 
-    & > div:not(:first-child) {
-      font-size: .7em;
-      color: $light-color;
-    }
-  }
+    .task-info-container {
+      @include flexColumnCenter;
 
-  .all-list-container {
-    display: flex;
-    width: 100%;
-    padding: 10px;
-    justify-content: space-evenly;
-
-    .single-list-container {
-      text-align: center;
+      & > div:not(:first-child) {
+        font-size: .7em;
+        color: $light-color;
+      }
     }
 
-    .list-id {
-      font-size: .8em;
-    }
-
-    .list-item {
+    .all-list-container {
       display: flex;
-      justify-content: space-between;
-      font-size: .7em;
-      color: $light-color;
+      width: 100%;
+      padding: 10px;
+      justify-content: space-evenly;
 
-      & > div {
-        padding: 0 2px;
+      .single-list-container {
+        text-align: center;
+      }
+
+      .list-id {
+        font-size: .8em;
+      }
+
+      .list-item {
+        display: flex;
+        justify-content: space-between;
+        font-size: .7em;
+        color: $light-color;
+
+        & > div {
+          padding: 0 2px;
+        }
       }
     }
   }
