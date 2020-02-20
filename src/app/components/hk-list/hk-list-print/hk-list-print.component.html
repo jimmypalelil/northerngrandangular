@@ -1,34 +1,34 @@
 
-<div class="page-container" *ngIf="guestRooms && guestRooms.length > 0">
+<div class="page-container">
   <div class="task-info-container">
     <div class="task-title">{{task.task | uppercase}}</div>
     <div class="task-frequency">({{task.frequency | uppercase}})</div>
-    <div class="display-date">{{displayDate}}</div>
+    <div class="display-date">{{task.displayDate}}</div>
   </div>
   <div class="all-list-container">
-    <div class="single-list-container" *ngFor="let floor of guestRooms">
-      <div class="list-id">{{floor['_id'] | uppercase}}</div>
-      <div class="list-item" *ngFor="let item of floor.rooms">
-        <div>{{item.room}}</div>
-        <div>{{item.type | uppercase}}</div>
-        <div>_____</div>
+    <div class="single-list-container" *ngFor="let id of task.guestRoomLists.ids">
+      <div class="list-id">{{id | uppercase}}</div>
+      <div class="list-item complete-{{item.status}}" *ngFor="let item of task.getListForId(id)">
+        <div>{{item.itemName}}</div>
+        <div>{{item.extraInfo | uppercase}}</div>
+        <div *ngIf="!item.status">_____</div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="page-container" *ngIf="publicAreas && publicAreas.length > 0">
+<div class="page-container">
   <div class="task-info-container">
     <div class="task-title">{{task.task | uppercase}}</div>
     <div class="task-frequency">({{task.frequency | uppercase}})</div>
-    <div class="display-date">{{displayDate}}</div>
+    <div class="display-date">{{task.displayDate}}</div>
   </div>
   <div class="all-list-container">
-    <div class="single-list-container" *ngFor="let list of publicAreas">
-      <div class="list-id">{{list['_id'] | uppercase}}</div>
-      <div class="list-item" *ngFor="let item of list.areas">
-        <div>{{item.area | uppercase}}</div>
-        <div>_____</div>
+    <div class="single-list-container" *ngFor="let id of task.publicAreaLists.ids">
+      <div class="list-id">{{id | uppercase}}</div>
+      <div class="list-item complete-{{item.status}}" *ngFor="let item of task.getListForId(id)">
+        <div>{{item.itemName | uppercase}}</div>
+        <div *ngIf="!item.status">_____</div>
       </div>
     </div>
   </div>

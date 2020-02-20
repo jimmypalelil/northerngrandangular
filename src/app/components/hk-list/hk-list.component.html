@@ -2,12 +2,12 @@
   <div class="header-container">
     <div class="info-container">
       <div class="task-title-container" *ngIf="currentTask" [matMenuTriggerFor]="taskMenu">
-        <div class="task-name-title">{{currentTask['task'] | titlecase}}</div>
-        <div class="task-frequency">{{currentTask['frequency']}}</div>
+        <div class="task-name-title">{{currentTask.task | titlecase}}</div>
+        <div class="task-frequency">{{currentTask.task}}</div>
       </div>
 
       <mat-menu #taskMenu="matMenu">
-        <button *ngFor="let task of taskList" mat-menu-item (click)="handleTaskSelect(task)">{{task['task'] | titlecase}}</button>
+        <button *ngFor="let task of taskList" mat-menu-item (click)="handleTaskSelect(task)">{{task.task | titlecase}}</button>
       </mat-menu>
 
       <div class="date-container" *ngIf="displayDate !== ''">
@@ -33,78 +33,57 @@
     </i>
   </div>
 
-  <div class="display-panel">
+  <div class="display-panel" *ngIf="listReady">
     <mat-card>
       <mat-card-content>
         <div class="content-container">
           <div class="list-container" >
-            <div class="item-title" *ngIf="currentDisplayType === 'guestRooms'; else showPublicAreaTitle">Guest Rooms</div>
+
+            <div class="item-title" *ngIf="currentDisplayType === 0; else showPublicAreaTitle">Guest Rooms</div>
             <ng-template #showPublicAreaTitle>
               <div class="item-title">Public Areas</div>
             </ng-template>
-            <div class="item-list">
-              <ng-container *ngIf="guestRooms && guestRooms.length > 0 && currentDisplayType==='guestRooms'">
-                <div
-                  *ngFor="let item of currentRoomList.rooms; let i = index;"
-                  class="list-room-item {{'day-' + getWeekDay()}} {{'list-column-' + floor(i / ceil(currentRoomList.rooms.length / 3))}}"
-                  [ngClass]="{'item-complete': isItemComplete(currentFloor, item.room)}"
-                  (click)="updateListItem(currentFloor, item.room)"
-                >
-                  <div class="list-room-info">
-                    <div class="list-room-number">{{item.room}}</div>
-                    <div class="list-room-type">{{item.type}}</div>
-                  </div>
-                  <ng-container *ngIf="isItemComplete(currentFloor, item.room); else showIncomplete">
-                    <i class="fas fa-undo-alt"></i>
-                  </ng-container>
-                  <ng-template #showIncomplete>
-                    <i class="fas fa-thumbs-up"></i>
-                  </ng-template>
-                </div>
-              </ng-container>
 
-              <ng-container *ngIf="publicAreas && publicAreas.length > 0 && currentDisplayType==='publicAreas'">
+            <div class="item-list">
                 <div
-                  class="list-room-item {{'list-column-' + floor(i / ceil(currentPublicAreaList.areas.length / 3))}}"
-                  *ngFor="let item of currentPublicAreaList.areas; let i = index"
-                  [ngClass]="{'item-complete': isItemComplete(currentPublicArea, item.area)}"
-                  (click)="updateListItem(currentPublicArea, item.area)"
-                  matTooltip="{{item.comments}}"
+                  *ngFor="let item of currentList; let i = index"
+                  class="list-room-item {{'day-' + getWeekDay()}} {{'list-column-' + floor(i / ceil(currentList.length / 3))}}"
+                  [ngClass]="{'item-complete': item.status}"
+                  (click)="updateListItem(item)"
                 >
                   <div class="list-room-info">
-                    <div
-                      class="list-room-number">
-                      {{item.area | titlecase}}
-                    </div>
+                    <div class="list-room-number">{{item.itemName}}</div>
+                    <div class="list-room-type">{{item.extraInfo}}</div>
                   </div>
-                  <ng-container *ngIf="isItemComplete(currentPublicArea, item.area); else showIncomplete">
+                  <ng-container *ngIf="item.status; else showIncomplete">
                     <i class="fas fa-undo-alt"></i>
                   </ng-container>
                   <ng-template #showIncomplete>
                     <i class="fas fa-thumbs-up"></i>
                   </ng-template>
                 </div>
-              </ng-container>
             </div>
           </div>
 
           <div class="filter-container">
-            <div class="floor-names" *ngIf="floorNames.length > 0">
+
+            <div class="floor-names" *ngIf="currentTask.guestRoomLists.ids.length > 0">
               <div class="filter-title"> Floor Name</div>
               <div class="filter-list">
                 <div class="filter"
-                     [ngClass]="{'filter-selected': currentDisplayType === 'guestRooms' && floorName === currentFloor}"
-                     (click)="handleFloorNameClick(floorName)"  *ngFor="let floorName of floorNames">
+                     [ngClass]="{'filter-selected': floorName === currentId}"
+                     (click)="handleIdClick(floorName, 0)" *ngFor="let floorName of currentTask.guestRoomLists.ids">
                   {{floorName}}
                 </div>
               </div>
             </div>
-            <div class="area-groups" *ngIf="publicAreaNames.length > 0">
+
+            <div class="area-groups" *ngIf="currentTask.publicAreaLists.ids.length > 0">
               <div class="filter-title"> Area Groups</div>
               <div class="filter-list">
                 <div class="filter"
-                     [ngClass]="{'filter-selected': currentDisplayType === 'publicAreas' && area === currentPublicArea}"
-                     (click)="handleAreaNameClick(area)" *ngFor="let area of publicAreaNames">
+                     [ngClass]="{'filter-selected':area === currentId}"
+                     (click)="handleIdClick(area, 1)" *ngFor="let area of currentTask.publicAreaLists.ids">
                   {{area}}
                 </div>
               </div>
@@ -115,7 +94,7 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <div class="print-div">
-    <app-hk-list-print [task]="currentTask" [displayDate]="displayDate" [guestRooms]="guestRooms.slice(1)" [publicAreas]="publicAreas"></app-hk-list-print>
+  <div class="print-div" *ngIf="listReady">
+    <app-hk-list-print [task]="currentTask"></app-hk-list-print>
   </div>
 </div>

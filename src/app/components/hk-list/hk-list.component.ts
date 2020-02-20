@@ -5,32 +5,34 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {AddTaskComponent} from '../dialogs/add-list-type/add-task.component';
 import {HkListService} from '../../services/hk-list.service';
 import {AddPublicAreaComponent} from '../dialogs/add-public-area/add-public-area.component';
-import {group} from '@angular/animations';
 import {EditTaskComponent} from '../dialogs/edit-task/edit-task.component';
+import {Task} from '../../models/Task';
+import {ListItem} from '../../models/ListItem';
+
+enum DisplayType {
+  GUEST_ROOMS,
+  PUBLIC_AREAS
+}
 
 @Component({
   selector: 'app-hk-list',
   templateUrl: './hk-list.component.html',
   styleUrls: ['./hk-list.component.scss']
 })
+
 export class HkListComponent implements OnInit {
   dateControl = new FormControl(moment());
   displayDate = '';
-  serverDate;
-  currentTask;
-  taskList = [];
-  guestRooms = [];
-  publicAreas = [];
-  floorNames = [];
-  publicAreaNames = [];
-  currentFloor: string;
-  currentRoomList: [];
-  currentPublicArea: string;
-  currentPublicAreaList: [];
+  currentTask: Task;
+  taskList: Task[] = [];
+  listReady = false;
+  currentId: string;
+  currentList: ListItem[];
   completedList = {};
-  currentDisplayType = 'guestRooms';
-  constructor(private dialog: MatDialog, private hkListService: HkListService, private snackBar: MatSnackBar) {
-  }
+  currentDisplayType = DisplayType.GUEST_ROOMS;
+
+  constructor(private dialog: MatDialog, private hkListService: HkListService,
+              private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.getTaskList();
@@ -45,101 +47,32 @@ export class HkListComponent implements OnInit {
     });
   }
 
-  getFrequencyDates() {
-    if (this.currentTask) {
-      let start;
-      let end;
-      let amtToSubtract;
-      const dateString = this.dateControl.value;
-      switch (this.currentTask.frequency) {
-        case 'monthly':
-          start = moment(dateString).startOf('month');
-          end = moment(dateString).endOf('month');
-          break;
-        case 'weekly':
-          start = moment(dateString).startOf('week');
-          end = moment(dateString).endOf('week');
-          break;
-        case 'bi-weekly':
-          amtToSubtract = (moment(dateString).week() + 1) % 2;
-          start = moment(dateString).subtract(amtToSubtract, 'weeks').startOf('week');
-          end = moment(start).add(1, 'weeks').endOf('week');
-          break;
-        case 'quarterly':
-          amtToSubtract = (moment(dateString).month() + 3) % 3;
-          start = moment(dateString).subtract(amtToSubtract, 'months').startOf('month');
-          end = moment(start).add(2, 'months').endOf('month');
-          break;
-        case 'bi-yearly':
-          amtToSubtract = (moment(dateString).month() + 6) % 6;
-          start = moment(dateString).startOf('month').subtract(amtToSubtract, 'months').startOf('month');
-          end = moment(start).startOf('month').add(5, 'months').endOf('month');
-          break;
-        case 'yearly':
-          start = moment(dateString).startOf('year');
-          end = moment(start).endOf('year');
-          break;
-      }
-      return {start, end};
-    }
-    return {};
-  }
-
-  getDisplayDate(start, end) {
-    if (start && end) {
-      return start.format('MMM DD, YYYY') + ' - ' + end.format('MMM DD, YYYY');
-    }
-  }
-
-  getServerFormattedDate(startDate) {
-    return moment(startDate).format('YYYY-MM-DD');
-  }
-
   getHkList() {
-    this.hkListService.getHkList({hkAreas: this.currentTask.hkAreas}).then(data => {
-      const {guestRooms, publicAreas} = data;
-      if (guestRooms.length > 0) {
-        this.currentDisplayType = 'guestRooms';
-        this.guestRooms = guestRooms;
-        this.floorNames = this.filterArrayWithId(this.guestRooms, 'floorNames')[0].floorNames;
-        if (this.floorNames && this.floorNames.length > 0) {
-          if (!this.currentFloor) {
-            this.currentFloor = this.floorNames[0];
-            this.currentRoomList = this.filterArrayWithId(this.guestRooms, this.currentFloor)[0];
-          }
+    this.hkListService.getHkList({hkAreas: this.currentTask.hkAreas})
+      .then(data => {
+        const {guestRooms, publicAreas} = data;
+        this.currentTask.setGuestRoomLists(guestRooms);
+        this.currentTask.setPublicAreaLists(publicAreas);
+        this.getCompletedList();
+
+        if (this.currentTask.guestRoomLists.ids.length > 0) {
+          this.currentDisplayType = DisplayType.GUEST_ROOMS;
+          this.currentId = this.currentTask.guestRoomLists.ids[0];
+        } else {
+          this.currentDisplayType = DisplayType.PUBLIC_AREAS;
+          this.currentId = this.currentTask.publicAreaLists.ids[0];
         }
-      } else {
-        this.guestRooms = [];
-        this.floorNames = [];
-        this.currentDisplayType = 'publicAreas';
-      }
-
-      if (publicAreas.length > 0) {
-        this.publicAreas = publicAreas;
-        this.publicAreaNames = publicAreas.map(item => item._id);
-        this.currentPublicArea = this.publicAreaNames[0];
-        this.currentPublicAreaList = this.filterArrayWithId(this.publicAreas, this.currentPublicArea)[0];
-      } else {
-        this.publicAreas = [];
-        this.publicAreaNames = [];
-      }
-
-      this.publicAreas = publicAreas;
-    });
-  }
-
-  filterArrayWithId(array: any[], filterName) {
-    return array.filter(item => item._id === filterName);
+        this.currentList = this.currentTask.getListForId(this.currentId);
+        this.listReady = true;
+      });
   }
 
   handleDateChange(forceFetchList?) {
-    const {start, end} = this.getFrequencyDates();
-    const serverDate = this.getServerFormattedDate(start);
-    if (serverDate !== this.serverDate || forceFetchList) {
-      this.serverDate = this.getServerFormattedDate(start);
-      this.displayDate = this.getDisplayDate(start, end);
+    const newServerDate = this.currentTask.getServerFormattedDate(this.dateControl.value);
+    if (newServerDate !== this.currentTask.serverDate || forceFetchList) {
+      this.currentTask.setDisplayDate(this.dateControl.value);
+      this.displayDate = this.currentTask.displayDate;
       this.getHkList();
-      this.getCompletedList();
     }
   }
 
@@ -153,7 +86,7 @@ export class HkListComponent implements OnInit {
   }
 
   handleAddPublicArea() {
-    const dialogRef = this.dialog.open(AddPublicAreaComponent);
+    this.dialog.open(AddPublicAreaComponent);
   }
 
   handleEditTask() {
@@ -177,83 +110,49 @@ export class HkListComponent implements OnInit {
         task.hkAreas.length !== this.currentTask.hkAreas.length
       )
     ) {
-      this.currentTask = task;
+      this.listReady = false;
+      this.currentTask = new Task(task);
       this.handleDateChange(true);
     }
   }
 
-  pushCompletedItem(id, item) {
-    if (this.completedList[id]) {
-      this.completedList[id].push(item);
-    } else {
-      this.completedList = {
-        [id]: [item]
-      };
-    }
-  }
-
-  pullCompletedItem(id, item) {
-    this.completedList[id] = this.completedList[id].filter(value => value !== item);
-  }
-
-  updateListItem(id, item) {
-    const operation = this.isItemComplete(id, item) ? 'incomplete' : 'complete';
-
-    // Update local list first
-    if (operation === 'complete') {
-      this.pushCompletedItem(id, item);
-    } else {
-      this.pullCompletedItem(id, item);
-    }
+  updateListItem(item: ListItem) {
+    const operation = item.status ? 'incomplete' : 'complete';
+    item.status = !item.status;
 
     this.hkListService.updateListItem({
       task: this.currentTask.task,
-      start: this.serverDate,
-      _id: id,
-      items: [item],
+      start: this.currentTask.serverDate,
+      _id: this.currentId,
+      items: [item.itemName],
       operation,
     })
       .then(data => {
         this.snackBar.open(data.msg, null, {duration: 2000});
       })
-      .catch(err => { // catch server error and reverse local list changes
-        if (operation === 'incomplete') {
-          this.pushCompletedItem(id, item);
-        } else {
-          this.pullCompletedItem(id, item);
-        }
+      .catch(() => { // catch server error and reverse local list changes
+        item.status = !item.status;
       });
   }
 
   getCompletedList() {
     this.hkListService.getCompletedList({
       task: this.currentTask.task,
-      start: this.serverDate,
+      start: this.currentTask.serverDate,
     }).then(data => {
       if (data.length > 0) {
-        this.completedList = data[0];
+        // this.completedList = data[0];
+        this.currentTask.markComplete(data[0]);
       } else {
         this.completedList = {};
       }
     });
   }
 
-  handleFloorNameClick(floorName) {
-    this.currentDisplayType = 'guestRooms';
-    this.currentFloor = floorName;
-    this.currentRoomList = this.filterArrayWithId(this.guestRooms, floorName)[0];
-  }
-
-  handleAreaNameClick(areaGroup) {
-    this.currentDisplayType = 'publicAreas';
-    this.currentPublicArea = areaGroup;
-    this.currentPublicAreaList = this.filterArrayWithId(this.publicAreas, this.currentPublicArea)[0];
-  }
-
-  isItemComplete(groupId, item) {
-    const list = this.completedList;
-    return list && list[groupId] &&
-      list[groupId].includes(item);
+  handleIdClick(id, displayType: DisplayType) {
+    this.currentDisplayType = displayType;
+    this.currentId = id;
+    this.currentList = this.currentTask.getListForId(id);
   }
 
   floor(x) {

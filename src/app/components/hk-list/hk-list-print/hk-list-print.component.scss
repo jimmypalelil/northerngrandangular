@@ -49,6 +49,11 @@ $light-color: #9c9c9c;
           padding: 0 2px;
         }
       }
+
+      .complete-true {
+        text-decoration: line-through;
+        justify-content: flex-start;
+      }
     }
   }
 }

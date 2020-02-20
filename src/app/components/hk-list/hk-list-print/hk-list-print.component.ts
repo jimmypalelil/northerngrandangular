@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Task} from '../../../models/Task';
 
 @Component({
   selector: 'app-hk-list-print',
@@ -7,10 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class HkListPrintComponent implements OnInit {
 
-  @Input() guestRooms: [];
-  @Input() publicAreas: [];
-  @Input() task: {};
-  @Input() displayDate: string;
+  @Input() task: Task;
 
   constructor() { }
 
