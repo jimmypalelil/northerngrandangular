@@ -43,7 +43,6 @@ export class EditTaskComponent implements OnInit {
     this.hkListService.get('areaGroup', {}).then(data => {
       if (data.length > 0) {
         this.areaGroups = this.areaGroups.concat(data[0].groups);
-        console.log(this.areaGroups);
       }
     });
   }

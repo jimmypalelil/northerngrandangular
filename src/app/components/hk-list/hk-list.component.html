@@ -3,7 +3,7 @@
     <div class="info-container">
       <div class="task-title-container" *ngIf="currentTask" [matMenuTriggerFor]="taskMenu">
         <div class="task-name-title">{{currentTask.task | titlecase}}</div>
-        <div class="task-frequency">{{currentTask.task}}</div>
+        <div class="task-frequency">{{currentTask.frequency}}</div>
       </div>
 
       <mat-menu #taskMenu="matMenu">
