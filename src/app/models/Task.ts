@@ -25,6 +25,7 @@ export class Task {
   setGuestRoomLists(lists) {
     this.guestRoomLists = new GuestRoomLists(lists);
   }
+
   setPublicAreaLists(lists) {
     this.publicAreaLists = new PublicAreaLists(lists);
   }
@@ -33,7 +34,7 @@ export class Task {
     if (this.guestRoomLists.getListForId(id)) {
       return Array.from(this.guestRoomLists.getListForId(id).itemMap.values());
     } else {
-     return Array.from(this.publicAreaLists.getListForId(id).itemMap.values());
+      return Array.from(this.publicAreaLists.getListForId(id).itemMap.values());
     }
   }
 

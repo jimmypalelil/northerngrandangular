@@ -10,7 +10,7 @@
         <button *ngFor="let task of taskList" mat-menu-item (click)="handleTaskSelect(task)">{{task.task | titlecase}}</button>
       </mat-menu>
 
-      <div class="date-container" *ngIf="displayDate !== ''">
+      <div class="date-container" *ngIf="currentTask">
         <div class="date-picker">
           <mat-form-field style="width:1px;visibility:hidden;">
             <input matInput (dateChange)="handleDateChange()" [formControl]="dateControl" [matDatepicker]="picker" >
@@ -19,7 +19,7 @@
         </div>
         <div class="date-display" (click)="picker.open()">
           <i class="fas fa-calendar-alt"></i>
-          <span>{{displayDate}}</span>
+          <span>{{currentTask && currentTask.displayDate}}</span>
         </div>
       </div>
     </div>
@@ -45,23 +45,18 @@
             </ng-template>
 
             <div class="item-list">
-                <div
-                  *ngFor="let item of currentList; let i = index"
-                  class="list-room-item {{'day-' + getWeekDay()}} {{'list-column-' + floor(i / ceil(currentList.length / 3))}}"
-                  [ngClass]="{'item-complete': item.status}"
-                  (click)="updateListItem(item)"
-                >
-                  <div class="list-room-info">
-                    <div class="list-room-number">{{item.itemName}}</div>
-                    <div class="list-room-type">{{item.extraInfo}}</div>
-                  </div>
-                  <ng-container *ngIf="item.status; else showIncomplete">
-                    <i class="fas fa-undo-alt"></i>
-                  </ng-container>
-                  <ng-template #showIncomplete>
-                    <i class="fas fa-thumbs-up"></i>
-                  </ng-template>
+              <div
+                *ngFor="let item of currentList; let i = index"
+                class="list-room-item {{'day-' + getWeekDay()}} {{'list-column-' + floor(i / ceil(currentList.length / 3))}}"
+                [ngClass]="{'item-complete': item.status}"
+                (click)="updateListItem(item)"
+              >
+                <div class="list-room-info">
+                  <div class="list-room-number">{{item.itemName}}</div>
+                  <div class="list-room-type">{{item.extraInfo}}</div>
                 </div>
+                <i [ngClass]="{'fas': true, 'fa-undo-alt': item.status, 'fa-thumbs-up': !item.status}"></i>
+              </div>
             </div>
           </div>
 

@@ -22,7 +22,6 @@ enum DisplayType {
 
 export class HkListComponent implements OnInit {
   dateControl = new FormControl(moment());
-  displayDate = '';
   currentTask: Task;
   taskList: Task[] = [];
   listReady = false;
@@ -71,7 +70,6 @@ export class HkListComponent implements OnInit {
     const newServerDate = this.currentTask.getServerFormattedDate(this.dateControl.value);
     if (newServerDate !== this.currentTask.serverDate || forceFetchList) {
       this.currentTask.setDisplayDate(this.dateControl.value);
-      this.displayDate = this.currentTask.displayDate;
       this.getHkList();
     }
   }

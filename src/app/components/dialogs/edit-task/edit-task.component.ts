@@ -15,22 +15,24 @@ export class EditTaskComponent implements OnInit {
   form: FormGroup;
 
   constructor(private hkListService: HkListService, private snackBar: MatSnackBar,
-              private dialogRef: MatDialogRef<EditTaskComponent>) {
+              private dialogRef: MatDialogRef<EditTaskComponent>) {}
+
+  ngOnInit() {
+    this.getTaskList();
+    this.getPublicAreaGroups();
+    this.setUpForm();
+  }
+
+  setUpForm() {
     this.form = new FormGroup({
       task: new FormControl('', Validators.required),
       frequency: new FormControl('monthly', Validators.required),
       hkAreas: new FormControl([''], Validators.required),
     });
-
     this.form.get('task').valueChanges.subscribe(val => {
       this.form.get('frequency').setValue(val.frequency);
       this.form.get('hkAreas').setValue(val.hkAreas);
     });
-  }
-
-  ngOnInit() {
-    this.getTaskList();
-    this.getPublicAreaGroups();
   }
 
   getTaskList() {
