@@ -27,7 +27,7 @@
     "@angular/platform-server": "^7.2.16",
     "@angular/router": "^7.2.16",
     "angular-bootstrap-md": "7.0.0",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.6.11",
     "font-awesome": "^4.7.0",
